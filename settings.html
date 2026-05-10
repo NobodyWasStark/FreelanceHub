@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | SkillBridge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FAFBFC] flex min-h-screen">
+    <aside id="sidebar-container"></aside>
+    <div class="flex-1 flex flex-col min-w-0">
+        <header id="navbar-container"></header>
+        <main class="flex-1 p-8 max-w-5xl mx-auto w-full space-y-12 pb-32">
+            <h1 class="text-4xl font-bold text-gray-900">Settings</h1>
+            <section class="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-10">
+                <div class="flex items-center gap-8">
+                    <div class="relative">
+                        <div class="w-32 h-32 bg-green-700 rounded-3xl flex items-center justify-center text-white text-5xl font-bold">AM</div>
+                        <button class="absolute -right-2 -bottom-2 bg-white p-2 rounded-xl shadow-lg border border-gray-100"><i data-lucide="camera" class="w-5 h-5"></i></button>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-3xl font-bold text-gray-900">Alex Mitchell</h2>
+                            <span class="bg-green-50 text-green-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">TOP RATED</span>
+                        </div>
+                        <p class="text-gray-500 font-medium">Senior UI/UX Designer</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Full Name</label>
+                        <input type="text" value="Alex Mitchell" class="w-full bg-gray-50 border-none rounded-xl py-4 px-5 font-medium outline-none">
+                    </div>
+                    <!-- ... more fields ... -->
+                </div>
+            </section>
+        </main>
+        <footer class="fixed bottom-0 left-64 right-0 bg-white border-t border-gray-100 px-10 py-4 flex items-center justify-between z-20 shadow-lg">
+            <p class="text-gray-400 font-medium">Unsaved changes detected</p>
+            <div class="flex items-center gap-6">
+                <button class="text-gray-500 font-bold">Cancel</button>
+                <button class="bg-green-700 text-white px-10 py-3 rounded-xl font-bold hover:bg-green-800 transition-all">Save Changes</button>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/common.js"></script>
+</body>
+</html>
