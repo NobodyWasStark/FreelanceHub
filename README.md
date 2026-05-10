@@ -53,22 +53,53 @@ FreelanceHub/
 
 ## 🤝 Team Workflow & Git Guidelines
 
-To ensure smooth collaboration among the 4 developers, we follow a standardized Git flow.
+To ensure smooth collaboration among the 4 developers and prevent merge conflicts, we follow a strict Git flow. **Never push directly to the `main` branch.**
 
-### 1. Branch Naming Convention
-Never push directly to the `main` branch. Always create a new branch from up-to-date `main`.
+### Step-by-Step Daily Workflow
+
+#### 1. Always start by pulling the latest code
+Before starting any new work, make sure your local `main` branch is completely up to date with the team:
+```bash
+git checkout main
+git pull origin main   eyta oneik important
+```
+
+#### 2. Create your working branch
+Create a new branch branching off of the updated `main`:
+```bash
+git checkout -b feature/your-feature-name
+```
+*Naming conventions:*
 - Features: `feature/short-description` (e.g., `feature/login-validation`)
 - Bug Fixes: `bugfix/issue-description` (e.g., `bugfix/nav-alignment`)
 
-### 2. Commit Message Standard
-We use Conventional Commits. Your commit messages should be descriptive:
-- `feat: add payment history table`
-- `fix: resolve mobile overflow on role selection`
+#### 3. Commit your changes
+We use **Conventional Commits**. Group your work into logical commits:
+```bash
+git add .
+git commit -m "feat: add payment history table"
+```
+*(Use `feat:`, `fix:`, `chore:`, `style:`, etc.)*
 
-### 3. Pull Requests (PRs) & Code Review
-1. Once your feature is done, open a PR against `main`.
+#### 4. Keep your branch updated (Optional but recommended)
+If someone else merges code into `main` while you are working, pull their changes into your branch to avoid conflicts later:
+```bash
+git checkout main
+git pull origin main
+git checkout feature/your-feature-name
+git merge main
+```
+
+#### 5. Push your branch
+Once your work is ready, push your specific branch to GitHub/GitLab:
+```bash
+git push origin feature/your-feature-name
+```
+
+#### 6. Open a Pull Request (PR)
+1. Go to the repository online and open a Pull Request comparing your branch to `main`.
 2. **Code Review:** Tag at least **1 other team member** to review your PR.
-3. Fix any feedback, approve, then **Squash and Merge**.
+3. Once approved, merge it (preferably using **Squash and Merge**) to keep the commit history clean.
 
 ---
 
