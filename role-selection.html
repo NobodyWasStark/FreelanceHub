@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SkillBridge | Join Our Community</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb0cb",
+                    "surface-container-high": "#e4e9e5",
+                    "tertiary-container": "#fc4b9c",
+                    "secondary": "#54634b",
+                    "on-secondary-container": "#5a6951",
+                    "on-tertiary-fixed": "#3e001f",
+                    "surface-container-highest": "#dfe4df",
+                    "primary-container": "#14a800",
+                    "secondary-container": "#d7e8ca",
+                    "on-primary-fixed": "#012200",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#3d4b35",
+                    "tertiary-fixed": "#ffd9e3",
+                    "outline": "#6e7b67",
+                    "on-tertiary-fixed-variant": "#8d004f",
+                    "inverse-surface": "#2c322f",
+                    "surface-container-low": "#f0f5f0",
+                    "on-primary-fixed-variant": "#065300",
+                    "on-error": "#ffffff",
+                    "on-background": "#171d1a",
+                    "surface-bright": "#f6fbf6",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#dfe4df",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#023200",
+                    "primary-fixed": "#79ff5f",
+                    "surface-dim": "#d6dbd7",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#171d1a",
+                    "secondary-fixed": "#d7e8ca",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#121f0d",
+                    "surface": "#f6fbf6",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#bdcbb3",
+                    "inverse-primary": "#5ce145",
+                    "secondary-fixed-dim": "#bbccaf",
+                    "background": "#f6fbf6",
+                    "surface-tint": "#0a6e00",
+                    "primary": "#0a6e00",
+                    "surface-container": "#eaefea",
+                    "inverse-on-surface": "#edf2ed",
+                    "tertiary": "#b80368",
+                    "on-tertiary-container": "#58002f",
+                    "on-surface-variant": "#3e4a38",
+                    "primary-fixed-dim": "#5ce145"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-ring {
+            box-shadow: 0 0 0 2px #14a800;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col items-center">
+<header class="w-full max-w-7xl px-6 py-12 flex justify-center">
+<a href="index.html" class="flex items-center gap-2 group cursor-pointer">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="hub">hub</span>
+<span class="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">SkillBridge</span>
+</a>
+</header>
+<main class="w-full max-w-4xl px-6 py-8 flex flex-col items-center">
+<h1 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface text-center mb-16">
+            Join as a Client or Freelancer
+        </h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mb-12">
+<button id="card-client" onclick="selectRole('client')" class="relative group flex flex-col items-start p-8 rounded-xl bg-surface-container-low transition-all duration-300 text-left border-2 border-transparent hover:bg-surface-container-low">
+<!-- Dynamic Checkmark -->
+<div id="check-client" class="hidden absolute top-4 right-4 bg-primary-container text-white rounded-full p-1 leading-none shadow-sm">
+<span class="material-symbols-outlined text-xl" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div id="icon-client" class="mb-6 p-3 rounded-full bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-4xl" data-icon="work">work</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-headline text-2xl font-bold tracking-tight">I'm a Client</span>
+<span class="text-on-surface-variant text-sm md:text-base leading-relaxed">I want to hire for a project</span>
+</div>
+</button>
+<button id="card-freelancer" onclick="selectRole('freelancer')" class="relative group flex flex-col items-start p-8 rounded-xl bg-surface-container-lowest transition-all duration-300 text-left border-2 border-transparent hover:bg-surface-container-low">
+<div id="check-freelancer" class="hidden absolute top-4 right-4 bg-primary-container text-white rounded-full p-1 leading-none shadow-sm">
+<span class="material-symbols-outlined text-xl" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div id="icon-freelancer" class="mb-6 p-3 rounded-full bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-4xl" data-icon="person_search">person_search</span>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-headline text-2xl font-bold tracking-tight">I'm a Freelancer</span>
+<span class="text-on-surface-variant text-sm md:text-base leading-relaxed">I want to find work</span>
+</div>
+</button>
+</div>
+<div class="w-full flex flex-col items-center gap-8">
+<button onclick="window.location.href='login.html'" class="w-full max-w-sm py-4 px-8 rounded-full bg-gradient-to-br from-primary to-primary-container text-white font-label font-bold tracking-wider uppercase transition-transform active:scale-95 shadow-lg shadow-primary-container/20">
+                Create Account
+            </button>
+<div class="flex items-center gap-2 text-sm md:text-base">
+<span class="text-on-surface-variant">Already have an account?</span>
+<a class="text-primary font-semibold hover:underline decoration-2 underline-offset-4 transition-all" href="login.html">Log In</a>
+</div>
+</div>
+</main>
+<section class="w-full max-w-7xl px-8 py-24 mt-12 grid grid-cols-1 md:grid-cols-3 gap-12 bg-surface-container-low rounded-[2rem]">
+<div class="flex flex-col gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="verified_user">verified_user</span>
+<h3 class="font-headline text-xl font-bold">Secure Transactions</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Protected payments and transparent escrow services for every contract.</p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="group_work">group_work</span>
+<h3 class="font-headline text-xl font-bold">Global Talent</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Access a world-class network of specialized professionals across 100+ categories.</p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="insights">insights</span>
+<h3 class="font-headline text-xl font-bold">Insightful Metrics</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Powerful analytics to track project progress and professional growth.</p>
+</div>
+</section>
+<footer class="w-full py-12 mt-auto bg-surface-container-low">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 w-full max-w-7xl mx-auto gap-6">
+<p class="text-[#171d1a]/60 font-body text-sm">© 2024 SkillBridge Global. All rights reserved.</p>
+<nav class="flex gap-8">
+<a class="text-[#171d1a]/60 hover:text-[#0a6e00] transition-colors text-sm" href="#">Terms of Service</a>
+<a class="text-[#171d1a]/60 hover:text-[#0a6e00] transition-colors text-sm" href="#">Privacy Policy</a>
+<a class="text-[#171d1a]/60 hover:text-[#0a6e00] transition-colors text-sm" href="#">Accessibility</a>
+<a class="text-[#171d1a]/60 hover:text-[#0a6e00] transition-colors text-sm" href="#">Help Center</a>
+</nav>
+</div>
+</footer>
+
+<script>
+    // JS for interaction
+    function selectRole(role) {
+        const resetStyles = (id) => {
+            const card = document.getElementById(`card-${id}`);
+            const check = document.getElementById(`check-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            card.classList.remove('active-ring', 'border-primary-container');
+            card.classList.add('border-transparent');
+            check.classList.add('hidden');
+            
+            icon.classList.remove('bg-primary-container/10', 'text-primary-container');
+            icon.classList.add('bg-surface-container', 'text-on-surface-variant');
+        };
+
+        const setActiveStyles = (id) => {
+            const card = document.getElementById(`card-${id}`);
+            const check = document.getElementById(`check-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+
+            card.classList.remove('border-transparent');
+            card.classList.add('active-ring', 'border-primary-container');
+            check.classList.remove('hidden');
+
+            icon.classList.remove('bg-surface-container', 'text-on-surface-variant');
+            icon.classList.add('bg-primary-container/10', 'text-primary-container');
+        };
+
+        // Reset both
+        resetStyles('client');
+        resetStyles('freelancer');
+
+        // Set active
+        setActiveStyles(role);
+    }
+</script>
+</body>
+</html>

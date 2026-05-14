@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SkillBridge | Payments &amp; Withdrawals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f6fbf6",
+                        "surface-container-high": "#e4e9e5",
+                        "background": "#f6fbf6",
+                        "outline": "#6e7b67",
+                        "primary-container": "#14a800",
+                        "tertiary-fixed-dim": "#ffb0cb",
+                        "inverse-on-surface": "#edf2ed",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#5ce145",
+                        "surface-container": "#eaefea",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#fc4b9c",
+                        "surface-variant": "#dfe4df",
+                        "tertiary-fixed": "#ffd9e3",
+                        "on-primary-container": "#023200",
+                        "primary-fixed": "#79ff5f",
+                        "on-tertiary-fixed-variant": "#8d004f",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#bdcbb3",
+                        "on-tertiary-container": "#58002f",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#065300",
+                        "on-background": "#171d1a",
+                        "on-secondary-fixed-variant": "#3d4b35",
+                        "inverse-surface": "#2c322f",
+                        "surface": "#f6fbf6",
+                        "surface-dim": "#d6dbd7",
+                        "surface-container-low": "#f0f5f0",
+                        "primary": "#0a6e00",
+                        "on-secondary-fixed": "#121f0d",
+                        "primary-fixed-dim": "#5ce145",
+                        "on-surface-variant": "#3e4a38",
+                        "secondary-fixed": "#d7e8ca",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#dfe4df",
+                        "on-primary-fixed": "#012200",
+                        "tertiary": "#b80368",
+                        "on-tertiary-fixed": "#3e001f",
+                        "on-surface": "#171d1a",
+                        "secondary-container": "#d7e8ca",
+                        "on-secondary-container": "#5a6951",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#0a6e00",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#bbccaf",
+                        "secondary": "#54634b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 8px 24px rgba(23, 29, 26, 0.06);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f0f5f0] dark:bg-[#1e2521] flex flex-col py-8 px-4 gap-2 z-50">
+<a href="index.html" class="flex items-center gap-3 px-2 mb-8 block">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-[#0a6e00] dark:text-[#14a800] font-headline">SkillBridge</h1>
+<p class="text-xs font-medium opacity-60">Freelancer Portal</p>
+</div>
+</a>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#171d1a] dark:text-[#f6fbf6] opacity-70 hover:bg-[#e2e8e2] dark:hover:bg-[#2a332e] hover:translate-x-1 transition-all rounded-lg font-headline font-bold text-[14px]" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#171d1a] dark:text-[#f6fbf6] opacity-70 hover:bg-[#e2e8e2] dark:hover:bg-[#2a332e] hover:translate-x-1 transition-all rounded-lg font-headline font-bold text-[14px]" href="#">
+<span class="material-symbols-outlined">description</span> My Proposals
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#171d1a] dark:text-[#f6fbf6] opacity-70 hover:bg-[#e2e8e2] dark:hover:bg-[#2a332e] hover:translate-x-1 transition-all rounded-lg font-headline font-bold text-[14px]" href="#">
+<span class="material-symbols-outlined">chat</span> Messages
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#171d1a] dark:text-[#f6fbf6] opacity-70 hover:bg-[#e2e8e2] dark:hover:bg-[#2a332e] hover:translate-x-1 transition-all rounded-lg font-headline font-bold text-[14px]" href="#">
+<span class="material-symbols-outlined">bar_chart</span> Reports
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-[#14a800]/10 text-[#0a6e00] border-l-4 border-[#0a6e00] shadow-sm active:scale-[0.98] transition-all rounded-r-lg font-headline font-bold text-[14px]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span> Payments
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-[#171d1a] dark:text-[#f6fbf6] opacity-70 hover:bg-[#e2e8e2] dark:hover:bg-[#2a332e] hover:translate-x-1 transition-all rounded-lg font-headline font-bold text-[14px]" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<div class="mt-auto px-2">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-bold text-sm tracking-wider uppercase shadow-md hover:opacity-90 transition-opacity">
+                Post a Job
+            </button>
+</div>
+</aside>
+<main class="ml-64 min-h-screen">
+<header class="sticky top-0 z-40 bg-[#f6fbf6]/85 backdrop-blur-md flex justify-between items-center w-full px-8 py-4">
+<div class="flex items-center bg-surface-container rounded-full px-4 py-2 w-96">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body" placeholder="Search transactions..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-[#171d1a] dark:text-[#f6fbf6] opacity-70">
+<button class="hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">notifications</span></button>
+<button class="hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">help</span></button>
+<button class="hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">apps</span></button>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfOGHLbLp_gZL_cEEKKPM8EkexuIxcBry5JSKxS7u_OOKZCKX_yrqWDc8CmP4QraexM5qIHALWLnOK0NfGQqgDiKagAYfLo_RjVDU59n6MfvireXcF9vFrqb1ZsVgfMY8ibn1J1X501jUCFNwVMDsDbqAfGEMNMCq5Zb1szEVDsdEE_xlmOvgwAoWqkcKaemRqB_F9B4lixNVuBodVoVbwyVNI8_bz8XKcvroQULgf1XhnX1Ar3e8scZMO1utm9r5RcNUiNp-gMTcG"/>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-[1200px] mx-auto">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface">Payments &amp; Withdrawals</h2>
+<p class="text-on-surface-variant mt-2">Manage your earnings, methods, and view full transaction history.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg hover:translate-y-[-2px] transition-all">
+<span class="material-symbols-outlined text-lg">arrow_outward</span>
+                    Withdraw Funds
+                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow border-t-4 border-[#0a6e00]">
+<p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Available Balance</p>
+<p class="text-3xl font-extrabold font-headline">$2,840.00</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow border-t-4 border-amber-500">
+<p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Pending Clearance</p>
+<p class="text-3xl font-extrabold font-headline">$320.00</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow border-t-4 border-blue-500">
+<p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Total Withdrawn</p>
+<p class="text-3xl font-extrabold font-headline">$4,200.00</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl editorial-shadow border-t-4 border-teal-500">
+<p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">This Month Earned</p>
+<p class="text-3xl font-extrabold font-headline">$1,240.00</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-10">
+<div class="lg:col-span-3 bg-surface-container-lowest p-8 rounded-xl editorial-shadow outline outline-1 outline-outline-variant/15">
+<h3 class="text-xl font-bold font-headline mb-6">Withdraw Funds</h3>
+<div class="space-y-6">
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3">Amount to withdraw</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-on-surface-variant">$</span>
+<input class="w-full pl-10 pr-4 py-4 bg-surface text-2xl font-bold rounded-xl border-none focus:ring-2 focus:ring-primary" type="number" value="500"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-primary font-medium">Available: $2,840</span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3">Choose Payment Method</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="border-2 border-primary bg-primary/5 p-4 rounded-xl cursor-pointer relative overflow-hidden group">
+<div class="absolute top-2 right-2 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-[#635BFF] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="font-bold">Stripe Connect</span>
+</div>
+<p class="text-xs text-on-surface-variant">Instant · 1.5% fee</p>
+</div>
+<div class="border-2 border-outline-variant/30 p-4 rounded-xl cursor-pointer hover:border-outline-variant transition-all">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-[#003087] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<span class="font-bold">PayPal</span>
+</div>
+<p class="text-xs text-on-surface-variant">1-3 Days · No fee</p>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg shadow-md hover:bg-primary-container transition-colors">
+                            Confirm Withdrawal
+                        </button>
+</div>
+</div>
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl editorial-shadow outline outline-1 outline-outline-variant/15">
+<h3 class="text-xl font-bold font-headline mb-6">Connected Accounts</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface rounded-xl border border-[#635BFF]/30">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-[#635BFF] rounded text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">bolt</span>
+</div>
+<div>
+<p class="font-bold text-sm">Stripe Connect</p>
+<p class="text-xs text-on-surface-variant">Ending in **82</p>
+</div>
+</div>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">Primary</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface rounded-xl border border-outline-variant/15">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-[#003087] rounded text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">payments</span>
+</div>
+<div>
+<p class="font-bold text-sm">PayPal</p>
+<p class="text-xs text-on-surface-variant">alex.d@gmail.com</p>
+</div>
+</div>
+<span class="text-primary text-[10px] font-bold uppercase">Connected</span>
+</div>
+<button class="w-full mt-4 py-6 border-2 border-dashed border-primary/30 rounded-xl flex flex-col items-center justify-center text-primary hover:bg-primary/5 transition-all group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform">add_circle</span>
+<span class="font-bold text-sm">Connect New Account</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl editorial-shadow outline outline-1 outline-outline-variant/15 overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center border-b border-surface-container">
+<h3 class="text-xl font-bold font-headline">Payment History</h3>
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Export CSV
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface text-on-surface-variant uppercase text-[10px] font-bold tracking-widest">
+<tr>
+<th class="px-8 py-4">Date</th>
+<th class="px-4 py-4">Description</th>
+<th class="px-4 py-4">Type</th>
+<th class="px-4 py-4">Method</th>
+<th class="px-4 py-4 text-right">Amount</th>
+<th class="px-8 py-4 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface/50 transition-colors">
+<td class="px-8 py-5 text-sm">Oct 24, 2023</td>
+<td class="px-4 py-5 font-bold text-sm">Web Dashboard Design - Milestone 2</td>
+<td class="px-4 py-5"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Payment Received</span></td>
+<td class="px-4 py-5 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-lg">wallet</span> <span class="text-xs">Balance</span></td>
+<td class="px-4 py-5 text-right font-bold text-primary text-sm">+$1,200.00</td>
+<td class="px-8 py-5 text-right"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface/50 transition-colors">
+<td class="px-8 py-5 text-sm">Oct 22, 2023</td>
+<td class="px-4 py-5 font-bold text-sm">Withdrawal to Stripe</td>
+<td class="px-4 py-5"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-bold">Withdrawal</span></td>
+<td class="px-4 py-5 flex items-center gap-2"><span class="material-symbols-outlined text-[#635BFF] text-lg">bolt</span> <span class="text-xs">Stripe</span></td>
+<td class="px-4 py-5 text-right font-bold text-error text-sm">-$800.00</td>
+<td class="px-8 py-5 text-right"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-bold">Processing</span></td>
+</tr>
+<tr class="hover:bg-surface/50 transition-colors">
+<td class="px-8 py-5 text-sm">Oct 18, 2023</td>
+<td class="px-4 py-5 font-bold text-sm">UX Audit for Mobile App</td>
+<td class="px-4 py-5"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Payment Received</span></td>
+<td class="px-4 py-5 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-lg">wallet</span> <span class="text-xs">Balance</span></td>
+<td class="px-4 py-5 text-right font-bold text-primary text-sm">+$450.00</td>
+<td class="px-8 py-5 text-right"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface/50 transition-colors">
+<td class="px-8 py-5 text-sm">Oct 15, 2023</td>
+<td class="px-4 py-5 font-bold text-sm">Withdrawal to PayPal</td>
+<td class="px-4 py-5"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-bold">Withdrawal</span></td>
+<td class="px-4 py-5 flex items-center gap-2"><span class="material-symbols-outlined text-[#003087] text-lg">payments</span> <span class="text-xs">PayPal</span></td>
+<td class="px-4 py-5 text-right font-bold text-error text-sm">-$2,000.00</td>
+<td class="px-8 py-5 text-right"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface/50 transition-colors">
+<td class="px-8 py-5 text-sm">Oct 12, 2023</td>
+<td class="px-4 py-5 font-bold text-sm">Landing Page Development</td>
+<td class="px-4 py-5"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Payment Received</span></td>
+<td class="px-4 py-5 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-lg">wallet</span> <span class="text-xs">Balance</span></td>
+<td class="px-4 py-5 text-right font-bold text-primary text-sm">+$2,100.00</td>
+<td class="px-8 py-5 text-right"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Completed</span></td>
+</tr>
+<tr class="hover:bg-surface/50 transition-colors">
+<td class="px-8 py-5 text-sm">Oct 08, 2023</td>
+<td class="px-4 py-5 font-bold text-sm">Logo Design Concepts</td>
+<td class="px-4 py-5"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold">Payment Received</span></td>
+<td class="px-4 py-5 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-lg">wallet</span> <span class="text-xs">Balance</span></td>
+<td class="px-4 py-5 text-right font-bold text-primary text-sm">+$320.00</td>
+<td class="px-8 py-5 text-right"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-bold">Pending</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-6 bg-surface-container-low flex justify-center">
+<button class="text-sm font-bold text-primary hover:underline">View All Transactions</button>
+</div>
+</div>
+</div>
+</main>
+<div class="md:hidden fixed bottom-4 left-4 right-4 bg-surface/85 backdrop-blur-xl h-16 rounded-full editorial-shadow border border-outline-variant/20 flex items-center justify-around px-6 z-50">
+<span class="material-symbols-outlined text-on-surface-variant">dashboard</span>
+<span class="material-symbols-outlined text-on-surface-variant">description</span>
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center -mt-8 shadow-lg text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chat</span>
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</div>
+</body>
+</html>
