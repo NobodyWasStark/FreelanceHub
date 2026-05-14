@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge – Post a New Job</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+        }
+      }
+    }
+
+    function toggleBudgetType(type) {
+      const fixed = document.getElementById('btn-fixed');
+      const hourly = document.getElementById('btn-hourly');
+      if (type === 'fixed') {
+        fixed.classList.add('bg-green-600','text-white','border-green-600');
+        fixed.classList.remove('bg-white','text-slate-600','border-slate-300');
+        hourly.classList.add('bg-white','text-slate-600','border-slate-300');
+        hourly.classList.remove('bg-green-600','text-white','border-green-600');
+      } else {
+        hourly.classList.add('bg-green-600','text-white','border-green-600');
+        hourly.classList.remove('bg-white','text-slate-600','border-slate-300');
+        fixed.classList.add('bg-white','text-slate-600','border-slate-300');
+        fixed.classList.remove('bg-green-600','text-white','border-green-600');
+      }
+    }
+
+    function selectLevel(level) {
+      ['entry','intermediate','expert'].forEach(l => {
+        const card = document.getElementById('level-' + l);
+        const dot  = document.getElementById('dot-' + l);
+        if (l === level) {
+          card.classList.add('border-green-600','bg-green-50');
+          card.classList.remove('border-slate-200','bg-white');
+          dot.classList.add('bg-green-600','border-green-600');
+          dot.classList.remove('border-slate-300');
+          dot.innerHTML = '<span class="w-2 h-2 rounded-full bg-white block"></span>';
+        } else {
+          card.classList.remove('border-green-600','bg-green-50');
+          card.classList.add('border-slate-200','bg-white');
+          dot.classList.remove('bg-green-600','border-green-600');
+          dot.classList.add('border-slate-300');
+          dot.innerHTML = '';
+        }
+      });
+    }
+
+    function removeSkill(el) {
+      el.parentElement.remove();
+    }
+  </script>
+</head>
+<body class="font-sans bg-slate-50 min-h-screen flex">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shrink-0">
+    <!-- Brand -->
+    <div class="flex items-center gap-2 px-5 py-5 border-b border-slate-100">
+      <div class="w-7 h-7 rounded-lg  flex items-center justify-center">
+         <img src="/icons/skillbridge.png" alt="" width="30" height="25">
+        <!-- <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7L6 11L12 3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg> -->
+      </div>
+      <span class="font-jakarta text-[20px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-3 mb-2 mt-1">Main Menu</p>
+      <a href="./skillbridge-dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+        <span class="text-sm font-medium">Dashboard</span>
+      </a>
+      <a href="./skillbridge-post.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-green-50 text-green-700 shadow-sm hover:border-l-4 border-solid border-green-900">
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span class="text-sm font-semibold">My Jobs</span>
+        </div>
+        <span class="ml-auto bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">4</span>
+      </a>
+        <a href="./skillbridge-profile.html" id="my-profile" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span class="text-sm font-medium">My Profile</span>
+      </a>
+      <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="text-sm font-medium">Proposals</span>
+        </div>
+        <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
+      </a>
+      <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+            <span class="text-sm font-medium">Messages</span>
+        <span class="ml-auto bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">3</span>
+      </a>
+
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span class="text-sm font-medium">Reports</span>
+      </a>
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</div>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="text-sm font-medium">Settings</span>
+      </a>
+    </nav>
+    <!-- Bottom -->
+    <div class="px-3 pb-4 border-t border-gray-100 pt-3 space-y-0.5">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span class="text-sm font-medium">Help Center</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span class="text-sm font-medium">Log Out</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <div class="ml-[220px] flex-1 flex flex-col min-h-screen">
+
+    <!-- Top Nav Bar -->
+    <header class="bg-white border-b border-slate-100 px-8 py-3 flex items-center justify-between sticky top-0 z-20">
+      <div class="flex items-center gap-2 bg-slate-100 rounded-lg px-4 py-2 w-72">
+        <svg width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" placeholder="Search for freelancers or services..." class="bg-transparent text-[13px] text-slate-500 placeholder-slate-400 outline-none w-full" />
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <div class="text-[13px] font-semibold text-slate-800">Sarah Jenkins</div>
+          <div class="text-[11px] text-slate-400">Project Manager</div>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-sm font-bold">S</div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-1 px-10 py-8 max-w-3xl">
+
+      <!-- Page Heading -->
+      <div class="mb-8">
+        <div class="flex items-center gap-1.5 mb-2">
+          <svg width="14" height="14" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span class="text-[11px] font-bold text-green-600 uppercase tracking-widest">Create Opportunity</span>
+        </div>
+        <h1 class="font-jakarta text-[32px] font-extrabold text-slate-900 leading-tight">Post a New Job</h1>
+        <p class="text-[13px] text-slate-500 mt-1.5 leading-relaxed max-w-lg">
+          Describe the professional role you're looking to fill. Our editorial screening ensures only premium talent responds to your request.
+        </p>
+      </div>
+
+      <!-- ── SECTION 1: The Basics ── -->
+      <div class="flex gap-10 mb-10">
+        <!-- Left label -->
+        <div class="w-44 shrink-0 pt-1">
+          <div class="font-jakarta text-[15px] font-bold text-slate-800 mb-1">The Basics</div>
+          <p class="text-[12px] text-slate-400 leading-relaxed">Start with a strong title and relevant category to help the right talent find you.</p>
+        </div>
+
+        <!-- Right fields -->
+        <div class="flex-1 flex flex-col gap-4">
+          <!-- Job Title -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Job Title</label>
+            <input
+              type="text"
+              placeholder="e.g. Senior Brand Designer for Fintech Launch"
+              class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-700 placeholder-slate-400 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white"
+            />
+          </div>
+
+          <!-- Category -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Category</label>
+            <div class="relative">
+              <select class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-700 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white appearance-none cursor-pointer">
+                <option>Design &amp; Creative</option>
+                <option>Engineering &amp; Tech</option>
+                <option>Marketing &amp; SEO</option>
+                <option>Writing &amp; Content</option>
+                <option>Finance &amp; Accounting</option>
+                <option>Data Science &amp; Analytics</option>
+              </select>
+              <svg class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-slate-100 mb-10"></div>
+
+      <!-- ── SECTION 2: Details & Skills ── -->
+      <div class="flex gap-10 mb-10">
+        <!-- Left label -->
+        <div class="w-44 shrink-0 pt-1">
+          <div class="font-jakarta text-[15px] font-bold text-slate-800 mb-1">Details &amp; Skills</div>
+          <p class="text-[12px] text-slate-400 leading-relaxed">Specify the exact requirements. High-clarity descriptions attract high-clarity proposals.</p>
+        </div>
+
+        <!-- Right fields -->
+        <div class="flex-1 flex flex-col gap-4">
+          <!-- Description -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Description</label>
+            <textarea
+              rows="5"
+              placeholder="Describe the project scope, deliverables, and expectations..."
+              class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-700 placeholder-slate-400 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Required Skills -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Required Skills</label>
+            <div class="flex flex-wrap gap-2" id="skills-container">
+              <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-full text-xs font-semibold">
+                React
+                <button onclick="removeSkill(this)" class="text-green-500 hover:text-green-800 transition-colors leading-none bg-transparent border-none cursor-pointer p-0 text-sm">×</button>
+              </span>
+              <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-full text-xs font-semibold">
+                Tailwind
+                <button onclick="removeSkill(this)" class="text-green-500 hover:text-green-800 transition-colors leading-none bg-transparent border-none cursor-pointer p-0 text-sm">×</button>
+              </span>
+              <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 border border-green-200 px-3 py-1 rounded-full text-xs font-semibold">
+                UI Design
+                <button onclick="removeSkill(this)" class="text-green-500 hover:text-green-800 transition-colors leading-none bg-transparent border-none cursor-pointer p-0 text-sm">×</button>
+              </span>
+              <button
+                onclick="addSkillPrompt()"
+                class="inline-flex items-center gap-1 border border-dashed border-slate-300 text-slate-400 hover:border-green-400 hover:text-green-600 px-3 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer bg-transparent"
+              >
+                + Add Skill
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t border-slate-100 mb-10"></div>
+
+      <!-- ── SECTION 3: Logistics ── -->
+      <div class="flex gap-10 mb-12">
+        <!-- Left label -->
+        <div class="w-44 shrink-0 pt-1">
+          <div class="font-jakarta text-[15px] font-bold text-slate-800 mb-1">Logistics</div>
+          <p class="text-[12px] text-slate-400 leading-relaxed">Fair compensation drives professional engagement.</p>
+        </div>
+
+        <!-- Right fields -->
+        <div class="flex-1 flex flex-col gap-5">
+
+          <!-- Budget Type -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Budget Type</label>
+            <div class="flex gap-2">
+              <button
+                id="btn-fixed"
+                onclick="toggleBudgetType('fixed')"
+                class="px-5 py-2 rounded-lg text-[13px] font-semibold border bg-green-600 text-white border-green-600 transition-colors cursor-pointer"
+              >
+                Fixed Price
+              </button>
+              <button
+                id="btn-hourly"
+                onclick="toggleBudgetType('hourly')"
+                class="px-5 py-2 rounded-lg text-[13px] font-semibold border bg-white text-slate-600 border-slate-300 hover:border-green-400 hover:text-green-600 transition-colors cursor-pointer"
+              >
+                Hourly Rate
+              </button>
+            </div>
+          </div>
+
+          <!-- Budget Amount + Project Duration -->
+          <div class="flex gap-4">
+            <!-- Budget Amount -->
+            <div class="flex-1">
+              <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Budget Amount</label>
+              <div class="flex items-center border border-slate-200 rounded-xl overflow-hidden focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-100 transition-all bg-white">
+                <span class="px-3 text-[13px] text-slate-400 font-medium border-r border-slate-200 py-3">$</span>
+                <input
+                  type="text"
+                  value="5,000"
+                  class="flex-1 px-3 py-3 text-[13px] text-slate-700 outline-none bg-transparent"
+                />
+              </div>
+            </div>
+
+            <!-- Project Duration -->
+            <div class="flex-1">
+              <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Project Duration</label>
+              <div class="relative">
+                <select class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-700 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white appearance-none cursor-pointer">
+                  <option>Less than 1 month</option>
+                  <option>1–3 months</option>
+                  <option>3–6 months</option>
+                  <option>6+ months</option>
+                  <option>Ongoing</option>
+                </select>
+                <svg class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience Level -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Experience Level Required</label>
+            <div class="flex gap-3">
+
+              <!-- Entry -->
+              <div
+                id="level-entry"
+                onclick="selectLevel('entry')"
+                class="flex-1 border-2 border-slate-200 bg-white rounded-xl p-3.5 cursor-pointer hover:border-green-300 transition-colors relative"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <span class="font-jakarta text-[13px] font-bold text-slate-800">Entry</span>
+                  <span id="dot-entry" class="w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0 mt-0.5"></span>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-relaxed">Looking for someone starting out.</p>
+              </div>
+
+              <!-- Intermediate (default selected) -->
+              <div
+                id="level-intermediate"
+                onclick="selectLevel('intermediate')"
+                class="flex-1 border-2 border-green-600 bg-green-50 rounded-xl p-3.5 cursor-pointer transition-colors relative"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <span class="font-jakarta text-[13px] font-bold text-slate-800">Intermediate</span>
+                  <span id="dot-intermediate" class="w-4 h-4 rounded-full border-2 border-green-600 bg-green-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="w-2 h-2 rounded-full bg-white block"></span>
+                  </span>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-relaxed">Pro with several years of proof.</p>
+              </div>
+
+              <!-- Expert -->
+              <div
+                id="level-expert"
+                onclick="selectLevel('expert')"
+                class="flex-1 border-2 border-slate-200 bg-white rounded-xl p-3.5 cursor-pointer hover:border-green-300 transition-colors relative"
+              >
+                <div class="flex items-start justify-between mb-2">
+                  <span class="font-jakarta text-[13px] font-bold text-slate-800">Expert</span>
+                  <span id="dot-expert" class="w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0 mt-0.5"></span>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-relaxed">Top-tier leadership and vision.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── FOOTER ACTIONS ── -->
+      <div class="flex items-center justify-between pt-5 border-t border-slate-100">
+        <div class="flex items-center gap-1.5 text-[12px] text-slate-400">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Your details are encrypted and secure.
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="px-5 py-2.5 rounded-lg text-[13px] font-semibold border border-slate-300 bg-white text-slate-600 hover:border-green-400 hover:text-green-600 transition-colors cursor-pointer">
+            Save as Draft
+          </button>
+          <button class="px-6 py-2.5 rounded-lg text-[13px] font-bold bg-green-600 hover:bg-green-700 text-white transition-colors cursor-pointer">
+            POST JOB
+          </button>
+        </div>
+      </div>
+      <!-- <footer class="border-t border-gray-100 text-xs text-gray-400 flex flex-wrap items-center justify-between gap-2">
+<span>© 2026 · SkillBridge. All rights reserved.</span>
+<div class="flex gap-4 ">
+<a href="#" class="hover:text-gray-600 transition-colors">Privacy Policy</a>
+<a href="#" class="hover:text-gray-600 transition-colors">Terms of Service</a>
+<a href="#" class="hover:text-gray-600 transition-colors">Cookie Policy</a>
+<a href="#" class="hover:text-gray-600 transition-colors">Accessibility</a>
+</div>
+</footer> -->
+    </main>
+  </div>
+<script src="/scripts/post-job.js"></script>
+</body>
+</html>
