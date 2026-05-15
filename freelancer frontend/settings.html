@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="min-h-screen flex">
+  <div id="navbar-root"></div>
+  <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+    <main class="flex-1 px-4 sm:px-8 py-8">
+      <section class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-7">
+        <div class="space-y-7">
+          <article class="sb-card p-6"><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5"><div class="flex items-center gap-5"><div id="avatarInitials" class="w-24 h-24 rounded-2xl bg-green-700 text-white font-jakarta text-3xl font-extrabold flex items-center justify-center">AM</div><div><h2 class="font-jakarta text-2xl font-extrabold">Alex Mitchell</h2><p class="text-slate-500 font-semibold mt-1">Senior UI/UX Designer</p><p class="text-sm text-slate-400 mt-1">Dhaka, Bangladesh - $60/hr</p></div></div><button class="sb-btn sb-btn-outline"><i data-lucide="upload" class="w-4 h-4"></i>Upload Photo</button></div></article>
+          <form id="settingsForm" class="sb-card grid grid-cols-1 lg:grid-cols-2 gap-5 p-6">
+            <label class="space-y-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Full Name</span><input name="name" class="sb-input w-full px-4 py-3" value="Alex Mitchell"></label>
+            <label class="space-y-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Professional Title</span><input class="sb-input w-full px-4 py-3" value="Senior UI/UX Designer"></label>
+            <label class="space-y-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Email Address</span><input type="email" class="sb-input w-full px-4 py-3" value="alex.m@designstudio.com"></label>
+            <label class="space-y-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Phone Number</span><input class="sb-input w-full px-4 py-3" value="+8801911111112"></label>
+            <label class="space-y-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Country</span><select class="sb-input w-full px-4 py-3"><option>Bangladesh</option><option>United States</option><option>United Kingdom</option></select></label>
+            <label class="space-y-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Hourly Rate</span><input type="number" class="sb-input w-full px-4 py-3" value="60"></label>
+            <label class="space-y-2 lg:col-span-2"><span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">Professional Bio</span><textarea rows="4" class="sb-input w-full px-4 py-3">Passionate UI/UX designer with 8+ years of experience creating clean design systems and scalable web applications.</textarea></label>
+          </form>
+          <article class="sb-card p-6"><h2 class="font-jakarta text-xl font-extrabold mb-5">Notification Preferences</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><label class="flex items-center justify-between border border-slate-100 rounded-xl p-4"><span><span class="font-bold block">Proposal Updates</span><span class="text-sm text-slate-500">Status and client replies</span></span><input type="checkbox" class="toggle-input sr-only" checked><span class="toggle-ui relative h-7 w-12 rounded-full bg-green-700 after:absolute after:right-1 after:top-1 after:h-5 after:w-5 after:rounded-full after:bg-white"></span></label><label class="flex items-center justify-between border border-slate-100 rounded-xl p-4"><span><span class="font-bold block">Marketing Emails</span><span class="text-sm text-slate-500">Tips and product news</span></span><input type="checkbox" class="toggle-input sr-only"><span class="toggle-ui relative h-7 w-12 rounded-full bg-slate-200 after:absolute after:left-1 after:top-1 after:h-5 after:w-5 after:rounded-full after:bg-white"></span></label></div></article>
+        </div>
+        <aside class="space-y-5"><article class="sb-card border-t-4 border-t-green-700 p-6"><h3 class="font-jakarta font-extrabold">Profile Completeness</h3><div class="mt-5 flex items-center gap-3"><div class="h-2 flex-1 rounded-full bg-slate-100"><div class="h-full w-[85%] bg-green-700 rounded-full"></div></div><span class="text-green-700 font-bold">85%</span></div><p class="mt-4 text-sm text-slate-500">Add a video introduction and two more work samples.</p></article><article class="sb-card p-6"><h3 class="font-jakarta font-extrabold mb-5">Account Status</h3><div class="space-y-4"><div class="flex gap-3"><span class="w-9 h-9 rounded-xl bg-green-50 text-green-700 flex items-center justify-center"><i data-lucide="check" class="w-4 h-4"></i></span><div><p class="font-bold text-sm">Identity Verified</p><p class="text-xs text-slate-400">Approved on June 10</p></div></div><div class="flex gap-3"><span class="w-9 h-9 rounded-xl bg-green-50 text-green-700 flex items-center justify-center"><i data-lucide="credit-card" class="w-4 h-4"></i></span><div><p class="font-bold text-sm">Payment Connected</p><p class="text-xs text-slate-400">Bank ending in 1142</p></div></div></div></article></aside>
+      </section>
+      <div id="footer-root"></div>
+    </main>
+  </div>
+  <div id="toast" class="hidden fixed bottom-5 right-5 bg-slate-950 text-white text-sm font-bold px-5 py-3 rounded-xl shadow-xl">Saved</div>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/settings.js"></script>
+</body>
+</html>
