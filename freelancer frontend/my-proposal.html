@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - My Proposals</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="min-h-screen flex">
+  <div id="navbar-root"></div>
+  <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+    <main class="flex-1 px-4 sm:px-8 py-8">
+      <section class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8"><div><h1 class="font-jakarta text-4xl font-extrabold">My Proposals</h1><p class="mt-2 text-slate-500">Track submitted proposals, interviews, and archived jobs.</p></div><div class="flex gap-2"><button class="proposal-tab sb-chip active" data-status="all">All</button><button class="proposal-tab sb-chip" data-status="interview">Interview</button><button class="proposal-tab sb-chip" data-status="submitted">Submitted</button><button class="proposal-tab sb-chip" data-status="archived">Archived</button></div></section>
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"><article class="sb-card p-5"><p class="text-sm text-slate-400">Active Proposals</p><p class="font-jakarta text-3xl font-extrabold mt-2">5</p></article><article class="sb-card p-5"><p class="text-sm text-slate-400">Interviews</p><p class="font-jakarta text-3xl font-extrabold mt-2 text-green-700">2</p></article><article class="sb-card p-5"><p class="text-sm text-slate-400">Connects Left</p><p class="font-jakarta text-3xl font-extrabold mt-2">84</p></article></section>
+      <section id="proposalList" class="space-y-5">
+        <article class="proposal-card sb-card p-6" data-status="interview"><span class="bg-green-50 text-green-700 rounded-full px-3 py-1 text-[10px] font-bold uppercase">Interviewing</span><div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mt-4"><div><h2 class="font-jakarta text-2xl font-extrabold">Senior UI/UX Designer for Fintech SaaS Redesign</h2><p class="text-sm text-slate-500 mt-2">Stellar SaaS - Sent 2 hours ago - 16 connects</p><p class="text-slate-600 mt-4 leading-7">Client viewed your proposal and invited you to share two dashboard examples.</p></div><div class="lg:text-right"><p class="text-[10px] font-bold uppercase text-slate-400">Your Bid</p><p class="font-jakarta text-3xl font-extrabold">$2,500</p></div></div><div class="mt-5 pt-5 border-t border-slate-100 flex gap-3"><button class="sb-btn sb-btn-primary">Message</button><button class="sb-btn sb-btn-outline">View Details</button></div></article>
+        <article class="proposal-card sb-card p-6" data-status="submitted"><span class="bg-blue-50 text-blue-700 rounded-full px-3 py-1 text-[10px] font-bold uppercase">Submitted</span><div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mt-4"><div><h2 class="font-jakarta text-2xl font-extrabold">Mobile App Interaction Designer</h2><p class="text-sm text-slate-500 mt-2">Nexus Labs - Sent yesterday - 12 connects</p><p class="text-slate-600 mt-4 leading-7">Proposal is active. You will be notified when the client responds.</p></div><div class="lg:text-right"><p class="text-[10px] font-bold uppercase text-slate-400">Your Bid</p><p class="font-jakarta text-3xl font-extrabold">$75/hr</p></div></div><div class="mt-5 pt-5 border-t border-slate-100 flex gap-3"><button class="sb-btn sb-btn-primary">Message</button><button class="sb-btn sb-btn-outline">View Details</button></div></article>
+        <article class="proposal-card sb-card p-6" data-status="archived"><span class="bg-slate-100 text-slate-600 rounded-full px-3 py-1 text-[10px] font-bold uppercase">Archived</span><div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mt-4"><div><h2 class="font-jakarta text-2xl font-extrabold">E-commerce UI Design for Sustainable Fashion</h2><p class="text-sm text-slate-500 mt-2">Leaf & Co. - Sent June 10 - 8 connects</p><p class="text-slate-600 mt-4 leading-7">The client closed this job after hiring another designer.</p></div><div class="lg:text-right"><p class="text-[10px] font-bold uppercase text-slate-400">Your Bid</p><p class="font-jakarta text-3xl font-extrabold">$1,200</p></div></div><div class="mt-5 pt-5 border-t border-slate-100 flex gap-3"><button class="sb-btn bg-slate-100 text-slate-700">Archive</button></div></article>
+      </section>
+      <div id="footer-root"></div>
+    </main>
+  </div>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/my-proposal.js"></script>
+</body>
+</html>
