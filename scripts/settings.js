@@ -133,3 +133,24 @@ function addPaymentMethod() {
   renderPayments();
   showToast("Payment method added!");
 }
+//  SAVE CHANGES 
+function saveChanges() { showToast("Changes saved successfully!"); }
+
+//  TOAST 
+let toastTimer = null;
+function showToast(msg, success = true) {
+  clearTimeout(toastTimer);
+  const toast = document.getElementById("toast");
+  const icon  = document.getElementById("toast-icon");
+  document.getElementById("toast-text").textContent = msg;
+  icon.className = `w-5 h-5 shrink-0 ${success ? "text-green-400" : "text-red-400"}`;
+  icon.innerHTML = success
+    ? `<path d="M20 6L9 17l-5-5"/>`
+    : `<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`;
+  toast.classList.remove("hide");
+  toast.classList.add("show");
+  toastTimer = setTimeout(() => { toast.classList.remove("show"); toast.classList.add("hide"); }, 3200);
+}
+
+//  INIT 
+renderPayments();
