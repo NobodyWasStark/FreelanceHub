@@ -6,8 +6,41 @@
   <title>SkillBridge – Settings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #f6faf6; }
+    .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 99px; }
+    #mobile-overlay { display: none; }
+    @media (max-width: 1023px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #mobile-overlay.show { display: block; }
+    }
+    /* Toast */
+    #toast { transition: opacity .35s, transform .35s; }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.hide { opacity: 0; transform: translateY(16px); pointer-events: none; }
+    /* Modal */
+    #add-payment-modal { transition: opacity .25s; }
+    #add-payment-modal.modal-hidden { opacity: 0; pointer-events: none; display: none; }
+    #add-payment-modal.modal-visible { opacity: 1; pointer-events: all; display: flex; }
+    #add-payment-inner { transition: transform .28s cubic-bezier(.4,0,.2,1); }
+    #add-payment-modal.modal-hidden #add-payment-inner { transform: scale(.96) translateY(8px); }
+    #add-payment-modal.modal-visible #add-payment-inner { transform: scale(1) translateY(0); }
+    select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    input[type="file"] { display: none; }
+    .field-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; margin-bottom: 6px; }
+    .field-input { width: 100%; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #111827; background: #fff; outline: none; transition: border-color .15s, box-shadow .15s; }
+    .field-input:focus { border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.12); }
+    .payment-row { animation: rowIn .25s cubic-bezier(.34,1.5,.64,1) both; }
+    @keyframes rowIn { from { opacity:0; transform:scale(.97) translateY(-4px); } to { opacity:1; transform:none; } }
+  </style>
 </head>
 <body class="min-h-screen flex overflow-x-hidden">
+<!-- MOBILE OVERLAY -->
+ <div id="mobile-overlay" class="fixed inset-0 bg-black/30 z-20 lg:hidden" onclick="closeSidebar()"></div>
 
 <!--SIDEBAR  -->
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 transition-transform duration-300 ease-in-out shrink-0 lg:translate-x-0">
@@ -39,14 +72,14 @@
       </div>
       <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
     </a>
-    <a href="./skillbridge-message.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+    <a href="./skillbridge-messages.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
       <div class="flex items-center gap-3">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="text-sm font-medium">Messages</span>
       </div>
       <span class="bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">3</span>
     </a>
-    <a href="./freelancer-report.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
       <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       <span class="text-sm font-medium">Reports</span>
     </a>
@@ -67,9 +100,12 @@
     </a>
   </div>
 </aside>
+<!-- Main Content -->
+ <div class="flex-1 flex flex-col lg:ml-60 min-h-screen">
+
 <!-- HEADER -->
   <header class="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-gray-100 flex items-center gap-4 px-4 lg:px-8 py-3.5 shrink-0">
-    <button class="lg:hidden p-1.5 rounded-lg hover:bg-green-50 text-gray-500">
+    <button onclick="openSidebar()" class="lg:hidden p-1.5 rounded-lg hover:bg-green-50 text-gray-500">
       <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
       </svg>
@@ -79,5 +115,221 @@
       <input type="text" placeholder="Search for freelancers or services..." class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition"/>
     </div>
   </header>
+
+  <!-- Page Body -->
+  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8 max-w-3xl w-full mx-auto">
+     <h1 class="text-2xl font-extrabold text-gray-900 mb-7">Settings</h1>
+
+    <!--Profile Card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
+
+      <!-- Photo row -->
+      <div class="flex items-center gap-5 mb-8 pb-7 border-b border-gray-100">
+        <div class="relative shrink-0">
+          <img id="profile-photo" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" class="w-20 h-20 rounded-2xl object-cover ring-4 ring-green-50"/>
+          <div class="absolute inset-0 rounded-2xl bg-black/0 hover:bg-black/10 transition cursor-pointer" onclick="document.getElementById('photo-input').click()"></div>
+        </div>
+        <div>
+          <button onclick="document.getElementById('photo-input').click()" class="bg-green-700 hover:bg-green-800 active:scale-95 transition text-white text-sm font-semibold px-4 py-2 rounded-xl mb-1.5 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Change Photo
+          </button>
+          <p class="text-xs text-gray-400">JPG, GIF, or PNG. Max size 2MB</p>
+        </div>
+        <input type="file" id="photo-input" accept="image/*" onchange="previewPhoto(event)"/>
+      </div>
+
+      <!-- Form fields -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+        <!-- Full Name -->
+        <div>
+          <label class="field-label block">Full Name</label>
+          <input type="text" class="field-input" value="Sarah Jenkins" placeholder="Your full name"/>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="field-label block">Email Address</label>
+          <div class="relative">
+            <input type="email" class="field-input pr-24" value="sarah.jenkins@gmail.com" placeholder="Email address"/>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 bg-green-50 text-green-700 text-[11px] font-bold px-2 py-0.5 rounded-full border border-green-200">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Verified
+            </span>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="field-label block">Phone Number</label>
+          <input type="tel" class="field-input" value="+1 (555) 000-0000" placeholder="+1 (555) 000-0000"/>
+        </div>
+
+        <!-- Country -->
+        <div>
+          <label class="field-label block">Country</label>
+          <select class="field-input">
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Canada</option>
+            <option>Australia</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Bangladesh</option>
+            <option>India</option>
+            <option>Pakistan</option>
+            <option>Nigeria</option>
+            <option>Brazil</option>
+          </select>
+        </div>
+                <!-- Time Zone (full width) -->
+        <div class="sm:col-span-2">
+          <label class="field-label block">Time Zone</label>
+          <select class="field-input">
+            <option>(GMT-08:00) Pacific Time (US & Canada)</option>
+            <option>(GMT-07:00) Mountain Time (US & Canada)</option>
+            <option>(GMT-06:00) Central Time (US & Canada)</option>
+            <option>(GMT-05:00) Eastern Time (US & Canada)</option>
+            <option>(GMT+00:00) UTC</option>
+            <option>(GMT+01:00) London</option>
+            <option>(GMT+02:00) Berlin, Paris</option>
+            <option>(GMT+05:30) Mumbai, Kolkata</option>
+            <option>(GMT+06:00) Dhaka</option>
+            <option>(GMT+08:00) Singapore, Beijing</option>
+            <option>(GMT+09:00) Tokyo, Seoul</option>
+          </select>
+        </div>
+                <!-- Bio-->
+        <div class="sm:col-span-2">
+          <label class="field-label block">Bio / About</label>
+          <textarea rows="4" class="field-input resize-none" placeholder="Tell clients about yourself...">Senior Product Designer with 8+ years of experience in creating architectural digital ecosystems. Specialized in design systems and tonal layering.</textarea>
+        </div>
+      </div>
+    </div>
+         <!--  Payment Methods Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-8">
+        <div class="flex items-center justify-between mb-5">
+            <h2 class="font-bold text-gray-900 text-base">Payment Methods</h2>
+            <button onclick="openAddPayment()" class="flex items-center gap-1.5 text-sm font-semibold text-green-700 border-2 border-green-700 px-3.5 py-2 rounded-xl hover:bg-green-50 active:scale-95 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Payment Method
+            </button>
+        </div>
+
+        <!-- Payment list -->
+        <div id="payment-list" class="space-y-3"></div>
+
+        <!-- Empty state -->
+        <div id="payment-empty" class="hidden py-8 text-center">
+            <div class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <p class="text-sm text-gray-400 font-medium">No payment methods added yet</p>
+        </div>
+        </div>
+
+        <!-- Save Changes -->
+        <div class="flex justify-end">
+        <button onclick="saveChanges()" class="bg-green-700 hover:bg-green-800 active:scale-95 transition text-white font-bold px-8 py-3 rounded-xl shadow-sm text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Changes
+        </button>
+        </div>
+    </main>
+    </div>
+
+    <!--  ADD PAYMENT MODAL  -->
+    <div id="add-payment-modal" class="modal-hidden fixed inset-0 z-50 items-center justify-center px-4">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeAddPayment()"></div>
+    <div id="add-payment-inner" class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 sm:p-8 z-10">
+        <div class="flex items-center justify-between mb-6">
+        <h2 class="font-bold text-gray-900 text-lg">Add Payment Method</h2>
+        <button onclick="closeAddPayment()" class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 transition">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        </div>
+
+        <!-- Card type selector -->
+        <div class="mb-5">
+        <label class="field-label block">Card Type</label>
+        <div class="flex gap-3">
+            <label class="flex-1 cursor-pointer">
+            <input type="radio" name="card-type" value="visa" class="sr-only peer" checked/>
+            <div class="border-2 border-gray-200 peer-checked:border-green-600 peer-checked:bg-green-50 rounded-xl p-3 flex items-center justify-center gap-2 transition">
+                <svg viewBox="0 0 38 24" width="38" height="24" xmlns="http://www.w3.org/2000/svg" role="img"><rect width="38" height="24" rx="4" fill="#1a1f71"/><path d="M14.5 7.5l-2 9h-2l2-9h2zm4.8 5.9c.8-.4 1.2-.8 1.2-1.4 0-.9-.8-1.5-2.1-1.5-1 0-1.8.2-2.3.5l.3 1.4c.4-.2 1-.4 1.7-.4.7 0 1 .3 1 .6 0 .4-.5.7-1.3.9-.9.3-2 .8-2 2 0 1 .8 1.6 2 1.6.8 0 1.5-.3 2-.6l.2.5H22l-1.5-6.7-.2 2.1zm1.2-3.4l-1.6 7.5h-1.9l1.6-7.5h1.9zm5.9 0h1.8l-2 7.5h-1.7l-.3-1c-.4.5-1 .9-1.8.9-1.4 0-2.4-1-2.4-2.8 0-2.4 1.6-4.7 4-4.7.8 0 1.4.3 1.8.7l.6-0.6zm-1.4 5.6c.4-.8.7-1.7.7-2.4 0-.7-.3-1.1-1-1.1-1.2 0-2 1.5-2 2.9 0 .8.4 1.4 1.1 1.4.6 0 1-.4 1.2-.8z" fill="white"/></svg>
+                <span class="text-sm font-semibold text-gray-700">Visa</span>
+            </div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+            <input type="radio" name="card-type" value="mastercard" class="sr-only peer"/>
+            <div class="border-2 border-gray-200 peer-checked:border-green-600 peer-checked:bg-green-50 rounded-xl p-3 flex items-center justify-center gap-2 transition">
+                <svg viewBox="0 0 38 24" width="38" height="24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.3a7 7 0 0 1 0 9.4A7 7 0 0 1 19 7.3z" fill="#FF5F00"/></svg>
+                <span class="text-sm font-semibold text-gray-700">Mastercard</span>
+            </div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+            <input type="radio" name="card-type" value="amex" class="sr-only peer"/>
+            <div class="border-2 border-gray-200 peer-checked:border-green-600 peer-checked:bg-green-50 rounded-xl p-3 flex items-center justify-center gap-2 transition">
+                <svg viewBox="0 0 38 24" width="38" height="24" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#2E77BC"/><text x="4" y="16" font-size="10" font-weight="bold" fill="white" font-family="Arial">AMEX</text></svg>
+                <span class="text-sm font-semibold text-gray-700">Amex</span>
+            </div>
+            </label>
+        </div>
+        </div>
+
+        <div class="space-y-4">
+        <div>
+            <label class="field-label block">Cardholder Name</label>
+            <input id="card-name" type="text" class="field-input" placeholder="Sarah Jenkins"/>
+        </div>
+        <div>
+            <label class="field-label block">Card Number</label>
+            <input id="card-number" type="text" class="field-input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)"/>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+            <label class="field-label block">Expiry Date</label>
+            <input id="card-expiry" type="text" class="field-input" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)"/>
+            </div>
+            <div>
+            <label class="field-label block">CVV</label>
+            <input id="card-cvv" type="text" class="field-input" placeholder="123" maxlength="4"/>
+            </div>
+        </div>
+        <label class="flex items-center gap-2.5 cursor-pointer">
+            <input id="card-primary" type="checkbox" class="w-4 h-4 accent-green-700 rounded"/>
+            <span class="text-sm text-gray-600 font-medium">Set as primary payment method</span>
+        </label>
+        </div>
+
+        <div class="flex gap-3 mt-7">
+        <button onclick="closeAddPayment()" class="flex-1 border border-gray-200 text-gray-600 font-semibold py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Cancel</button>
+        <button onclick="addPaymentMethod()" class="flex-1 bg-green-700 hover:bg-green-800 text-white font-semibold py-2.5 rounded-xl transition text-sm active:scale-95">Add Card</button>
+        </div>
+    </div>
+    </div>
+
+    <!--  TOAST  -->
+    <div id="toast" class="hide fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gray-900 text-white text-sm font-medium px-5 py-3.5 rounded-2xl shadow-2xl">
+        <svg id="toast-icon" class="w-5 h-5 shrink-0 text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        <span id="toast-text">Changes saved successfully!</span>
+    </div>
+
+    <!--  CONFIRM DIALOG  -->
+    <div id="confirm-overlay" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center">
+            <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-1.5">Remove Payment Method?</h3>
+            <p class="text-sm text-gray-500 mb-6">This action cannot be undone. The card will be permanently removed.</p>
+            <div class="flex gap-3">
+                <button onclick="cancelRemove()" class="flex-1 border border-gray-200 text-gray-600 font-semibold py-2.5 rounded-xl hover:bg-gray-50 transition text-sm">Keep It</button>
+                <button onclick="confirmRemove()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-xl transition text-sm active:scale-95">Remove</button>
+            </div>
+        </div>
+    </div>
+<script src="/scripts/settings.js"></script>
 </body>
 </html>
