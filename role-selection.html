@@ -129,7 +129,7 @@
 </button>
 </div>
 <div class="w-full flex flex-col items-center gap-8">
-<button onclick="window.location.href='login.html'" class="w-full max-w-sm py-4 px-8 rounded-full bg-gradient-to-br from-primary to-primary-container text-white font-label font-bold tracking-wider uppercase transition-transform active:scale-95 shadow-lg shadow-primary-container/20">
+<button onclick="proceedToSignUp()" class="w-full max-w-sm py-4 px-8 rounded-full bg-gradient-to-br from-primary to-primary-container text-white font-label font-bold tracking-wider uppercase transition-transform active:scale-95 shadow-lg shadow-primary-container/20">
                 Create Account
             </button>
 <div class="flex items-center gap-2 text-sm md:text-base">
@@ -169,7 +169,11 @@
 
 <script>
     // JS for interaction
+    let currentRole = null;
+
     function selectRole(role) {
+        currentRole = role;
+        
         const resetStyles = (id) => {
             const card = document.getElementById(`card-${id}`);
             const check = document.getElementById(`check-${id}`);
@@ -202,6 +206,15 @@
 
         // Set active
         setActiveStyles(role);
+    }
+
+    function proceedToSignUp() {
+        if (!currentRole) {
+            alert('Please select a role (Client or Freelancer) to continue.');
+            return;
+        }
+        localStorage.setItem('selectedRole', currentRole);
+        window.location.href = 'signup.html';
     }
 </script>
 </body>
