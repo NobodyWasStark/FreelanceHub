@@ -86,3 +86,50 @@ function confirmRemove() {
   renderPayments();
   showToast("Payment method removed.");
 }
+// ADD PAYMENT MODAL 
+function openAddPayment() {
+  document.getElementById("add-payment-modal").classList.remove("modal-hidden");
+  document.getElementById("add-payment-modal").classList.add("modal-visible");
+  document.getElementById("card-name").value = "";
+  document.getElementById("card-number").value = "";
+  document.getElementById("card-expiry").value = "";
+  document.getElementById("card-cvv").value = "";
+  document.getElementById("card-primary").checked = payments.length === 0;
+  document.querySelector('input[name="card-type"][value="visa"]').checked = true;
+}
+function closeAddPayment() {
+  document.getElementById("add-payment-modal").classList.remove("modal-visible");
+  document.getElementById("add-payment-modal").classList.add("modal-hidden");
+}
+
+function formatCardNumber(input) {
+  let v = input.value.replace(/\D/g, "").slice(0, 16);
+  input.value = v.replace(/(.{4})/g, "$1 ").trim();
+}
+function formatExpiry(input) {
+  let v = input.value.replace(/\D/g, "").slice(0, 4);
+  if (v.length > 2) v = v.slice(0,2) + "/" + v.slice(2);
+  input.value = v;
+}
+
+function addPaymentMethod() {
+  const name   = document.getElementById("card-name").value.trim();
+  const num    = document.getElementById("card-number").value.replace(/\s/g,"");
+  const expiry = document.getElementById("card-expiry").value.trim();
+  const cvv    = document.getElementById("card-cvv").value.trim();
+  const type   = document.querySelector('input[name="card-type"]:checked')?.value || "visa";
+  const primary = document.getElementById("card-primary").checked;
+
+  if (!name)               { showToast("Please enter the cardholder name.", false); return; }
+  if (num.length < 13)     { showToast("Please enter a valid card number.", false); return; }
+  if (!/^\d{2}\/\d{2}$/.test(expiry)) { showToast("Please enter a valid expiry date (MM/YY).", false); return; }
+  if (cvv.length < 3)      { showToast("Please enter a valid CVV.", false); return; }
+
+  if (primary) payments = payments.map(p => ({ ...p, primary: false }));
+
+  const newId = Date.now();
+  payments.push({ id: newId, type, last4: num.slice(-4), expiry, primary: primary || payments.length === 0, name });
+  closeAddPayment();
+  renderPayments();
+  showToast("Payment method added!");
+}
