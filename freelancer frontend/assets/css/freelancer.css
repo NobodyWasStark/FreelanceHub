@@ -44,14 +44,15 @@ body {
 .sb-nav-link {
   align-items: center;
   border-left: 4px solid transparent;
-  border-radius: 9px;
+  border-radius: 0 12px 12px 0;
   color: #475569;
   display: flex;
   gap: 12px;
   min-height: 42px;
-  padding: 0 12px;
+  margin-left: -12px;
+  padding: 0 12px 0 24px;
   text-decoration: none;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 .sb-nav-link:hover {
@@ -61,10 +62,11 @@ body {
 }
 
 .sb-nav-link.active {
-  background: #f0fdf4;
+  background: #ffffff;
   border-left-color: #166534;
   color: var(--sb-green);
   font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .sb-nav-link-logout {
@@ -249,7 +251,7 @@ body {
 }
 
 .reports-page .report-main {
-  max-width: 1180px;
+  max-width: none;
   width: 100%;
 }
 
@@ -517,72 +519,7 @@ body {
   color: #d97706;
 }
 
-@media (min-width: 1024px) {
-  .reports-page #sidebar {
-    width: 190px;
-  }
 
-  .reports-page .report-shell {
-    margin-left: 190px;
-  }
-
-  .reports-page .sb-sidebar {
-    background: #eef7ef;
-  }
-
-  .reports-page .sb-sidebar > div:first-child {
-    border-bottom: 0;
-    padding: 24px 20px 18px;
-  }
-
-  .reports-page .sb-sidebar > div:first-child img {
-    height: 26px;
-    width: 26px;
-  }
-
-  .reports-page .sb-sidebar > div:first-child span {
-    font-size: 20px;
-  }
-
-  .reports-page .sb-sidebar nav {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-
-  .reports-page .sb-sidebar nav p,
-  .reports-page .sb-sidebar nav > div,
-  .reports-page [data-nav-key="find-work"],
-  .reports-page [data-nav-key="my-proposal"],
-  .reports-page [data-nav-key="messages"],
-  .reports-page [data-nav-key="payments"],
-  .reports-page [data-nav-key="help"],
-  .reports-page [data-nav-key="logout"],
-  .reports-page .sb-sidebar > div:last-child > div {
-    display: none;
-  }
-
-  .reports-page .sb-sidebar > div:last-child {
-    border-top: 0;
-    padding: 0 22px 34px;
-  }
-
-  .reports-page .sb-client-cta {
-    border-radius: 5px;
-    display: flex;
-    font-size: 9px;
-    letter-spacing: 1px;
-    min-height: 34px;
-    padding: 0 12px;
-    text-transform: uppercase;
-  }
-
-  .reports-page .sb-nav-link {
-    border-radius: 0;
-    font-size: 12px;
-    gap: 10px;
-    min-height: 34px;
-  }
-}
 
 @media (max-width: 640px) {
   .report-range {
@@ -631,41 +568,6 @@ body {
   background: #f8fbf8;
 }
 
-.messages-page .sb-sidebar {
-  background: #eafff4;
-}
-
-.messages-page .sb-sidebar nav p,
-.messages-page .sb-sidebar nav > div,
-.messages-page [data-nav-key="find-work"],
-.messages-page [data-nav-key="payments"],
-.messages-page .sb-sidebar > div:last-child > div,
-.messages-page .sb-client-cta {
-  display: none;
-}
-
-.messages-page .sb-sidebar > div:first-child {
-  border-bottom: 0;
-  padding-top: 30px;
-}
-
-.messages-page .sb-sidebar > div:last-child {
-  border-top: 0;
-}
-
-.messages-page .sb-nav-link {
-  border-left-width: 0;
-  color: #334155;
-  gap: 11px;
-  min-height: 38px;
-}
-
-.messages-page .sb-nav-link:hover,
-.messages-page .sb-nav-link.active {
-  background: transparent;
-  color: var(--sb-green);
-  font-weight: 800;
-}
 
 .messages-app {
   background: #f8fbf8;
@@ -1146,23 +1048,7 @@ body {
   text-align: center;
 }
 
-@media (min-width: 1024px) {
-  .messages-page .sb-sidebar {
-    width: 250px;
-  }
 
-  .messages-page .messages-shell {
-    margin-left: 250px;
-  }
-
-  .messages-page .sb-sidebar nav {
-    padding-top: 58px;
-  }
-
-  .messages-page .sb-sidebar > div:last-child {
-    padding-bottom: 36px;
-  }
-}
 
 @media (max-width: 767px) {
   .messages-app {

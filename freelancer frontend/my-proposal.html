@@ -8,22 +8,111 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/freelancer.css" />
+  <style>
+    .proposal-tab {
+      transition: all 0.2s ease;
+    }
+    .proposal-tab.active {
+      background: #0f172a; /* slate-900 */
+      color: white;
+      border-color: #0f172a;
+    }
+  </style>
 </head>
-<body class="min-h-screen flex">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex">
   <div id="navbar-root"></div>
+
   <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
     <div id="header-root"></div>
-    <main class="flex-1 px-4 sm:px-8 py-8">
-      <section class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8"><div><h1 class="font-jakarta text-4xl font-extrabold">My Proposals</h1><p class="mt-2 text-slate-500">Track submitted proposals, interviews, and archived jobs.</p></div><div class="flex gap-2"><button class="proposal-tab sb-chip active" data-status="all">All</button><button class="proposal-tab sb-chip" data-status="interview">Interview</button><button class="proposal-tab sb-chip" data-status="submitted">Submitted</button><button class="proposal-tab sb-chip" data-status="archived">Archived</button></div></section>
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"><article class="sb-card p-5"><p class="text-sm text-slate-400">Active Proposals</p><p class="font-jakarta text-3xl font-extrabold mt-2">5</p></article><article class="sb-card p-5"><p class="text-sm text-slate-400">Interviews</p><p class="font-jakarta text-3xl font-extrabold mt-2 text-green-700">2</p></article><article class="sb-card p-5"><p class="text-sm text-slate-400">Connects Left</p><p class="font-jakarta text-3xl font-extrabold mt-2">84</p></article></section>
-      <section id="proposalList" class="space-y-5">
-        <article class="proposal-card sb-card p-6" data-status="interview"><span class="bg-green-50 text-green-700 rounded-full px-3 py-1 text-[10px] font-bold uppercase">Interviewing</span><div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mt-4"><div><h2 class="font-jakarta text-2xl font-extrabold">Senior UI/UX Designer for Fintech SaaS Redesign</h2><p class="text-sm text-slate-500 mt-2">Stellar SaaS - Sent 2 hours ago - 16 connects</p><p class="text-slate-600 mt-4 leading-7">Client viewed your proposal and invited you to share two dashboard examples.</p></div><div class="lg:text-right"><p class="text-[10px] font-bold uppercase text-slate-400">Your Bid</p><p class="font-jakarta text-3xl font-extrabold">$2,500</p></div></div><div class="mt-5 pt-5 border-t border-slate-100 flex gap-3"><button class="sb-btn sb-btn-primary">Message</button><a href="proposal_view.html" class="sb-btn sb-btn-outline">View Details</a></div></article>
-        <article class="proposal-card sb-card p-6" data-status="submitted"><span class="bg-blue-50 text-blue-700 rounded-full px-3 py-1 text-[10px] font-bold uppercase">Submitted</span><div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mt-4"><div><h2 class="font-jakarta text-2xl font-extrabold">Mobile App Interaction Designer</h2><p class="text-sm text-slate-500 mt-2">Nexus Labs - Sent yesterday - 12 connects</p><p class="text-slate-600 mt-4 leading-7">Proposal is active. You will be notified when the client responds.</p></div><div class="lg:text-right"><p class="text-[10px] font-bold uppercase text-slate-400">Your Bid</p><p class="font-jakarta text-3xl font-extrabold">$75/hr</p></div></div><div class="mt-5 pt-5 border-t border-slate-100 flex gap-3"><button class="sb-btn sb-btn-primary">Message</button><a href="proposal_view.html" class="sb-btn sb-btn-outline">View Details</a></div></article>
-        <article class="proposal-card sb-card p-6" data-status="archived"><span class="bg-slate-100 text-slate-600 rounded-full px-3 py-1 text-[10px] font-bold uppercase">Archived</span><div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mt-4"><div><h2 class="font-jakarta text-2xl font-extrabold">E-commerce UI Design for Sustainable Fashion</h2><p class="text-sm text-slate-500 mt-2">Leaf & Co. - Sent June 10 - 8 connects</p><p class="text-slate-600 mt-4 leading-7">The client closed this job after hiring another designer.</p></div><div class="lg:text-right"><p class="text-[10px] font-bold uppercase text-slate-400">Your Bid</p><p class="font-jakarta text-3xl font-extrabold">$1,200</p></div></div><div class="mt-5 pt-5 border-t border-slate-100 flex gap-3"><button class="sb-btn bg-slate-100 text-slate-700">Archive</button></div></article>
+
+    <main class="flex-1 px-4 sm:px-8 py-6 sm:py-8">
+      <section class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-7">
+        <div>
+          <h1 class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mb-1">My Proposals</h1>
+          <p class="text-[14px] text-slate-500 leading-relaxed">Manage your active bids, submitted proposals, and invitations.</p>
+        </div>
       </section>
+
+      <!-- TABS -->
+      <div class="flex flex-wrap gap-2 mb-8 border-b border-slate-200 pb-4">
+        <button class="proposal-tab active px-5 py-2 text-sm font-bold rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-900" data-status="all">All Proposals</button>
+        <button class="proposal-tab px-5 py-2 text-sm font-bold rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-900" data-status="active">Active (2)</button>
+        <button class="proposal-tab px-5 py-2 text-sm font-bold rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-900" data-status="submitted">Submitted (5)</button>
+        <button class="proposal-tab px-5 py-2 text-sm font-bold rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-900" data-status="invitations">Invitations (1)</button>
+      </div>
+
+      <!-- CARDS -->
+      <div class="space-y-4">
+        <!-- Active -->
+        <article class="proposal-card sb-card p-6" data-status="active">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Active</span>
+                <span class="text-xs text-slate-400">Submitted 2 days ago</span>
+              </div>
+              <h3 class="font-jakarta text-xl font-extrabold text-slate-900">Senior UI/UX Designer for Fintech SaaS Redesign</h3>
+              <p class="text-sm text-slate-500 mt-1">TechFlow Inc. • Client Viewed</p>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-extrabold text-slate-900">$2,500</p>
+              <p class="text-[10px] font-bold uppercase text-slate-400">Fixed Price</p>
+            </div>
+          </div>
+          <div class="mt-4 flex gap-3">
+             <a href="#" class="px-4 py-2 text-[13px] font-bold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors">View Proposal</a>
+             <a href="messages.html" class="px-4 py-2 text-[13px] font-bold rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors">Message Client</a>
+          </div>
+        </article>
+
+        <!-- Submitted -->
+        <article class="proposal-card sb-card p-6" data-status="submitted">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Submitted</span>
+                <span class="text-xs text-slate-400">Submitted 5 days ago</span>
+              </div>
+              <h3 class="font-jakarta text-xl font-extrabold text-slate-900">Mobile App Interaction Designer</h3>
+              <p class="text-sm text-slate-500 mt-1">Nexus Labs • Unread</p>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-extrabold text-slate-900">$75/hr</p>
+              <p class="text-[10px] font-bold uppercase text-slate-400">Hourly</p>
+            </div>
+          </div>
+          <div class="mt-4 flex gap-3">
+             <a href="#" class="px-4 py-2 text-[13px] font-bold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors">View Proposal</a>
+          </div>
+        </article>
+
+        <!-- Invitation -->
+        <article class="proposal-card sb-card p-6 border-l-4 border-l-amber-500" data-status="invitations">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Invitation</span>
+                <span class="text-xs text-slate-400">Received 1 hr ago</span>
+              </div>
+              <h3 class="font-jakarta text-xl font-extrabold text-slate-900">E-commerce Dashboard Redesign</h3>
+              <p class="text-sm text-slate-500 mt-1">Stellar SaaS • Urgent</p>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-extrabold text-slate-900">$3,000</p>
+              <p class="text-[10px] font-bold uppercase text-slate-400">Fixed Price</p>
+            </div>
+          </div>
+          <div class="mt-4 flex gap-3">
+             <a href="submit_proposal.html" class="px-4 py-2 text-[13px] font-bold rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors">Accept & Submit</a>
+             <button class="px-4 py-2 text-[13px] font-bold rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors">Decline</button>
+          </div>
+        </article>
+      </div>
+
       <div id="footer-root"></div>
     </main>
   </div>
+
   <script src="assets/js/layout.js"></script>
   <script src="assets/js/my-proposal.js"></script>
 </body>
