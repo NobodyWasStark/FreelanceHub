@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Freelancer Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="min-h-screen flex">
+  <div id="navbar-root"></div>
+
+  <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+
+    <main class="flex-1 px-4 sm:px-8 py-6 sm:py-8">
+      <section class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-7">
+        <div>
+          <h1 class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mb-1">Welcome back, Noor</h1>
+          <p class="text-[14px] text-slate-500 leading-relaxed">Monday, June 12th - You have 3 new messages and 2 active interviews.</p>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Proposals Sent</p><span class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700"><i data-lucide="file-check-2" class="w-5 h-5"></i></span></div><p class="font-jakarta text-[32px] font-extrabold mt-3">05</p></article>
+        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Active Contracts</p><span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600"><i data-lucide="clipboard-list" class="w-5 h-5"></i></span></div><p class="font-jakarta text-[32px] font-extrabold mt-3">02</p></article>
+        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Total Earned</p><span class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700"><i data-lucide="wallet" class="w-5 h-5"></i></span></div><p class="font-jakarta text-[32px] font-extrabold mt-3">$1,240</p></article>
+      </section>
+
+      <section class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6">
+        <div class="space-y-5">
+          <div class="flex items-center justify-between">
+            <h2 class="font-jakarta text-[20px] font-extrabold text-slate-900">Recommended for you</h2>
+            <a href="find-work.html" class="text-[12px] font-semibold text-green-700 no-underline">View all recommendations</a>
+          </div>
+          <article class="sb-card p-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div>
+                <h3 class="font-jakarta text-[18px] font-extrabold text-slate-900">Senior UI/UX Designer for Fintech SaaS Redesign</h3>
+                <p class="mt-2 text-sm text-slate-500">Stellar SaaS - Payment Verified - Expert</p>
+              </div>
+              <div class="sm:text-right"><p class="text-xl font-extrabold">$2,500</p><p class="text-[10px] font-bold uppercase text-slate-400">Fixed Price</p></div>
+            </div>
+            <p class="mt-5 text-sm leading-7 text-slate-600">Lead the complete overhaul of a fintech dashboard with complex data visualization and a clean editorial system.</p>
+            <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"><div class="flex flex-wrap gap-2"><span class="sb-chip">Figma</span><span class="sb-chip">Prototyping</span><span class="sb-chip">SaaS Design</span></div><a href="browse.html" class="sb-btn sb-btn-primary">View Job</a></div>
+          </article>
+          <article class="sb-card p-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div>
+                <h3 class="font-jakarta text-[18px] font-extrabold text-slate-900">Mobile App Interaction Designer (HealthTech)</h3>
+                <p class="mt-2 text-sm text-slate-500">Nexus Labs - 4.9 rating - Intermediate</p>
+              </div>
+              <div class="sm:text-right"><p class="text-xl font-extrabold">$75/hr</p><p class="text-[10px] font-bold uppercase text-slate-400">Hourly</p></div>
+            </div>
+            <p class="mt-5 text-sm leading-7 text-slate-600">Create delightful accessible interactions for a patient-facing health app with complex data flows.</p>
+            <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"><div class="flex flex-wrap gap-2"><span class="sb-chip">Mobile</span><span class="sb-chip">UX</span><span class="sb-chip">Accessibility</span></div><a href="browse.html" class="sb-btn sb-btn-primary">View Job</a></div>
+          </article>
+        </div>
+
+        <aside class="space-y-5">
+          <article class="sb-card border-t-4 border-t-green-700 p-6">
+            <h3 class="font-jakarta font-extrabold text-slate-900">Profile Completeness</h3>
+            <div class="mt-5 flex items-center gap-3"><div class="h-2 flex-1 rounded-full bg-slate-100"><div class="h-full w-[85%] rounded-full bg-green-700"></div></div><span class="text-sm font-bold text-green-700">85%</span></div>
+            <p class="mt-4 text-sm text-slate-500">Add a video introduction to reach 100% and boost visibility by 2x.</p>
+            <a href="settings.html" class="sb-btn sb-btn-outline w-full mt-5">Complete Profile</a>
+          </article>
+          <article class="sb-card p-6">
+            <h3 class="font-jakarta font-extrabold text-slate-900 mb-5">Recent Activity</h3>
+            <div class="space-y-4">
+              <div class="flex gap-3"><span class="mt-1 w-2 h-2 rounded-full bg-green-700"></span><div><p class="text-sm font-bold">Proposal Viewed</p><p class="text-xs text-slate-500">Real-time Analytics client viewed your bid.</p></div></div>
+              <div class="flex gap-3"><span class="mt-1 w-2 h-2 rounded-full bg-pink-600"></span><div><p class="text-sm font-bold">Payment Received</p><p class="text-xs text-slate-500">Milestone #1 released for E-commerce App.</p></div></div>
+              <div class="flex gap-3"><span class="mt-1 w-2 h-2 rounded-full bg-slate-300"></span><div><p class="text-sm font-bold">Invitation Received</p><p class="text-xs text-slate-500">New interview request from TechFlow Inc.</p></div></div>
+            </div>
+          </article>
+          <article class="rounded-2xl overflow-hidden relative min-h-[220px] flex items-end bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80')">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 to-transparent"></div>
+            <div class="relative p-6 text-white"><span class="bg-green-700 px-3 py-1 text-[10px] font-bold uppercase tracking-widest">SkillBridge Academy</span><h3 class="font-jakarta text-xl font-extrabold mt-3">Mastering High-Ticket Client Acquisition</h3><a href="#" class="text-sm font-bold underline mt-3 inline-flex text-white">Start Learning</a></div>
+          </article>
+        </aside>
+      </section>
+
+      <div id="footer-root"></div>
+    </main>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
