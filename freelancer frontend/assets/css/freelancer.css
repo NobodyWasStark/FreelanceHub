@@ -67,6 +67,16 @@ body {
   font-weight: 700;
 }
 
+.sb-nav-link-logout {
+  color: #dc2626;
+}
+
+.sb-nav-link-logout:hover {
+  background: #fef2f2;
+  border-left-color: #b91c1c;
+  color: #b91c1c;
+}
+
 .sb-topbar {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px);
@@ -170,6 +180,41 @@ body {
   color: #475569;
 }
 
+.sb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sb-label {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sb-textarea {
+  background: #f8faf8;
+  border: 1px solid #dfe8e1;
+  border-radius: 14px;
+  color: #334155;
+  font-size: 14px;
+  min-height: 150px;
+  outline: none;
+  padding: 14px 16px;
+  resize: vertical;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.sb-textarea:focus {
+  border-color: #86c986;
+  box-shadow: 0 0 0 3px rgba(6, 122, 6, 0.14);
+}
+
+.notification-item.unread {
+  border-color: #bbf7d0;
+  box-shadow: 0 10px 22px rgba(6, 122, 6, 0.06);
+}
+
 .filter-box {
   align-items: center;
   background: white;
@@ -179,6 +224,14 @@ body {
   height: 16px;
   justify-content: center;
   width: 16px;
+}
+
+.filter-row {
+  cursor: pointer;
+}
+
+.filter-row:hover {
+  color: #0f172a;
 }
 
 #sidebar {
