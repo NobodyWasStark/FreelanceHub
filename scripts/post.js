@@ -5,6 +5,12 @@
     sidebar.classList.toggle('-translate-x-full', isOpen);
     overlay.classList.toggle('hidden', isOpen);
   }
+
+  document.getElementById('btn-post-new-job').addEventListener('click', function(){
+    window.location.replace("/skillbridge-post-job.html")
+  })
+
+
   function setTab(btn, tab) {
     document.querySelectorAll('.tab-btn').forEach(b => {
       b.classList.remove('border-brand-600','text-brand-700','font-semibold');
