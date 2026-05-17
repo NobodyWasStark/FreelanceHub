@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     `,
     headerRight: `
-      <button class="relative p-2 rounded-lg hover:bg-green-50 text-slate-500"><i data-lucide="bell" class="w-5 h-5"></i><span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span></button>
+      <a href="notification.html" class="relative p-2 rounded-lg hover:bg-green-50 text-slate-500 inline-flex"><i data-lucide="bell" class="w-5 h-5"></i><span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span></a>
       <a href="find-work.html" class="sb-btn sb-btn-primary">Find Work <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
     `
   });

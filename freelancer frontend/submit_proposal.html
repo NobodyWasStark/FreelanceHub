@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Submit Proposal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="min-h-screen flex">
+  <div id="navbar-root"></div>
+  <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+    <main class="flex-1 px-4 sm:px-8 py-8">
+      <section class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-8">
+        <div class="space-y-8">
+          <article class="space-y-4">
+            <p class="text-sm font-bold uppercase tracking-[0.2em] text-green-700">Proposal Draft</p>
+            <h1 class="font-jakarta text-4xl lg:text-5xl font-extrabold leading-tight text-slate-950">Submit your proposal</h1>
+            <p class="max-w-3xl text-lg leading-8 text-slate-600">Tailor your pitch for TechFlow Inc. and show why you are the right fit for this fintech redesign project.</p>
+          </article>
+
+          <article class="sb-card p-6 sm:p-8">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-slate-400">Job</p>
+                <h2 class="font-jakarta text-2xl font-extrabold text-slate-950 mt-2">Senior UI Designer for Fintech SaaS Redesign</h2>
+              </div>
+              <div class="inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-sm font-bold text-green-700">
+                <i data-lucide="briefcase" class="w-4 h-4"></i>
+                Fixed Price
+              </div>
+            </div>
+            <div class="mt-6 grid gap-4 sm:grid-cols-3">
+              <div class="rounded-2xl bg-[#edf5ee] p-5">
+                <p class="text-sm text-slate-500">Client budget</p>
+                <p class="mt-2 font-jakarta text-2xl font-extrabold">$2,500</p>
+              </div>
+              <div class="rounded-2xl bg-[#edf5ee] p-5">
+                <p class="text-sm text-slate-500">Duration</p>
+                <p class="mt-2 font-jakarta text-2xl font-extrabold">1-3 months</p>
+              </div>
+              <div class="rounded-2xl bg-[#edf5ee] p-5">
+                <p class="text-sm text-slate-500">Available connects</p>
+                <p class="mt-2 font-jakarta text-2xl font-extrabold text-green-700">84</p>
+              </div>
+            </div>
+          </article>
+
+          <form id="proposalForm" class="sb-card p-6 sm:p-8 space-y-7">
+            <div class="grid gap-6 md:grid-cols-2">
+              <label class="sb-field">
+                <span class="sb-label">Your bid</span>
+                <input id="bidAmount" type="number" min="100" step="50" value="2200" class="sb-input px-4 py-3" />
+              </label>
+              <label class="sb-field">
+                <span class="sb-label">Delivery timeline</span>
+                <select id="deliveryTime" class="sb-input px-4 py-3">
+                  <option>2 weeks</option>
+                  <option selected>4 weeks</option>
+                  <option>6 weeks</option>
+                  <option>8 weeks</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="sb-field">
+              <span class="sb-label">Cover letter</span>
+              <textarea id="coverLetter" class="sb-textarea" placeholder="Introduce your approach, relevant product design experience, and why you fit this job.">Hi TechFlow team,
+
+I am a product designer focused on SaaS platforms, fintech workflows, and scalable interface systems. I would approach this redesign by auditing your current dashboard, defining a tighter component language, and improving hierarchy for dense data views while keeping the experience clear for daily users.
+
+My recent work includes dashboard redesigns, design system cleanup, and mobile-responsive enterprise tooling. I can deliver polished Figma files, interaction prototypes, and a handoff-ready component structure for engineering.</textarea>
+            </label>
+
+            <div class="grid gap-6 md:grid-cols-2">
+              <label class="sb-field">
+                <span class="sb-label">Work samples</span>
+                <input id="portfolioLink" type="url" placeholder="https://portfolio.example.com" class="sb-input px-4 py-3" />
+              </label>
+              <label class="sb-field">
+                <span class="sb-label">Attachment note</span>
+                <input id="attachmentNote" type="text" placeholder="Dashboard case study and design system audit" class="sb-input px-4 py-3" />
+              </label>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <button type="submit" class="sb-btn sb-btn-primary uppercase tracking-wider">Send Proposal</button>
+              <button type="button" id="saveDraft" class="sb-btn sb-btn-outline uppercase tracking-wider">Save Draft</button>
+              <a href="browse.html" class="sb-btn uppercase tracking-wider text-slate-500 hover:text-slate-900">Cancel</a>
+            </div>
+          </form>
+        </div>
+
+        <aside class="space-y-6">
+          <article class="sb-card p-6">
+            <h2 class="font-jakarta text-2xl font-extrabold">Proposal tips</h2>
+            <ul class="mt-5 space-y-4 text-sm leading-7 text-slate-600">
+              <li class="flex gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 mt-1 text-green-700"></i><span>Lead with relevant fintech or dashboard work in the first two lines.</span></li>
+              <li class="flex gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 mt-1 text-green-700"></i><span>Reference how you handle data-heavy UI while keeping hierarchy clean.</span></li>
+              <li class="flex gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 mt-1 text-green-700"></i><span>Keep the bid aligned with the project scope and timeline.</span></li>
+            </ul>
+          </article>
+
+          <article class="rounded-2xl bg-[#edf5ee] p-6">
+            <h3 class="font-jakarta text-xl font-extrabold">Before sending</h3>
+            <div class="mt-5 space-y-4 text-sm text-slate-600">
+              <div class="flex items-center justify-between"><span>Connects required</span><span class="font-bold text-slate-900">16</span></div>
+              <div class="flex items-center justify-between"><span>Client verified</span><span class="font-bold text-green-700">Yes</span></div>
+              <div class="flex items-center justify-between"><span>Avg. response time</span><span class="font-bold text-slate-900">2 hours</span></div>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <div id="footer-root"></div>
+    </main>
+  </div>
+
+  <div id="toast" class="hidden fixed bottom-5 right-5 bg-slate-950 text-white text-sm font-bold px-5 py-3 rounded-xl shadow-xl">Saved</div>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/submit-proposal.js"></script>
+</body>
+</html>
