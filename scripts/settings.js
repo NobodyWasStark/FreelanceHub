@@ -60,4 +60,19 @@ function renderPayments() {
     `;
     list.appendChild(row);
   });
+
+  function setPrimary(id) {
+  payments = payments.map(p => ({ ...p, primary: p.id === id }));
+  renderPayments();
+  showToast("Primary payment method updated!");
+}
+
+function promptRemove(id) {
+  pendingRemoveId = id;
+  document.getElementById("confirm-overlay").classList.remove("hidden");
+}
+function cancelRemove() {
+  pendingRemoveId = null;
+  document.getElementById("confirm-overlay").classList.add("hidden");
+}
 }
