@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Freelancer Messages</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="messages-page min-h-screen flex overflow-hidden">
+  <div id="navbar-root"></div>
+
+  <div class="messages-shell flex-1 lg:ml-60 h-screen min-w-0 pt-[56px] lg:pt-0">
+    <main class="messages-app">
+      <section id="conversationPanel" class="messages-list-panel">
+        <div class="messages-list-header">
+          <h1 class="font-jakarta">Messages</h1>
+          <label class="messages-search" for="conversationSearch">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <input id="conversationSearch" type="search" placeholder="Search conversations..." autocomplete="off" />
+          </label>
+        </div>
+        <div id="conversationList" class="messages-conversation-list scrollbar-thin" aria-label="Conversations"></div>
+      </section>
+
+      <section id="chatPanel" class="messages-chat-panel">
+        <header class="messages-chat-header">
+          <button id="backToConversations" type="button" class="messages-back-button" aria-label="Back to conversations">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <div class="messages-header-avatar">
+            <img id="chatHeaderAvatar" src="" alt="" />
+            <span id="chatHeaderStatusDot"></span>
+          </div>
+          <div class="messages-header-copy">
+            <h2 id="chatHeaderName"></h2>
+            <p id="chatHeaderMeta"></p>
+          </div>
+          <a href="browse.html" class="messages-contract-button">View Contract</a>
+          <button type="button" class="messages-menu-button" aria-label="Conversation menu">
+            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+          </button>
+        </header>
+
+        <div id="messageThread" class="messages-thread scrollbar-thin" aria-live="polite"></div>
+
+        <footer class="messages-composer-wrap">
+          <form id="messageComposer" class="messages-composer">
+            <button type="button" class="messages-tool-button" aria-label="Attach file">
+              <i data-lucide="paperclip" class="w-5 h-5"></i>
+            </button>
+            <button type="button" class="messages-tool-button" aria-label="Add emoji">
+              <i data-lucide="smile" class="w-5 h-5"></i>
+            </button>
+            <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off" />
+            <button type="submit" class="messages-send-button" aria-label="Send message">
+              <i data-lucide="send-horizontal" class="w-6 h-6"></i>
+            </button>
+          </form>
+          <p>Shift + Enter for new line. Files up to 50MB.</p>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/messages.js"></script>
+</body>
+</html>
