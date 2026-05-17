@@ -76,3 +76,13 @@ function cancelRemove() {
   document.getElementById("confirm-overlay").classList.add("hidden");
 }
 }
+function confirmRemove() {
+  if (!pendingRemoveId) return;
+  const wasPrimary = payments.find(p => p.id === pendingRemoveId)?.primary;
+  payments = payments.filter(p => p.id !== pendingRemoveId);
+  if (wasPrimary && payments.length > 0) payments[0].primary = true;
+  pendingRemoveId = null;
+  document.getElementById("confirm-overlay").classList.add("hidden");
+  renderPayments();
+  showToast("Payment method removed.");
+}
