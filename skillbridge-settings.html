@@ -42,7 +42,6 @@
 <!-- MOBILE OVERLAY -->
  <div id="mobile-overlay" class="fixed inset-0 bg-black/30 z-20 lg:hidden" onclick="closeSidebar()"></div>
 
-
 <!--SIDEBAR  -->
 <aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 transition-transform duration-300 ease-in-out shrink-0 lg:translate-x-0">
   <div class="flex items-center gap-2 px-5 py-5 border-b border-slate-100">
@@ -101,9 +100,12 @@
     </a>
   </div>
 </aside>
+<!-- Main Content -->
+ <div class="flex-1 flex flex-col lg:ml-60 min-h-screen">
+
 <!-- HEADER -->
   <header class="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-gray-100 flex items-center gap-4 px-4 lg:px-8 py-3.5 shrink-0">
-    <button class="lg:hidden p-1.5 rounded-lg hover:bg-green-50 text-gray-500">
+    <button onclick="openSidebar()" class="lg:hidden p-1.5 rounded-lg hover:bg-green-50 text-gray-500">
       <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
       </svg>
@@ -113,7 +115,9 @@
       <input type="text" placeholder="Search for freelancers or services..." class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition"/>
     </div>
   </header>
-  <main>
+
+  <!-- Page Body -->
+  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8 max-w-3xl w-full mx-auto">
      <h1 class="text-2xl font-extrabold text-gray-900 mb-7">Settings</h1>
 
     <!--Profile Card -->
@@ -179,11 +183,30 @@
             <option>Brazil</option>
           </select>
         </div>
+                <!-- Time Zone (full width) -->
+        <div class="sm:col-span-2">
+          <label class="field-label block">Time Zone</label>
+          <select class="field-input">
+            <option>(GMT-08:00) Pacific Time (US & Canada)</option>
+            <option>(GMT-07:00) Mountain Time (US & Canada)</option>
+            <option>(GMT-06:00) Central Time (US & Canada)</option>
+            <option>(GMT-05:00) Eastern Time (US & Canada)</option>
+            <option>(GMT+00:00) UTC</option>
+            <option>(GMT+01:00) London</option>
+            <option>(GMT+02:00) Berlin, Paris</option>
+            <option>(GMT+05:30) Mumbai, Kolkata</option>
+            <option>(GMT+06:00) Dhaka</option>
+            <option>(GMT+08:00) Singapore, Beijing</option>
+            <option>(GMT+09:00) Tokyo, Seoul</option>
+          </select>
+        </div>
                 <!-- Bio-->
         <div class="sm:col-span-2">
           <label class="field-label block">Bio / About</label>
           <textarea rows="4" class="field-input resize-none" placeholder="Tell clients about yourself...">Senior Product Designer with 8+ years of experience in creating architectural digital ecosystems. Specialized in design systems and tonal layering.</textarea>
         </div>
+      </div>
+    </div>
          <!--  Payment Methods Card -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-8">
         <div class="flex items-center justify-between mb-5">
@@ -307,9 +330,6 @@
             </div>
         </div>
     </div>
-</div>
-</div>
-</main>
 <script src="/scripts/settings.js"></script>
 </body>
 </html>
