@@ -141,7 +141,7 @@
 </button>
 </div>
 <p class="mt-10 text-base font-medium text-on-surface-variant">
-        Already have an account? 
+        Already have an account?
         <a class="text-primary-container font-bold hover:underline ml-1.5" href="login.html">Log In</a>
 </p>
 </main>
@@ -159,11 +159,11 @@
     function handleSignUp(event) {
         event.preventDefault();
         const role = localStorage.getItem('selectedRole');
-        
-        // For Google/Normal Login using vanilla JS without backend right now, 
+
+        // For Google/Normal Login using vanilla JS without backend right now,
         // you would typically use Firebase Authentication:
         // firebase.auth().createUserWithEmailAndPassword(email, password)...
-        
+
         if (role === 'freelancer') {
             window.location.href = 'freelancer frontend/dashboard.html';
         } else {

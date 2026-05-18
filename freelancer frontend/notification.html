@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Notifications</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="min-h-screen flex">
+  <div id="navbar-root"></div>
+
+  <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+
+    <main class="flex-1 px-4 sm:px-8 py-6 sm:py-8">
+      <section class="max-w-5xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div>
+            <p class="text-sm font-bold uppercase tracking-[0.2em] text-green-700">Activity Center</p>
+            <h1 class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mt-2">Notifications</h1>
+            <p class="text-[14px] text-slate-500 leading-relaxed mt-2">Track proposal activity, client replies, payments, and interview invites in one place.</p>
+          </div>
+          <button id="markAllRead" type="button" class="sb-btn sb-btn-outline">Mark all as read</button>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-6">
+          <section class="space-y-4">
+            <article class="sb-card p-5 sm:p-6 notification-item unread">
+              <div class="flex items-start gap-4">
+                <span class="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-green-700 shrink-0">
+                  <i data-lucide="eye" class="w-5 h-5"></i>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                    <div>
+                      <h2 class="font-jakarta text-lg font-extrabold text-slate-900">Proposal viewed</h2>
+                      <p class="text-sm text-slate-500 mt-1">TechFlow Inc. opened your proposal for “Senior UI Designer for Fintech SaaS Redesign”.</p>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-green-700">2 min ago</span>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="my-proposal.html" class="sb-btn sb-btn-primary">Open Proposal</a>
+                    <button type="button" class="sb-btn sb-btn-outline notification-read">Mark as read</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="sb-card p-5 sm:p-6 notification-item unread">
+              <div class="flex items-start gap-4">
+                <span class="w-11 h-11 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
+                  <i data-lucide="calendar-check-2" class="w-5 h-5"></i>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                    <div>
+                      <h2 class="font-jakarta text-lg font-extrabold text-slate-900">Interview invitation received</h2>
+                      <p class="text-sm text-slate-500 mt-1">Nexus Labs invited you to an interview for the HealthTech interaction design role.</p>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-green-700">18 min ago</span>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="../skillbridge-message.html" class="sb-btn sb-btn-primary">Reply Now</a>
+                    <button type="button" class="sb-btn sb-btn-outline notification-read">Mark as read</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="sb-card p-5 sm:p-6 notification-item">
+              <div class="flex items-start gap-4">
+                <span class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-700 shrink-0">
+                  <i data-lucide="wallet" class="w-5 h-5"></i>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                    <div>
+                      <h2 class="font-jakarta text-lg font-extrabold text-slate-900">Milestone payment received</h2>
+                      <p class="text-sm text-slate-500 mt-1">You received $600 for milestone one on the E-commerce App project.</p>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Yesterday</span>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="../payments.html" class="sb-btn sb-btn-outline">View Payment</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="sb-card p-5 sm:p-6 notification-item">
+              <div class="flex items-start gap-4">
+                <span class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 shrink-0">
+                  <i data-lucide="message-square-more" class="w-5 h-5"></i>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                    <div>
+                      <h2 class="font-jakarta text-lg font-extrabold text-slate-900">New client message</h2>
+                      <p class="text-sm text-slate-500 mt-1">Stellar SaaS sent follow-up questions about your pricing and delivery schedule.</p>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-400">2 days ago</span>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="../skillbridge-message.html" class="sb-btn sb-btn-outline">Open Messages</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <aside class="space-y-5">
+            <article class="sb-card p-6">
+              <h2 class="font-jakarta text-xl font-extrabold text-slate-900">Unread summary</h2>
+              <div class="mt-5 space-y-4 text-sm text-slate-600">
+                <div class="flex items-center justify-between"><span>Proposal activity</span><span class="font-bold text-slate-900">1</span></div>
+                <div class="flex items-center justify-between"><span>Interview invites</span><span class="font-bold text-slate-900">1</span></div>
+                <div class="flex items-center justify-between"><span>Payments</span><span class="font-bold text-slate-900">0</span></div>
+              </div>
+            </article>
+
+            <article class="rounded-2xl bg-[#edf5ee] p-6">
+              <h3 class="font-jakarta text-xl font-extrabold text-slate-900">Stay responsive</h3>
+              <p class="mt-4 text-sm leading-7 text-slate-600">Fast replies improve your chance of getting shortlisted. Try to answer interview requests within the same day.</p>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <div id="footer-root"></div>
+    </main>
+  </div>
+
+  <div id="toast" class="hidden fixed bottom-5 right-5 bg-slate-950 text-white text-sm font-bold px-5 py-3 rounded-xl shadow-xl">Saved</div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/notification.js"></script>
+</body>
+</html>

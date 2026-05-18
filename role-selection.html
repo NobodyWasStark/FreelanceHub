@@ -173,16 +173,16 @@
 
     function selectRole(role) {
         currentRole = role;
-        
+
         const resetStyles = (id) => {
             const card = document.getElementById(`card-${id}`);
             const check = document.getElementById(`check-${id}`);
             const icon = document.getElementById(`icon-${id}`);
-            
+
             card.classList.remove('active-ring', 'border-primary-container');
             card.classList.add('border-transparent');
             check.classList.add('hidden');
-            
+
             icon.classList.remove('bg-primary-container/10', 'text-primary-container');
             icon.classList.add('bg-surface-container', 'text-on-surface-variant');
         };
