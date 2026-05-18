@@ -9,15 +9,14 @@ function closeSidebar(){
 }
 
 // CHART DATA
+let currentMode = "6m";
 const chartData = {
-  "7m": {
+  "6m": {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     values: [320, 580, 490, 820, 1380, 1050]
   },
-  "yrs": {
+  "yr": {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     values: [320, 580, 490, 820, 1380, 1050, 1600, 1220, 980, 1450, 1800, 2100]
   }
 };
-
-let currentMode = "7m";
