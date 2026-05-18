@@ -8,3 +8,6 @@
       sidebar.classList.toggle('-translate-x-full');
       overlay.classList.toggle('hidden');
     });
+    document.getElementById('btn-profile-to-massage').addEventListener('click',function(){
+      window.location.replace("/skillbridge-message.html")
+    })

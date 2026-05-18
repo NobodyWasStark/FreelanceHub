@@ -1,4 +1,3 @@
-// DATA 
 const chats = [
   {
     id:1, name:"Emma Watson", project:"Re: Web Dev Portfolio",
@@ -70,14 +69,14 @@ const chats = [
 ];
 
 
-// STATE 
+// STATE
 let activeChatId = null;
 let profileOpen  = false;
 let dropdownOpen = false;
 const isMobile  = () => window.innerWidth < 640;
 const isDesktop = () => window.innerWidth >= 1024;
 
-//  CHAT LIST 
+//  CHAT LIST
 function renderChatList(filter = "") {
   const list = document.getElementById("chat-list");
   list.innerHTML = "";
@@ -151,7 +150,7 @@ function selectChat(id) {
   closeDropdown();
 }
 
-//  MESSAGES 
+//  MESSAGES
 function renderMessages(chat) {
   const container = document.getElementById("chat-messages");
   container.innerHTML = "";
@@ -177,7 +176,7 @@ function renderMessages(chat) {
   container.scrollTop = container.scrollHeight;
 }
 
-// SEND 
+// SEND
 function sendMessage() {
   if (!activeChatId) return;
   const input = document.getElementById("msg-input");
@@ -192,7 +191,7 @@ function sendMessage() {
   renderMessages(chat);
   renderChatList(document.getElementById("chat-search").value);
 }
-// PROFILE 
+// PROFILE
 function buildProfileHTML(chat) {
   const p = chat.profile;
   const starsHTML = Array.from({length:5},(_,i) =>
@@ -237,3 +236,122 @@ function buildProfileHTML(chat) {
       </div>
     </div>`;
 }
+
+function renderProfileContent() {
+  if (!activeChatId) return;
+  const chat = chats.find(c => c.id === activeChatId);
+  const html = buildProfileHTML(chat);
+  document.getElementById("profile-panel-body").innerHTML = html;
+  document.getElementById("profile-modal-body").innerHTML = html;
+}
+
+function openProfile() {
+  if (!activeChatId) return;
+  profileOpen = true;
+  renderProfileContent();
+  closeDropdown();
+  if (isDesktop()) {
+    const p = document.getElementById("profile-panel");
+    p.classList.remove("hidden","panel-closed");
+    p.classList.add("panel-open");
+  } else {
+    const m = document.getElementById("profile-modal");
+    m.classList.remove("modal-hidden");
+    m.classList.add("modal-visible");
+  }
+}
+
+function closeProfile() {
+  profileOpen = false;
+  // Desktop
+  const p = document.getElementById("profile-panel");
+  p.classList.remove("panel-open");
+  p.classList.add("panel-closed");
+  setTimeout(() => { if (!profileOpen) p.classList.add("hidden"); }, 300);
+  // Mobile
+  const m = document.getElementById("profile-modal");
+  m.classList.remove("modal-visible");
+  m.classList.add("modal-hidden");
+}
+
+// ─── DROPDOWN
+function toggleDropdown(e) {
+  e.stopPropagation();
+  dropdownOpen = !dropdownOpen;
+  const menu = document.getElementById("three-dot-menu");
+  menu.classList.toggle("dd-open",  dropdownOpen);
+  menu.classList.toggle("dd-closed", !dropdownOpen);
+}
+function closeDropdown() {
+  dropdownOpen = false;
+  const menu = document.getElementById("three-dot-menu");
+  menu.classList.remove("dd-open");
+  menu.classList.add("dd-closed");
+}
+function dropdownAction(action) {
+  closeDropdown();
+  if (action === "profile") { openProfile(); return; }
+  if (action === "unread" && activeChatId) {
+    chats.find(c => c.id === activeChatId).unread = 1;
+    renderChatList(document.getElementById("chat-search").value);
+    return;
+  }
+  if ((action === "archive" || action === "delete") && activeChatId) {
+    const idx = chats.findIndex(c => c.id === activeChatId);
+    if (idx !== -1) chats.splice(idx, 1);
+    activeChatId = null;
+    closeProfile();
+    renderChatList(document.getElementById("chat-search").value);
+    document.getElementById("chat-area").classList.add("hidden");
+    document.getElementById("chat-area").classList.remove("flex");
+    document.getElementById("empty-state").classList.remove("hidden");
+    if (isMobile()) document.getElementById("chat-list-panel").classList.remove("hidden");
+  }
+}
+
+// ─── MOBILE NAV
+function openSidebar() {
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("mobile-overlay").classList.add("show");
+}
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("mobile-overlay").classList.remove("show");
+}
+function showChatList() {
+  activeChatId = null;
+  document.getElementById("chat-list-panel").classList.remove("hidden");
+  document.getElementById("chat-area").classList.add("hidden");
+  document.getElementById("chat-area").classList.remove("flex");
+  document.getElementById("empty-state").classList.remove("hidden");
+  renderChatList();
+}
+
+// ─── CLOSE DROPDOWN OUTSIDE
+document.addEventListener("click", e => {
+  const menu = document.getElementById("three-dot-menu");
+  const btn  = document.getElementById("three-dot-btn");
+  if (dropdownOpen && !menu.contains(e.target) && !btn.contains(e.target)) closeDropdown();
+});
+
+// ─── RESIZE
+window.addEventListener("resize", () => {
+  if (!isMobile()) {
+    document.getElementById("chat-list-panel").classList.remove("hidden");
+    if (activeChatId) {
+      document.getElementById("chat-area").classList.remove("hidden");
+      document.getElementById("chat-area").classList.add("flex");
+      document.getElementById("empty-state").classList.add("hidden");
+    }
+  }
+});
+
+// ─── EVENTS
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("msg-input").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+document.getElementById("chat-search").addEventListener("input", e => renderChatList(e.target.value));
+
+// ─── INIT — show empty state, nothing selected ───────────────
+renderChatList();

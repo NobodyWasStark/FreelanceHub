@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Reports & Earnings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="bg-slate-50 min-h-screen flex">
+  <div id="navbar-root"></div>
+
+  <div class="report-shell flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+
+    <main class="report-main flex-1 px-4 sm:px-8 py-5 sm:py-7">
+      <section class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="font-jakarta text-[28px] sm:text-[34px] font-extrabold text-slate-900 leading-tight">Reports & Earnings</h1>
+          <p class="text-[14px] text-slate-500 mt-1">Track your performance and manage your financial growth.</p>
+        </div>
+        <div class="inline-flex w-full sm:w-fit rounded-xl bg-[#edf4ee] p-1">
+          <button type="button" class="report-range">7 Days</button>
+          <button type="button" class="report-range active">30 Days</button>
+          <button type="button" class="report-range">3 Months</button>
+          <button type="button" class="report-range">This Year</button>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        <article class="report-stat sb-card border-t-green p-5">
+          <div class="flex items-start justify-between">
+            <span class="report-stat-icon bg-green-50 text-green-700"><i data-lucide="banknote" class="w-4 h-4"></i></span>
+            <span class="text-[11px] font-extrabold text-green-700">+12%</span>
+          </div>
+          <p class="font-jakarta text-[30px] font-extrabold text-slate-900 mt-5">$4,820</p>
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Total Earned</p>
+        </article>
+        <article class="report-stat sb-card border-t-cyan p-5">
+          <div class="flex items-start justify-between">
+            <span class="report-stat-icon bg-cyan-50 text-cyan-600"><i data-lucide="calendar-days" class="w-4 h-4"></i></span>
+            <span class="text-[11px] font-extrabold text-cyan-600">+5%</span>
+          </div>
+          <p class="font-jakarta text-[30px] font-extrabold text-slate-900 mt-5">$1,240</p>
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">This Month</p>
+        </article>
+        <article class="report-stat sb-card border-t-amber p-5">
+          <div class="flex items-start justify-between">
+            <span class="report-stat-icon bg-amber-50 text-amber-500"><i data-lucide="wallet-cards" class="w-4 h-4"></i></span>
+            <span class="text-[11px] font-extrabold text-amber-500">Pending</span>
+          </div>
+          <p class="font-jakarta text-[30px] font-extrabold text-slate-900 mt-5">$320</p>
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Pending Clearance</p>
+        </article>
+        <article class="report-stat sb-card border-t-blue p-5">
+          <div class="flex items-start justify-between">
+            <span class="report-stat-icon bg-blue-50 text-blue-600"><i data-lucide="badge-check" class="w-4 h-4"></i></span>
+            <span class="text-[11px] font-extrabold text-blue-600">Active</span>
+          </div>
+          <p class="font-jakarta text-[30px] font-extrabold text-slate-900 mt-5">8</p>
+          <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Contracts Completed</p>
+        </article>
+      </section>
+
+      <section class="sb-card p-5 sm:p-7 mb-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-jakarta text-xl font-extrabold text-slate-900">Earnings Over Time</h2>
+          <div class="flex items-center gap-2 text-[12px] font-bold text-slate-500">
+            <span class="w-2.5 h-2.5 rounded-full bg-green-700"></span>
+            Revenue ($)
+          </div>
+        </div>
+        <div class="report-chart" aria-label="Earnings chart from January to June">
+          <svg viewBox="0 0 920 300" role="img" aria-hidden="true" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="revenueFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#22c55e" stop-opacity="0.28" />
+                <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <g class="chart-grid">
+              <line x1="0" y1="55" x2="920" y2="55" />
+              <line x1="0" y1="125" x2="920" y2="125" />
+              <line x1="0" y1="195" x2="920" y2="195" />
+              <line x1="0" y1="265" x2="920" y2="265" />
+            </g>
+            <path class="chart-area" fill="url(#revenueFill)" d="M0 230 C92 210 128 218 190 220 C275 224 325 178 370 140 C430 88 488 92 535 112 C602 140 648 126 700 80 C765 32 842 42 920 40 L920 300 L0 300 Z" />
+            <path class="chart-line" d="M0 230 C92 210 128 218 190 220 C275 224 325 178 370 140 C430 88 488 92 535 112 C602 140 648 126 700 80 C765 32 842 42 920 40" />
+            <g class="chart-dots">
+              <circle cx="190" cy="220" r="4" />
+              <circle cx="370" cy="140" r="4" />
+              <circle cx="535" cy="112" r="4" />
+              <circle cx="700" cy="80" r="4" />
+            </g>
+          </svg>
+          <div class="chart-months">
+            <span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 xl:grid-cols-[1.45fr_1fr] gap-6 mb-8">
+        <article class="sb-card p-5 sm:p-7">
+          <h2 class="font-jakarta text-xl font-extrabold text-slate-900 mb-6">Top Earning Projects</h2>
+          <div class="space-y-6">
+            <div class="report-project"><div><h3>Branding & Identity System</h3><p>Nexus Global Tech</p></div><div><strong>$1,450.00</strong><span>May 24, 2024</span></div></div>
+            <div class="report-project"><div><h3>E-commerce Mobile App</h3><p>Luxe Retailers</p></div><div><strong>$1,200.00</strong><span>May 12, 2024</span></div></div>
+            <div class="report-project"><div><h3>SaaS Dashboard Design</h3><p>Atom Systems</p></div><div><strong>$950.00</strong><span>Apr 28, 2024</span></div></div>
+            <div class="report-project"><div><h3>Marketing Landing Page</h3><p>Growth Lab</p></div><div><strong>$600.00</strong><span>Apr 15, 2024</span></div></div>
+          </div>
+        </article>
+
+        <article class="sb-card p-5 sm:p-7">
+          <h2 class="font-jakarta text-xl font-extrabold text-slate-900 mb-6">Skills Performance</h2>
+          <div class="space-y-6">
+            <div class="skill-row"><div><span>UI Design</span><strong>92%</strong></div><progress value="92" max="100"></progress></div>
+            <div class="skill-row"><div><span>Figma Architecture</span><strong>85%</strong></div><progress value="85" max="100"></progress></div>
+            <div class="skill-row"><div><span>React Frontend</span><strong>70%</strong></div><progress value="70" max="100"></progress></div>
+            <div class="skill-row"><div><span>Branding</span><strong>64%</strong></div><progress value="64" max="100"></progress></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="sb-card overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 sm:p-7">
+          <h2 class="font-jakarta text-xl font-extrabold text-slate-900">Transaction History</h2>
+          <button type="button" class="sb-btn sb-btn-outline min-h-[34px] px-4 text-[12px]">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Export CSV
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Project Title</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Jun 02, 2024</td><td>Atlas Media</td><td>Social Assets Design</td><td>$450.00</td><td><span class="report-pill neutral">Fixed Price</span></td><td><span class="report-pill paid">Paid</span></td></tr>
+              <tr><td>May 29, 2024</td><td>Urban Roots</td><td>Icon & Art Creation</td><td>$120.00</td><td><span class="report-pill neutral">Milestone</span></td><td><span class="report-pill pending">Pending</span></td></tr>
+              <tr><td>May 25, 2024</td><td>Nexus Global</td><td>Consultation area</td><td>$200.00</td><td><span class="report-pill neutral">Hourly</span></td><td><span class="report-pill paid">Paid</span></td></tr>
+              <tr><td>May 20, 2024</td><td>Luxe Retailers</td><td>App UI Cleanup</td><td>$850.00</td><td><span class="report-pill neutral">Fixed Price</span></td><td><span class="report-pill paid">Paid</span></td></tr>
+              <tr><td>May 15, 2024</td><td>Peak Fitness</td><td>Prototype V2</td><td>$200.00</td><td><span class="report-pill neutral">Milestone</span></td><td><span class="report-pill pending">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div id="footer-root"></div>
+    </main>
+  </div>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/reports.js"></script>
+</body>
+</html>

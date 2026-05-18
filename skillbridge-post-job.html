@@ -18,58 +18,23 @@
       }
     }
 
-    function toggleBudgetType(type) {
-      const fixed = document.getElementById('btn-fixed');
-      const hourly = document.getElementById('btn-hourly');
-      if (type === 'fixed') {
-        fixed.classList.add('bg-green-600','text-white','border-green-600');
-        fixed.classList.remove('bg-white','text-slate-600','border-slate-300');
-        hourly.classList.add('bg-white','text-slate-600','border-slate-300');
-        hourly.classList.remove('bg-green-600','text-white','border-green-600');
-      } else {
-        hourly.classList.add('bg-green-600','text-white','border-green-600');
-        hourly.classList.remove('bg-white','text-slate-600','border-slate-300');
-        fixed.classList.add('bg-white','text-slate-600','border-slate-300');
-        fixed.classList.remove('bg-green-600','text-white','border-green-600');
-      }
-    }
-
-    function selectLevel(level) {
-      ['entry','intermediate','expert'].forEach(l => {
-        const card = document.getElementById('level-' + l);
-        const dot  = document.getElementById('dot-' + l);
-        if (l === level) {
-          card.classList.add('border-green-600','bg-green-50');
-          card.classList.remove('border-slate-200','bg-white');
-          dot.classList.add('bg-green-600','border-green-600');
-          dot.classList.remove('border-slate-300');
-          dot.innerHTML = '<span class="w-2 h-2 rounded-full bg-white block"></span>';
-        } else {
-          card.classList.remove('border-green-600','bg-green-50');
-          card.classList.add('border-slate-200','bg-white');
-          dot.classList.remove('bg-green-600','border-green-600');
-          dot.classList.add('border-slate-300');
-          dot.innerHTML = '';
-        }
-      });
-    }
-
-    function removeSkill(el) {
-      el.parentElement.remove();
-    }
   </script>
 </head>
-<body class="font-sans bg-slate-50 min-h-screen flex">
-
-  <!-- ═══ SIDEBAR ═══ -->
-  <aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shrink-0">
+<body class="font-sans bg-slate-50 text-gray-800 min-h-screen">
+<div class="md:hidden fixed top-0 left-0 right-0 z-40 bg-green-100 border-b border-slate-200 flex items-center gap-3 px-4 py-3">
+  <button id="menuToggle" class="p-2 rounded-lg bg-green-50 text-green-700 border-none cursor-pointer shrink-0">
+  </button>
+      <img src="/icons/skillbridge.png" alt="" width="30" height="25">
+  <span class="font-jakarta text-[15px] font-extrabold text-green-900">SkillBridge</span>
+</div>
+<div id="sidebarOverlay" class="md:hidden fixed inset-0 bg-black/40 z-30 hidden" onclick="closeSidebar()"></div>
+  <!--  SIDEBAR  -->
+  <aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 -translate-x-full
+  md:translate-x-0 transition-transform duration-300 ease-in-out shrink-0">
     <!-- Brand -->
     <div class="flex items-center gap-2 px-5 py-5 border-b border-slate-100">
       <div class="w-7 h-7 rounded-lg  flex items-center justify-center">
          <img src="/icons/skillbridge.png" alt="" width="30" height="25">
-        <!-- <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 7L6 11L12 3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg> -->
       </div>
       <span class="font-jakarta text-[20px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
     </div>
@@ -104,7 +69,7 @@
         </div>
         <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
       </a>
-      <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+      <a href="./skillbridge-message.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
@@ -117,7 +82,7 @@
         <span class="text-sm font-medium">Reports</span>
       </a>
         <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</div>
-      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+      <a href="./skillbridge-settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span class="text-sm font-medium">Settings</span>
       </a>
@@ -135,28 +100,21 @@
     </div>
   </aside>
 
-  <!-- ═══ MAIN CONTENT ═══ -->
-  <div class="ml-[220px] flex-1 flex flex-col min-h-screen">
+  <!--MAIN CONTENT -->
+<div class="ml-0 md:ml-[220px] flex-1 flex flex-col min-h-screen pt-[52px] md:pt-0">
 
     <!-- Top Nav Bar -->
-    <header class="bg-white border-b border-slate-100 px-8 py-3 flex items-center justify-between sticky top-0 z-20">
-      <div class="flex items-center gap-2 bg-slate-100 rounded-lg px-4 py-2 w-72">
+    <header class="bg-white border-b border-slate-100 px-4 lg:px-8 py-3 flex items-center justify-between sticky top-0 z-20">
+    <div class="hidden sm:flex items-center gap-2 bg-slate-100 rounded-lg px-4 py-2 w-72">
         <svg width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input type="text" placeholder="Search for freelancers or services..." class="bg-transparent text-[13px] text-slate-500 placeholder-slate-400 outline-none w-full" />
       </div>
-      <div class="flex items-center gap-3">
-        <div class="text-right">
-          <div class="text-[13px] font-semibold text-slate-800">Sarah Jenkins</div>
-          <div class="text-[11px] text-slate-400">Project Manager</div>
-        </div>
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-sm font-bold">S</div>
-      </div>
     </header>
 
     <!-- Page Content -->
-    <main class="flex-1 px-10 py-8 max-w-3xl">
+<main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
 
       <!-- Page Heading -->
       <div class="mb-8">
@@ -172,10 +130,10 @@
         </p>
       </div>
 
-      <!-- ── SECTION 1: The Basics ── -->
-      <div class="flex gap-10 mb-10">
+      <!--  SECTION 1: The Basics -->
+    <div class="flex flex-col md:flex-row gap-4 md:gap-10 mb-10">
         <!-- Left label -->
-        <div class="w-44 shrink-0 pt-1">
+        <div class="w-full md:w-44 shrink-0 pt-1">
           <div class="font-jakarta text-[15px] font-bold text-slate-800 mb-1">The Basics</div>
           <p class="text-[12px] text-slate-400 leading-relaxed">Start with a strong title and relevant category to help the right talent find you.</p>
         </div>
@@ -265,7 +223,7 @@
       <!-- Divider -->
       <div class="border-t border-slate-100 mb-10"></div>
 
-      <!-- ── SECTION 3: Logistics ── -->
+      <!-- SECTION 3: Logistics -->
       <div class="flex gap-10 mb-12">
         <!-- Left label -->
         <div class="w-44 shrink-0 pt-1">
@@ -298,7 +256,7 @@
           </div>
 
           <!-- Budget Amount + Project Duration -->
-          <div class="flex gap-4">
+          <div class="flex flex-col sm:flex-row gap-4">
             <!-- Budget Amount -->
             <div class="flex-1">
               <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Budget Amount</label>
@@ -333,8 +291,7 @@
           <!-- Experience Level -->
           <div>
             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Experience Level Required</label>
-            <div class="flex gap-3">
-
+            <div class="flex flex-col sm:flex-row gap-3">
               <!-- Entry -->
               <div
                 id="level-entry"
@@ -382,8 +339,8 @@
         </div>
       </div>
 
-      <!-- ── FOOTER ACTIONS ── -->
-      <div class="flex items-center justify-between pt-5 border-t border-slate-100">
+      <!-- FOOTER ACTIONS -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-5 border-t border-slate-100">
         <div class="flex items-center gap-1.5 text-[12px] text-slate-400">
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
