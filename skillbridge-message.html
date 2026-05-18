@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SkillBridge – Messages</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
     * { font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: #f6faf6; }
@@ -45,64 +45,82 @@
 <body class="min-h-screen flex overflow-hidden">
 <!-- Sidebar mobile overlay -->
 <div id="mobile-overlay" class="fixed inset-0 bg-black/30 z-20 lg:hidden" onclick="closeSidebar()"></div>
-<!-- SIDEBAR -->
-<aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 transition-transform duration-300 ease-in-out shrink-0 lg:translate-x-0">
-  <div class="flex items-center gap-2 px-5 py-5 border-b border-slate-100">
-    <img src="/icons/skillbridge.png" alt="" width="30" height="25">
-    <span class="text-[20px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
-  </div>
-  <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto scrollbar-thin">
-    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-3 mb-2 mt-1">Main Menu</p>
-    <a href="./skillbridge-dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+<aside id="sidebar" class="w-60 min-h-screen bg-green-100 border-r border-slate-200 flex flex-col fixed top-0 left-0 z-30 h-screen -translate-x-full md:translate-x-0 transition-transform duration-300">
+
+    <!-- Brand -->
+    <div class="flex items-center gap-2 px-5 py-[18px] border-b border-slate-100">
+      <img src="/icons/skillbridge.png" alt="" width="30" height="25">
+      <span class="font-jakarta text-[20px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
+    </div>
+
+    <!-- Nav Links -->
+    <nav class="flex-1 px-2.5 py-3 flex flex-col gap-0.5 overflow-y-auto">
+          <!-- <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto"> -->
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-3 mb-2 mt-1">Main Menu</p>
+      <a href="./skillbridge-dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-      <span class="text-sm font-medium">Dashboard</span>
+      <span class="text-sm font-semibold">Dashboard</span>
     </a>
-    <a href="./skillbridge-post.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
-      <div class="flex items-center gap-3">
-        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-        <span class="text-sm font-medium">My Jobs</span>
-      </div>
-      <span class="bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">4</span>
-    </a>
-    <a href="./skillbridge-profile.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <span class="text-sm font-medium">My Profile</span>
-    </a>
-    <a href="./skillbridge-proposal.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
-      <div class="flex items-center gap-3">
-        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        <span class="text-sm font-medium">Proposals</span>
-      </div>
-      <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
-    </a>
-    <a href="./skillbridge-message.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-green-50 text-green-700 shadow-sm">
+      <a href="./skillbridge-post.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg  text-gray-500 shadow-sm hover:border-l-4 border-solid border-green-900 hover:text-green-700 hover:bg-green-50">
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span class="text-sm font-semibold">My Jobs</span>
+        </div>
+        <span class="ml-auto bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">4</span>
+      </a>
+        <a href="./skillbridge-profile.html" id="my-profile" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span class="text-sm font-semibold">My Profile</span>
+      </a>
+      <a href="./skillbridge-proposal.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="text-sm font-semibold">Proposals</span>
+        </div>
+        <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
+      </a>
+    <a href="./skillbridge-message.html" class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-green-50 text-green-700 shadow-sm hover:border-l-4 border-solid border-green-900">
       <div class="flex items-center gap-3">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="text-sm font-semibold">Messages</span>
       </div>
-      <span class="bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">3</span>
     </a>
-    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
-      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      <span class="text-sm font-medium">Reports</span>
-    </a>
-    <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</div>
-    <a href="./skillbridge-settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
-      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      <span class="text-sm font-medium">Settings</span>
-    </a>
-  </nav>
-  <div class="px-3 pb-4 border-t border-gray-100 pt-3 space-y-0.5">
-    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
-      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <span class="text-sm font-medium">Help Center</span>
-    </a>
-    <a href="./login.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors hover:border-l-4 border-solid border-red-400">
-      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      <span class="text-sm font-medium">Log Out</span>
-    </a>
-  </div>
-</aside>
+      <a href="./skillbridge-reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span class="text-sm font-semibold">Reports</span>
+      </a>
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</div>
+      <a href="./skillbridge-settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="text-sm font-semibold">Settings</span>
+      </a>
+    </nav>
+
+    <!-- Switch to Freelancing toggle -->
+    <div class="px-3 py-3 border-t border-slate-100">
+      <button id="switchToggle" onclick="toggleMode()"
+        class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[12px] font-semibold text-green-800 bg-green-200 hover:bg-green-300 transition-colors cursor-pointer border-none">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+        </svg>
+        <span id="switchLabel">SWITCH TO FREELANCING PRO</span>
+      </button>
+    </div>
+
+    <!-- Bottom: Help Center + Logout -->
+    <div class="px-3 pb-4 border-t border-gray-100 pt-3 space-y-0.5">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span class="text-sm font-semibold">Help Center</span>
+      </a>
+      <a href="./login.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span class="text-sm font-semibold">Log Out</span>
+      </a>
+    </div>
+  </aside>
 
 <!-- MAIN -->
 <div class="flex-1 flex flex-col lg:ml-60 min-h-screen overflow-hidden">
