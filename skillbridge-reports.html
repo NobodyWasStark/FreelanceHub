@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkillBridge – Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+ <style>
+  * { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .fade-in {
+  animation: fadeIn .4s ease both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+  
+}
+</style>
+</head>
+<body class="min-h-screen flex overflow-x-hidden">
+
+<!-- Mobile Overlay -->
+<div id="mobile-overlay" class="fixed inset-0 bg-black/30 z-20 lg:hidden" onclick="closeSidebar()"></div>
+
+<!--  SIDEBAR  -->
+  <aside id="sidebar" class="w-60 min-h-screen bg-green-100 border-r border-slate-200 flex flex-col fixed top-0 left-0 z-30 h-screen -translate-x-full md:translate-x-0 transition-transform duration-300">
+
+    <!-- Brand -->
+    <div class="flex items-center gap-2 px-5 py-[18px] border-b border-slate-100">
+      <img src="/icons/skillbridge.png" alt="" width="30" height="25">
+      <span class="font-jakarta text-[20px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
+    </div>
+
+    <!-- Nav Links -->
+    <nav class="flex-1 px-2.5 py-3 flex flex-col gap-0.5 overflow-y-auto">
+          <!-- <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto"> -->
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-3 mb-2 mt-1">Main Menu</p>
+            <!-- Dashboard (ACTIVE) -->
+      <a href="./skillbridge-dashboard.html" id="nav-dashboard"
+         class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-gray-500 shadow-sm hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+        <span class="text-sm font-semibold">Dashboard</span>
+      </a>
+      <a href="./skillbridge-post.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg  text-gray-500 shadow-sm hover:border-l-4 border-solid border-green-900 hover:text-green-700 hover:bg-green-50">
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span class="text-sm font-semibold">My Jobs</span>
+        </div>
+        <span class="ml-auto bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">4</span>
+      </a>
+        <a href="./skillbridge-profile.html" id="my-profile" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span class="text-sm font-semibold">My Profile</span>
+      </a>
+      <a href="./skillbridge-proposal.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="text-sm font-semibold">Proposals</span>
+        </div>
+        <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
+      </a>
+      <a href="./skillbridge-message.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+            <span class="text-sm font-semibold">Messages</span>
+        <span class="ml-auto bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">3</span>
+      </a>
+      <a href="./skillbridge-reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-green-700 bg-green-50 shadow-sm hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span class="text-sm font-semibold">Reports</span>
+      </a>
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</div>
+      <a href="./skillbridge-settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="text-sm font-semibold">Settings</span>
+      </a>
+    </nav>
+
+    <!-- Switch to Freelancing toggle -->
+    <div class="px-3 py-3 border-t border-slate-100">
+      <button id="switchToggle" onclick="toggleMode()"
+        class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[12px] font-semibold text-green-800 bg-green-200 hover:bg-green-300 transition-colors cursor-pointer border-none">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+        </svg>
+        <span id="switchLabel">SWITCH TO FREELANCING PRO</span>
+      </button>
+    </div>
+
+    <!-- Bottom: Help Center + Logout -->
+    <div class="px-3 pb-4 border-t border-gray-100 pt-3 space-y-0.5">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span class="text-sm font-semibold">Help Center</span>
+      </a>
+      <a href="./login.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors hover:border-l-4 border-solid border-green-900">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span class="text-sm font-semibold">Log Out</span>
+      </a>
+    </div>
+  </aside>
+
+<!--  MAIN CONTENT  -->
+<div class="flex-1 flex flex-col lg:ml-60 min-h-screen overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-gray-100 flex items-center gap-4 px-4 lg:px-8 py-3.5 shrink-0">
+    <button onclick="openSidebar()" class="lg:hidden p-1.5 rounded-lg hover:bg-green-50 text-gray-500">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Page Body -->
+  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8  fade-in">
+
+    <!-- Page Title -->
+    <div class="mb-7">
+      <h1 class="text-2xl font-extrabold text-gray-900">Reports</h1>
+      <p class="text-sm text-gray-500 mt-1">Detailed overview of your freelance activity and financial health.</p>
+    </div>
+
+    <!--  Summary Cards  -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+
+      <!-- Card 1: Total Spent -->
+      <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5" style="animation-delay:.05s">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <span class="text-[11px] font-bold bg-green-100 text-green-700 px-2.5 py-1 rounded-full flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6" transform="rotate(180 12 12)"/></svg>
+            +12.5%
+          </span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Total Spent This Month</p>
+        <p class="text-3xl font-extrabold text-gray-900">$1,400</p>
+      </div>
+
+      <!-- Card 2: Active Contracts -->
+      <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5" style="animation-delay:.1s">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span class="text-[11px] font-bold bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full">Stable</span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Active Contracts</p>
+        <p class="text-3xl font-extrabold text-gray-900">2</p>
+      </div>
+
+      <!-- Card 3: Pending Payments -->
+      <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5" style="animation-delay:.15s">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="text-[11px] font-bold bg-pink-100 text-pink-600 px-2.5 py-1 rounded-full flex items-center gap-1">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3"/></svg>
+            Due in 3d
+          </span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Pending Payments</p>
+        <p class="text-3xl font-extrabold text-gray-900">$320</p>
+      </div>
+    </div>
+
+<div class=" mx-auto space-y-5">
+
+  <!--  SPENDING OVER TIME CARD  -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+
+    <!-- Card Header -->
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 px-6 sm:px-8 pt-6 sm:pt-7 pb-2">
+      <div>
+        <h2 class="text-base font-bold text-gray-900 leading-snug">Spending Over Time</h2>
+        <p class="text-[13px] text-gray-400 mt-0.5">Your investment in talent across the first half of the year.</p>
+      </div>
+      <!-- Toggle buttons -->
+      <div class="flex items-center gap-1 bg-gray-100 rounded-xl p-1 self-start shrink-0">
+        <span class="text-[13px] font-bold px-4 py-1.5 rounded-lg bg-green-700 text-white shadow-sm select-none">6 Months</span>
+        <span class="text-[13px] font-bold px-4 py-1.5 rounded-lg text-gray-400 select-none hover:text-gray-600 cursor-pointer transition-colors">Yearly</span>
+      </div>
+    </div>
+
+    <!-- SVG Chart -->
+    <div class="relative w-full px-6 sm:px-8 pb-6 pt-3">
+
+      <!-- Y-axis labels absolutely positioned -->
+      <div class="absolute left-6 sm:left-8 top-3 bottom-6 flex flex-col justify-between pointer-events-none z-10" style="padding-bottom:28px;">
+        <span class="text-[11px] font-semibold text-gray-300 leading-none">$1,380</span>
+        <span class="text-[11px] font-semibold text-gray-300 leading-none">$690</span>
+        <span class="text-[11px] font-semibold text-gray-300 leading-none">$0</span>
+      </div>
+
+      <svg
+        viewBox="0 0 900 240"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style="display:block; min-height:180px; max-height:280px;"
+      >
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#16a34a" stop-opacity="0.14"/>
+            <stop offset="100%" stop-color="#16a34a" stop-opacity="0.01"/>
+          </linearGradient>
+          <clipPath id="chartClip">
+            <rect x="0" y="0" width="900" height="210"/>
+          </clipPath>
+        </defs>
+
+        <!-- Horizontal grid lines -->
+        <line x1="0"   y1="28"  x2="900" y2="28"  stroke="#f0f0f0" stroke-width="1.2"/>
+        <line x1="0"   y1="110" x2="900" y2="110" stroke="#f0f0f0" stroke-width="1.2"/>
+        <line x1="0"   y1="192" x2="900" y2="192" stroke="#e8e8e8" stroke-width="1.2"/>
+
+        <path
+          d="
+            M 60,154
+            C 105,154 145,128 222,123
+            C 299,118 330,138 384,134
+            C 438,130 490,102 546,95
+            C 602,88 652,40 708,28
+            C 754,18 824,55 870,67
+            L 870,192
+            L 60,192
+            Z
+          "
+          fill="url(#areaGrad)"
+          clip-path="url(#chartClip)"
+        />
+
+        <!-- Smooth green line -->
+        <path
+          d="
+            M 60,154
+            C 105,154 145,128 222,123
+            C 299,118 330,138 384,134
+            C 438,130 490,102 546,95
+            C 602,88 652,40 708,28
+            C 754,18 824,55 870,67
+          "
+          fill="none"
+          stroke="#16a34a"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Data point circles: outer white ring + inner green -->
+        <!-- Jan -->
+        <circle cx="60"  cy="154" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Feb -->
+        <circle cx="222" cy="123" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Mar -->
+        <circle cx="384" cy="134" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Apr -->
+        <circle cx="546" cy="95"  r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- May (peak) -->
+        <circle cx="708" cy="28"  r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Jun -->
+        <circle cx="870" cy="67"  r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+
+        <!-- X-axis month labels -->
+        <text x="60"  y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Jan</text>
+        <text x="222" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Feb</text>
+        <text x="384" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Mar</text>
+        <text x="546" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Apr</text>
+        <text x="708" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">May</text>
+        <text x="870" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Jun</text>
+      </svg>
+    </div>
+  </div>
+
+
+  <!-- TRANSACTION HISTORY CARD -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 sm:px-8 py-6 sm:py-7">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-base font-bold text-gray-900">Transaction History</h2>
+      <button class="flex items-center gap-2 text-[13px] font-semibold text-gray-600 border border-gray-200 hover:border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-xl transition-colors">
+        <!-- Download icon -->
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download CSV
+      </button>
+    </div>
+
+    <!-- Scrollable table -->
+    <div class="table-scroll overflow-x-auto -mx-6 sm:-mx-8 px-6 sm:px-8">
+      <table class="w-full min-w-[640px]">
+
+        <!-- Column headers -->
+        <thead>
+          <tr class="border-b border-gray-100">
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Date</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Freelancer Name</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Job Title</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Amount</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Payment Type</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 whitespace-nowrap">Status</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-50">
+
+          <!-- Row 1 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">Jun 12, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/women/29.jpg" alt="Elena Vance" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Elena Vance</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Visual Identity Overhaul</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$850.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700">Paid</span>
+            </td>
+          </tr>
+
+          <!-- Row 2 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">Jun 08, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/men/47.jpg" alt="Marcus Thorne" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Marcus Thorne</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">API Architecture</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$320.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Hourly (8 hrs)</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700">Pending</span>
+            </td>
+          </tr>
+
+          <!-- Row 3 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">Jun 02, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/women/55.jpg" alt="Sarah Jenks" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Sarah Jenks</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Editorial Copywriting</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$450.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700">Paid</span>
+            </td>
+          </tr>
+
+          <!-- Row 4 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">May 28, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="David Chen" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">David Chen</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Security Audit</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$1200.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700">Paid</span>
+            </td>
+          </tr>
+
+          <!-- Row 5 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">May 20, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Lia Rossi" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Lia Rossi</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Asset Illustration</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$150.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">Refunded</span>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  </main>
+</div>
+<script src="/scripts/report.js"></script>
+</body>
+
+</html>
