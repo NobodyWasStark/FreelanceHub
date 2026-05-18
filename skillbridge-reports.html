@@ -6,35 +6,23 @@
   <title>SkillBridge – Reports</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <style>
-    * { font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: #f6faf6; }
-    .scrollbar-thin::-webkit-scrollbar { width: 4px; }
-    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 99px; }
-    #mobile-overlay { display: none; }
-    @media (max-width: 1023px) {
-      #sidebar { transform: translateX(-100%); }
-      #sidebar.open { transform: translateX(0); }
-      #mobile-overlay.show { display: block; }
-    }
-    /* Smooth chart path */
-    #chart-line { transition: d 0.55s cubic-bezier(.4,0,.2,1); }
-    #chart-area { transition: d 0.55s cubic-bezier(.4,0,.2,1); }
-    /* Toast */
-    #toast { transition: opacity .3s, transform .3s; }
-    #toast.show { opacity:1; transform:translateY(0); pointer-events:all; }
-    #toast.hide { opacity:0; transform:translateY(14px); pointer-events:none; }
-    /* Table hover */
-    tbody tr { transition: background .12s; }
-    tbody tr:hover { background: #f0fdf4; }
-    /* Card fade-in */
-    .fade-in { animation: fadeIn .4s ease both; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-    /* Chart dot pulse */
-    @keyframes pulse-dot { 0%,100% { r:4; opacity:1; } 50% { r:6; opacity:.7; } }
-    .chart-dot-pulse { animation: pulse-dot 2s ease-in-out infinite; }
-  </style>
+ <style>
+  * { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .fade-in {
+  animation: fadeIn .4s ease both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>
 </head>
 <body class="min-h-screen flex overflow-x-hidden">
 
@@ -138,10 +126,10 @@
   </header>
 
   <!-- Page Body -->
-  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8  fade-in">
 
     <!-- Page Title -->
-    <div class="mb-7 fade-in">
+    <div class="mb-7">
       <h1 class="text-2xl font-extrabold text-gray-900">Reports</h1>
       <p class="text-sm text-gray-500 mt-1">Detailed overview of your freelance activity and financial health.</p>
     </div>
@@ -269,14 +257,7 @@
         </table>
       </div>
     </div>
-
   </main>
-</div>
-
-<!-- Toast -->
-<div id="toast" class="hide fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-gray-900 text-white text-sm font-medium px-5 py-3.5 rounded-2xl shadow-2xl">
-  <svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-  <span id="toast-text">CSV downloaded!</span>
 </div>
 </body>
 </html>

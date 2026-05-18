@@ -19,6 +19,20 @@
   </script>
   <style>
       * { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .fade-in {
+  animation: fadeIn .4s ease both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
   </style>
   
 </head>
@@ -119,7 +133,7 @@
 
 
   <!-- MAIN CONTENT -->
-  <main class="ml-0 md:ml-[220px] flex-1 min-h-screen pt-[52px] md:pt-0">
+  <main class="ml-0 md:ml-[220px] flex-1 min-h-screen pt-[52px] md:pt-0 fade-in">
 
     <!-- Profile Banner -->
     <div class="bg-gradient-to-r from-green-950 via-green-800 to-green-600 px-4 sm:px-8 pt-5 sm:pt-7 pb-0 flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-5 relative">
