@@ -272,6 +272,13 @@ function openProfileModal(id) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 }
+    function closeProfileModal(e) {
+      if (e && e.target !== document.getElementById('profileModal')) return;
+      const modal = document.getElementById('profileModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
 //Sidebar toggle
 
     function closeSidebar() {
@@ -286,7 +293,7 @@ function openProfileModal(id) {
 
 renderProposals('ux');
 
-/*  Message model  */
+/*  Message modal  */
 function openMessageModal(id) {
     const p = findProposal(id);
     if (!p) return;
