@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SkillBridge | Hire Top Freelancers</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#edf2ed",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f0f5f0",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#3d4b35",
+                    "background": "#f6fbf6",
+                    "secondary": "#54634b",
+                    "outline": "#6e7b67",
+                    "tertiary-fixed": "#ffd9e3",
+                    "outline-variant": "#bdcbb3",
+                    "secondary-fixed-dim": "#bbccaf",
+                    "primary": "#0a6e00",
+                    "on-error": "#ffffff",
+                    "on-background": "#171d1a",
+                    "tertiary": "#b80368",
+                    "secondary-fixed": "#d7e8ca",
+                    "inverse-primary": "#5ce145",
+                    "on-primary-fixed-variant": "#065300",
+                    "tertiary-container": "#fc4b9c",
+                    "surface-bright": "#f6fbf6",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb0cb",
+                    "surface-tint": "#0a6e00",
+                    "on-primary-fixed": "#012200",
+                    "surface-dim": "#d6dbd7",
+                    "surface-container-high": "#e4e9e5",
+                    "surface-container": "#eaefea",
+                    "primary-fixed-dim": "#5ce145",
+                    "on-tertiary-fixed-variant": "#8d004f",
+                    "surface-container-highest": "#dfe4df",
+                    "primary-container": "#14a800",
+                    "on-tertiary-fixed": "#3e001f",
+                    "on-tertiary-container": "#58002f",
+                    "on-primary-container": "#023200",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#dfe4df",
+                    "on-secondary-fixed": "#121f0d",
+                    "secondary-container": "#d7e8ca",
+                    "on-secondary-container": "#5a6951",
+                    "surface": "#f6fbf6",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#79ff5f",
+                    "on-surface-variant": "#3e4a38",
+                    "inverse-surface": "#2c322f",
+                    "on-surface": "#171d1a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0a6e00 0%, #14a800 100%);
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<nav class="fixed top-0 w-full z-50 bg-white/85 dark:bg-stone-900/85 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-6 py-3 w-full max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row items-center gap-8">
+<a class="text-xl font-bold tracking-tighter text-green-800 dark:text-green-400 font-headline" href="index.html">SkillBridge</a>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/15 w-80">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body" placeholder="Search for jobs or talent" type="text"/>
+</div>
+<div class="hidden lg:flex items-center gap-6 font-headline tracking-tight text-sm">
+<a class="text-stone-600 dark:text-stone-400 hover:text-green-700 transition-colors" href="#">Find Talent</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-green-700 transition-colors" href="#">Find Work</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-green-700 transition-colors" href="#">Why SkillBridge</a>
+</div>
+</div>
+<div class="flex items-center gap-4 font-headline text-sm font-semibold">
+<button onclick="window.location.href='login.html'" class="text-stone-600 dark:text-stone-400 hover:text-green-700 px-4 py-2 duration-200">Log In</button>
+<button onclick="window.location.href='role-selection.html'" class="bg-primary-container text-white px-6 py-2.5 rounded-full hover:bg-primary transition-colors duration-200 shadow-md">Sign Up</button>
+</div>
+</div>
+</nav>
+<main class="pt-20">
+<section class="max-w-7xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary-container rounded-full text-on-secondary-container text-xs font-semibold tracking-wider">
+<span class="material-symbols-outlined text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+                    TRUSTED BY 5M+ BUSINESSES
+                </div>
+<h1 class="text-6xl md:text-7xl font-extrabold font-headline text-on-surface tracking-tight leading-[1.1]">
+                    Hire Top Freelancers. <span class="text-primary">Get Work Done Faster.</span>
+</h1>
+<p class="text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                    Access a global network of elite professionals. From complex engineering to creative design, SkillBridge connects you with the talent you need to scale.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="hero-gradient text-white px-8 py-4 rounded-full font-bold label-md uppercase tracking-wider flex items-center gap-2 hover:shadow-lg transition-all group">
+                        Hire a Freelancer
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="border-2 border-primary text-primary px-8 py-4 rounded-full font-bold label-md uppercase tracking-wider hover:bg-primary/5 transition-colors">
+                        Find Work
+                    </button>
+</div>
+</div>
+<div class="relative">
+<div class="aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative z-10">
+<img class="w-full h-full object-cover" alt="Modern professional collaborative workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-W4M-8ZSkYs93KJwx5J5C-6BiijAv9yOUjvrAr0yN6xtpT4Q3kMpKVgX6H19TALz_UUqSyD6LDwek8i2ry_CXex-h87xn0nHWRiR7GnhgDNMcRbxKR-fE60ThDUuLJh9WGwqU3EX0hdta3-2-B1lSNUqHQQvj-cXKd9bv-L2IkgY8IIg1YxlcA4-Cim2GEJ4FF0x2kAnAp_NwTRvlp_iAvA6rHgyw_lYBL7dmNEN9UocWT_HlXy_QASckvJ6ElfYq_K0JMlXu65mf"/>
+</div>
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-tertiary-fixed opacity-30 rounded-full blur-3xl -z-10"></div>
+<div class="absolute -bottom-8 -left-8 w-80 h-80 bg-primary-fixed-dim opacity-20 rounded-full blur-3xl -z-10"></div>
+</div>
+</section>
+<section class="bg-surface-container-low py-12">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row items-center gap-8">
+<span class="font-headline font-bold text-on-surface-variant whitespace-nowrap">Popular Skills:</span>
+<div class="flex flex-wrap gap-3 overflow-x-auto no-scrollbar">
+<a class="px-6 py-2.5 bg-surface-container-lowest rounded-full border border-outline-variant/15 text-on-surface hover:text-primary hover:border-primary transition-all font-medium text-sm whitespace-nowrap" href="#">Web Dev</a>
+<a class="px-6 py-2.5 bg-surface-container-lowest rounded-full border border-outline-variant/15 text-on-surface hover:text-primary hover:border-primary transition-all font-medium text-sm whitespace-nowrap" href="#">UI/UX Design</a>
+<a class="px-6 py-2.5 bg-surface-container-lowest rounded-full border border-outline-variant/15 text-on-surface hover:text-primary hover:border-primary transition-all font-medium text-sm whitespace-nowrap" href="#">Writing</a>
+<a class="px-6 py-2.5 bg-surface-container-lowest rounded-full border border-outline-variant/15 text-on-surface hover:text-primary hover:border-primary transition-all font-medium text-sm whitespace-nowrap" href="#">Digital Marketing</a>
+<a class="px-6 py-2.5 bg-surface-container-lowest rounded-full border border-outline-variant/15 text-on-surface hover:text-primary hover:border-primary transition-all font-medium text-sm whitespace-nowrap" href="#">Data Science</a>
+<a class="px-6 py-2.5 bg-surface-container-lowest rounded-full border border-outline-variant/15 text-on-surface hover:text-primary hover:border-primary transition-all font-medium text-sm whitespace-nowrap" href="#">Video Editing</a>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-extrabold font-headline text-on-surface tracking-tight mb-4">How SkillBridge Works</h2>
+<div class="h-1.5 w-20 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="group">
+<div class="mb-8 relative inline-block">
+<div class="w-20 h-20 bg-primary-container/10 rounded-2xl flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-4xl" data-icon="edit_square">edit_square</span>
+</div>
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-surface-container-lowest rounded-full flex items-center justify-center font-bold text-primary shadow-sm border border-outline-variant/10">1</div>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Post a Job</h3>
+<p class="text-on-surface-variant leading-relaxed">It's free and easy to post a job. Simply fill in a title, description and budget and receive competitive bids within minutes.</p>
+</div>
+<div class="group">
+<div class="mb-8 relative inline-block">
+<div class="w-20 h-20 bg-primary-container/10 rounded-2xl flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-4xl" data-icon="groups">groups</span>
+</div>
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-surface-container-lowest rounded-full flex items-center justify-center font-bold text-primary shadow-sm border border-outline-variant/10">2</div>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Review Proposals</h3>
+<p class="text-on-surface-variant leading-relaxed">Review talent profiles, portfolios, and client feedback to find the perfect match. Chat in real-time to discuss project details.</p>
+</div>
+<div class="group">
+<div class="mb-8 relative inline-block">
+<div class="w-20 h-20 bg-primary-container/10 rounded-2xl flex items-center justify-center group-hover:bg-primary-container group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-4xl" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-surface-container-lowest rounded-full flex items-center justify-center font-bold text-primary shadow-sm border border-outline-variant/10">3</div>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Hire &amp; Pay</h3>
+<p class="text-on-surface-variant leading-relaxed">Choose your freelancer and get to work. Use our secure milestone system to pay only when you are 100% satisfied with the work.</p>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex justify-between items-end mb-12">
+<div class="max-w-2xl">
+<h2 class="text-4xl font-extrabold font-headline text-on-surface tracking-tight mb-4">Curated Projects</h2>
+<p class="text-on-surface-variant">Exceptional opportunities for top-tier talent. Our hand-picked selections for the week.</p>
+</div>
+<a class="text-primary font-bold flex items-center gap-2 group mb-2" href="#">
+                        View All Projects
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-1">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant opacity-60">Design</span>
+<h4 class="text-2xl font-bold font-headline">FinTech Mobile App Redesign</h4>
+</div>
+<span class="bg-tertiary-container/15 text-tertiary-container px-3 py-1 rounded-full text-xs font-bold">High Value</span>
+</div>
+<div class="mb-12">
+<p class="text-sm text-on-surface-variant leading-relaxed line-clamp-2">Looking for a Senior UI/UX designer to overhaul our core mobile application for a Series B banking startup.</p>
+</div>
+<div class="flex justify-between items-center pt-6 border-t border-outline-variant/15">
+<div>
+<p class="text-xl font-bold text-primary">$4,500 - $6,000</p>
+<p class="text-xs text-on-surface-variant">Fixed Price</p>
+</div>
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white" alt="Professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDJOuTmb3EMZzs9Df6wvnUv1Ym82GGCOhZOXxav68X1BZWnkqvTlXaWuo3dilG_FhiQFol0AmePYWp1xHoWFONJS5-KoFHWueOIeElvGmI-7CbzRB6XNfaoLPeJ7boqCCsb4WftoYyA6Jg1rW2l_c4yBUAWtIXUiYBaz4B9M5joA8tm5s7KtHq0DllqD4huWRDR1vEJeVoHbsupPSE5YT9e0TsHpY3Dw7p5EuJnCQOz0iNpQt-G5f_wcHD5hH3ExNNVh4HH8T7LyVU"/>
+<img class="w-8 h-8 rounded-full border-2 border-white" alt="Professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGvJVbqlCQEVbciTaXwEpBnuI5MOWlOJCIGrhNwoHTQPVS_Iitb4xjMLYq4JNHooywTVYfUOf0OmHuSn00fd5yJSEPnmxpLTrw4akXy_Rxh51ktxNA54MH_3HXmBQJ2OiJailKueKV2XSTzhsxwC6csYmb4xTErtiwRAojNJH5wW-j_hDlCRuLr0nsrN5VdtKQ964-Mr8ELLnDjbrWPxXWmQUYMZRuqCLNhty4jV4CcgJY6dGowpbs1kHZkaCWtsxaJy7R-3URafg8"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-1">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant opacity-60">Engineering</span>
+<h4 class="text-2xl font-bold font-headline">AI-Powered Content Engine</h4>
+</div>
+</div>
+<div class="mb-12">
+<p class="text-sm text-on-surface-variant leading-relaxed line-clamp-2">Build a scalable backend using Python and LangChain for automated marketing copy generation and SEO optimization.</p>
+</div>
+<div class="flex justify-between items-center pt-6 border-t border-outline-variant/15">
+<div>
+<p class="text-xl font-bold text-primary">$80 - $120/hr</p>
+<p class="text-xs text-on-surface-variant">Contract</p>
+</div>
+<div class="w-8 h-8 bg-surface-container-high rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-1">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant opacity-60">Marketing</span>
+<h4 class="text-2xl font-bold font-headline">Brand Identity &amp; Strategy</h4>
+</div>
+</div>
+<div class="mb-12">
+<p class="text-sm text-on-surface-variant leading-relaxed line-clamp-2">Complete rebranding for an international eco-friendly fashion label. Deliverables include logo, palette, and social guidelines.</p>
+</div>
+<div class="flex justify-between items-center pt-6 border-t border-outline-variant/15">
+<div>
+<p class="text-xl font-bold text-primary">$3,200</p>
+<p class="text-xs text-on-surface-variant">Fixed Price</p>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-stone-900 dark:bg-black w-full py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="text-lg font-bold text-white font-headline">SkillBridge</div>
+<p class="text-stone-400 text-sm leading-relaxed">
+                    The world's premier platform for connecting businesses with elite freelance talent. Built for quality, security, and scale.
+                </p>
+<div class="flex gap-4">
+<a class="text-stone-400 hover:text-green-500 transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-stone-400 hover:text-green-500 transition-colors" href="#"><span class="material-symbols-outlined">campaign</span></a>
+<a class="text-stone-400 hover:text-green-500 transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-headline">For Clients</h4>
+<ul class="space-y-4 text-stone-400 font-body text-sm">
+<li><a class="hover:text-green-400 transition-colors" href="#">How to Hire</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Talent Marketplace</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Project Catalog</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Enterprise Solutions</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-headline">For Talent</h4>
+<ul class="space-y-4 text-stone-400 font-body text-sm">
+<li><a class="hover:text-green-400 transition-colors" href="#">How to Find Work</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Direct Contracts</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">SkillBridge Academy</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Payments &amp; Protection</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-headline">Company</h4>
+<ul class="space-y-4 text-stone-400 font-body text-sm">
+<li><a class="hover:text-green-400 transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Success Stories</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-green-400 transition-colors" href="#">Contact Support</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-stone-400 text-xs font-body">© 2024 SkillBridge® Global Inc.</div>
+<div class="flex gap-8 text-xs font-body">
+<a class="text-stone-400 hover:text-green-400" href="#">Terms of Service</a>
+<a class="text-stone-400 hover:text-green-400" href="#">Privacy Policy</a>
+<a class="text-stone-400 hover:text-green-400" href="#">Cookie Policy</a>
+<a class="text-stone-400 hover:text-green-400" href="#">Accessibility</a>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge - Find Work</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/freelancer.css" />
+</head>
+<body class="min-h-screen flex">
+  <div id="navbar-root"></div>
+  <div class="flex-1 flex flex-col lg:ml-60 min-h-screen pt-[56px] lg:pt-0">
+    <div id="header-root"></div>
+    <main class="flex-1 px-4 sm:px-8 py-6 sm:py-8">
+      <div class="flex flex-wrap gap-3 mb-8">
+        <button type="button" class="category-btn sb-chip active" data-category="UI/UX Design">UI/UX Design</button>
+        <button type="button" class="category-btn sb-chip" data-category="Development">Development</button>
+        <button type="button" class="category-btn sb-chip" data-category="Marketing">Marketing</button>
+        <button type="button" class="category-btn sb-chip" data-category="Writing">Writing</button>
+        <button type="button" class="category-btn sb-chip" data-category="Project Management">Project Management</button>
+        <button type="button" class="category-btn sb-chip" data-category="Sales">Sales</button>
+      </div>
+      <section class="grid grid-cols-1 lg:grid-cols-[270px_1fr] gap-8">
+        <aside class="sb-card h-fit p-6">
+          <h2 class="font-jakarta font-extrabold mb-5">Filters</h2>
+          <form id="filterForm" class="space-y-7">
+            <div>
+              <p class="font-bold text-sm mb-3">Budget Type</p>
+              <label class="filter-row flex items-center gap-3 mb-3 text-sm text-slate-600">
+                <input type="checkbox" checked class="sr-only filter-checkbox" data-filter-group="budget" value="Fixed Price">
+                <span class="filter-box"></span>
+                Fixed Price
+              </label>
+              <label class="filter-row flex items-center gap-3 text-sm text-slate-600">
+                <input type="checkbox" class="sr-only filter-checkbox" data-filter-group="budget" value="Hourly Rate">
+                <span class="filter-box"></span>
+                Hourly Rate
+              </label>
+            </div>
+            <div>
+              <p class="font-bold text-sm mb-3">Experience Level</p>
+              <label class="filter-row flex items-center gap-3 mb-3 text-sm text-slate-600">
+                <input type="checkbox" class="sr-only filter-checkbox" data-filter-group="experience" value="Entry Level">
+                <span class="filter-box"></span>
+                Entry Level
+              </label>
+              <label class="filter-row flex items-center gap-3 mb-3 text-sm text-slate-600">
+                <input type="checkbox" checked class="sr-only filter-checkbox" data-filter-group="experience" value="Intermediate">
+                <span class="filter-box"></span>
+                Intermediate
+              </label>
+              <label class="filter-row flex items-center gap-3 text-sm text-slate-600">
+                <input type="checkbox" checked class="sr-only filter-checkbox" data-filter-group="experience" value="Expert Level">
+                <span class="filter-box"></span>
+                Expert Level
+              </label>
+            </div>
+            <div><p class="font-bold text-sm mb-3">Client Rating</p><p class="text-amber-400 font-bold">***** <span class="text-slate-500 text-sm ml-2">4.0+</span></p></div>
+            <button type="button" id="applyFilters" class="sb-btn sb-btn-primary w-full">Apply Filters</button>
+            <button type="button" id="resetFilters" class="w-full text-sm text-slate-500 font-bold">Reset</button>
+          </form>
+        </aside>
+        <div>
+          <div class="flex justify-between items-center mb-5"><p id="jobsCount" class="font-bold text-slate-700">0 jobs found</p><p class="text-sm text-slate-500">Sort by: <span class="font-bold text-slate-900">Most Relevant</span></p></div>
+          <div id="jobList" class="space-y-6"></div>
+        </div>
+      </section>
+      <div id="footer-root"></div>
+    </main>
+  </div>
+  <div id="toast" class="hidden fixed bottom-5 right-5 bg-slate-950 text-white text-sm font-bold px-5 py-3 rounded-xl shadow-xl">Saved</div>
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/find-work.js"></script>
+</body>
+</html>

@@ -69,14 +69,14 @@ const chats = [
 ];
 
 
-// STATE 
+// STATE
 let activeChatId = null;
 let profileOpen  = false;
 let dropdownOpen = false;
 const isMobile  = () => window.innerWidth < 640;
 const isDesktop = () => window.innerWidth >= 1024;
 
-//  CHAT LIST 
+//  CHAT LIST
 function renderChatList(filter = "") {
   const list = document.getElementById("chat-list");
   list.innerHTML = "";
@@ -150,7 +150,7 @@ function selectChat(id) {
   closeDropdown();
 }
 
-//  MESSAGES 
+//  MESSAGES
 function renderMessages(chat) {
   const container = document.getElementById("chat-messages");
   container.innerHTML = "";
@@ -176,7 +176,7 @@ function renderMessages(chat) {
   container.scrollTop = container.scrollHeight;
 }
 
-// SEND 
+// SEND
 function sendMessage() {
   if (!activeChatId) return;
   const input = document.getElementById("msg-input");
@@ -191,7 +191,7 @@ function sendMessage() {
   renderMessages(chat);
   renderChatList(document.getElementById("chat-search").value);
 }
-// PROFILE 
+// PROFILE
 function buildProfileHTML(chat) {
   const p = chat.profile;
   const starsHTML = Array.from({length:5},(_,i) =>
@@ -274,7 +274,7 @@ function closeProfile() {
   m.classList.add("modal-hidden");
 }
 
-// ─── DROPDOWN 
+// ─── DROPDOWN
 function toggleDropdown(e) {
   e.stopPropagation();
   dropdownOpen = !dropdownOpen;
@@ -309,7 +309,7 @@ function dropdownAction(action) {
   }
 }
 
-// ─── MOBILE NAV 
+// ─── MOBILE NAV
 function openSidebar() {
   document.getElementById("sidebar").classList.add("open");
   document.getElementById("mobile-overlay").classList.add("show");
@@ -327,14 +327,14 @@ function showChatList() {
   renderChatList();
 }
 
-// ─── CLOSE DROPDOWN OUTSIDE 
+// ─── CLOSE DROPDOWN OUTSIDE
 document.addEventListener("click", e => {
   const menu = document.getElementById("three-dot-menu");
   const btn  = document.getElementById("three-dot-btn");
   if (dropdownOpen && !menu.contains(e.target) && !btn.contains(e.target)) closeDropdown();
 });
 
-// ─── RESIZE 
+// ─── RESIZE
 window.addEventListener("resize", () => {
   if (!isMobile()) {
     document.getElementById("chat-list-panel").classList.remove("hidden");
@@ -346,7 +346,7 @@ window.addEventListener("resize", () => {
   }
 });
 
-// ─── EVENTS 
+// ─── EVENTS
 document.getElementById("send-btn").addEventListener("click", sendMessage);
 document.getElementById("msg-input").addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
