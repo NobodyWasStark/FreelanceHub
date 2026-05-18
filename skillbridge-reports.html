@@ -21,6 +21,7 @@
     opacity: 1;
     transform: none;
   }
+  
 }
 </style>
 </head>
@@ -180,83 +181,241 @@
       </div>
     </div>
 
-    <!--  Spending Chart  -->
-    <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-7 mb-6" style="animation-delay:.2s">
-      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-        <div>
-          <h2 class="font-bold text-gray-900 text-base">Spending Over Time</h2>
-          <p class="text-xs text-gray-400 mt-0.5">Your investment in talent across the first half of the year.</p>
-        </div>
-        <!-- Toggle -->
-        <div class="flex items-center bg-gray-100 rounded-xl p-1 self-start shrink-0">
-          <button onclick="" id="btn-6m" onclick="" class="text-xs font-bold px-3 py-1.5 rounded-lg transition-all bg-green-700 text-white shadow-sm">6 Months</button>
-          <button id="btn-yr" onclick="" class="text-xs font-bold px-3 py-1.5 rounded-lg transition-all text-gray-500 hover:text-gray-700">Yearly</button>
-        </div>
+<div class=" mx-auto space-y-5">
+
+  <!--  SPENDING OVER TIME CARD  -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+
+    <!-- Card Header -->
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 px-6 sm:px-8 pt-6 sm:pt-7 pb-2">
+      <div>
+        <h2 class="text-base font-bold text-gray-900 leading-snug">Spending Over Time</h2>
+        <p class="text-[13px] text-gray-400 mt-0.5">Your investment in talent across the first half of the year.</p>
+      </div>
+      <!-- Toggle buttons -->
+      <div class="flex items-center gap-1 bg-gray-100 rounded-xl p-1 self-start shrink-0">
+        <span class="text-[13px] font-bold px-4 py-1.5 rounded-lg bg-green-700 text-white shadow-sm select-none">6 Months</span>
+        <span class="text-[13px] font-bold px-4 py-1.5 rounded-lg text-gray-400 select-none hover:text-gray-600 cursor-pointer transition-colors">Yearly</span>
+      </div>
+    </div>
+
+    <!-- SVG Chart -->
+    <div class="relative w-full px-6 sm:px-8 pb-6 pt-3">
+
+      <!-- Y-axis labels absolutely positioned -->
+      <div class="absolute left-6 sm:left-8 top-3 bottom-6 flex flex-col justify-between pointer-events-none z-10" style="padding-bottom:28px;">
+        <span class="text-[11px] font-semibold text-gray-300 leading-none">$1,380</span>
+        <span class="text-[11px] font-semibold text-gray-300 leading-none">$690</span>
+        <span class="text-[11px] font-semibold text-gray-300 leading-none">$0</span>
       </div>
 
-      <!-- SVG Chart -->
-      <div class="relative w-full overflow-hidden" style="height:220px;">
-        <svg id="spending-chart" width="100%" height="100%" viewBox="0 0 700 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#16a34a" stop-opacity="0.18"/>
-              <stop offset="100%" stop-color="#16a34a" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <!-- Horizontal grid lines -->
-          <line x1="0" y1="20"  x2="700" y2="20"  stroke="#f0f0f0" stroke-width="1"/>
-          <line x1="0" y1="60"  x2="700" y2="60"  stroke="#f0f0f0" stroke-width="1"/>
-          <line x1="0" y1="100" x2="700" y2="100" stroke="#f0f0f0" stroke-width="1"/>
-          <line x1="0" y1="140" x2="700" y2="140" stroke="#f0f0f0" stroke-width="1"/>
-          <line x1="0" y1="175" x2="700" y2="175" stroke="#e5e7eb" stroke-width="1"/>
-          <!-- Area fill -->
-          <path id="chart-area" fill="url(#chart-grad)"/>
-          <!-- Line -->
-          <path id="chart-line" fill="none" stroke="#16a34a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Dots -->
-          <g id="chart-dots"></g>
+      <svg
+        viewBox="0 0 900 240"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style="display:block; min-height:180px; max-height:280px;"
+      >
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#16a34a" stop-opacity="0.14"/>
+            <stop offset="100%" stop-color="#16a34a" stop-opacity="0.01"/>
+          </linearGradient>
+          <clipPath id="chartClip">
+            <rect x="0" y="0" width="900" height="210"/>
+          </clipPath>
+        </defs>
+
+        <!-- Horizontal grid lines -->
+        <line x1="0"   y1="28"  x2="900" y2="28"  stroke="#f0f0f0" stroke-width="1.2"/>
+        <line x1="0"   y1="110" x2="900" y2="110" stroke="#f0f0f0" stroke-width="1.2"/>
+        <line x1="0"   y1="192" x2="900" y2="192" stroke="#e8e8e8" stroke-width="1.2"/>
+
+        <path
+          d="
+            M 60,154
+            C 105,154 145,128 222,123
+            C 299,118 330,138 384,134
+            C 438,130 490,102 546,95
+            C 602,88 652,40 708,28
+            C 754,18 824,55 870,67
+            L 870,192
+            L 60,192
+            Z
+          "
+          fill="url(#areaGrad)"
+          clip-path="url(#chartClip)"
+        />
+
+        <!-- Smooth green line -->
+        <path
+          d="
+            M 60,154
+            C 105,154 145,128 222,123
+            C 299,118 330,138 384,134
+            C 438,130 490,102 546,95
+            C 602,88 652,40 708,28
+            C 754,18 824,55 870,67
+          "
+          fill="none"
+          stroke="#16a34a"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Data point circles: outer white ring + inner green -->
+        <!-- Jan -->
+        <circle cx="60"  cy="154" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Feb -->
+        <circle cx="222" cy="123" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Mar -->
+        <circle cx="384" cy="134" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Apr -->
+        <circle cx="546" cy="95"  r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- May (peak) -->
+        <circle cx="708" cy="28"  r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Jun -->
+        <circle cx="870" cy="67"  r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>
+
+        <!-- X-axis month labels -->
+        <text x="60"  y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Jan</text>
+        <text x="222" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Feb</text>
+        <text x="384" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Mar</text>
+        <text x="546" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Apr</text>
+        <text x="708" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">May</text>
+        <text x="870" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">Jun</text>
+      </svg>
+    </div>
+  </div>
+
+
+  <!-- TRANSACTION HISTORY CARD -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 sm:px-8 py-6 sm:py-7">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-base font-bold text-gray-900">Transaction History</h2>
+      <button class="flex items-center gap-2 text-[13px] font-semibold text-gray-600 border border-gray-200 hover:border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-xl transition-colors">
+        <!-- Download icon -->
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        <!-- X-axis labels -->
-        <div id="chart-labels" class="absolute bottom-0 left-0 right-0 flex justify-between px-2 pointer-events-none">
-        </div>
-        <!-- Y-axis labels -->
-        <div class="absolute top-0 left-0 bottom-0 flex flex-col justify-between pointer-events-none pb-5 pt-1">
-          <span id="y-max" class="text-[10px] text-gray-300 font-medium leading-none"></span>
-          <span id="y-mid" class="text-[10px] text-gray-300 font-medium leading-none"></span>
-          <span class="text-[10px] text-gray-300 font-medium leading-none">$0</span>
-        </div>
-        <!-- Tooltip -->
-        <div id="chart-tooltip" class="absolute hidden bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg pointer-events-none shadow-lg whitespace-nowrap" style="transform:translate(-50%,-130%)"></div>
-      </div>
+        Download CSV
+      </button>
     </div>
 
-    <!--  Transaction History  -->
-    <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-7" style="animation-delay:.25s">
-      <div class="flex items-center justify-between mb-5">
-        <h2 class="font-bold text-gray-900 text-base">Transaction History</h2>
-        <button onclick="" class="flex items-center gap-1.5 text-sm font-semibold text-gray-600 border border-gray-200 px-3.5 py-2 rounded-xl hover:bg-gray-50 hover:border-gray-300 active:scale-95 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download CSV
-        </button>
-      </div>
+    <!-- Scrollable table -->
+    <div class="table-scroll overflow-x-auto -mx-6 sm:-mx-8 px-6 sm:px-8">
+      <table class="w-full min-w-[640px]">
 
-      <!-- Scrollable table wrapper -->
-      <div class="overflow-x-auto -mx-5 sm:-mx-7 px-5 sm:px-7">
-        <table class="w-full min-w-[600px]">
-          <thead>
-            <tr class="border-b border-gray-100">
-              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Date</th>
-              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Freelancer Name</th>
-              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Job Title</th>
-              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Amount</th>
-              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Payment Type</th>
-              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3">Status</th>
-            </tr>
-          </thead>
-          <tbody id="tx-body" class="divide-y divide-gray-50"></tbody>
-        </table>
-      </div>
+        <!-- Column headers -->
+        <thead>
+          <tr class="border-b border-gray-100">
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Date</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Freelancer Name</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Job Title</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Amount</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-6 whitespace-nowrap">Payment Type</th>
+            <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 whitespace-nowrap">Status</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-50">
+
+          <!-- Row 1 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">Jun 12, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/women/29.jpg" alt="Elena Vance" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Elena Vance</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Visual Identity Overhaul</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$850.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700">Paid</span>
+            </td>
+          </tr>
+
+          <!-- Row 2 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">Jun 08, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/men/47.jpg" alt="Marcus Thorne" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Marcus Thorne</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">API Architecture</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$320.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Hourly (8 hrs)</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700">Pending</span>
+            </td>
+          </tr>
+
+          <!-- Row 3 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">Jun 02, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/women/55.jpg" alt="Sarah Jenks" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Sarah Jenks</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Editorial Copywriting</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$450.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700">Paid</span>
+            </td>
+          </tr>
+
+          <!-- Row 4 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">May 28, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="David Chen" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">David Chen</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Security Audit</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$1200.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700">Paid</span>
+            </td>
+          </tr>
+
+          <!-- Row 5 -->
+          <tr>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">May 20, 2024</td>
+            <td class="py-4 pr-6 whitespace-nowrap">
+              <div class="flex items-center gap-2.5">
+                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Lia Rossi" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-gray-100"/>
+                <span class="text-[13px] font-semibold text-gray-800">Lia Rossi</span>
+              </div>
+            </td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Asset Illustration</td>
+            <td class="py-4 pr-6 text-[13px] font-bold text-gray-900 whitespace-nowrap">$150.00</td>
+            <td class="py-4 pr-6 text-[13px] text-gray-500 whitespace-nowrap">Fixed Price</td>
+            <td class="py-4 whitespace-nowrap">
+              <span class="inline-flex items-center text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">Refunded</span>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
   </main>
 </div>
 <script src="/scripts/report.js"></script>
