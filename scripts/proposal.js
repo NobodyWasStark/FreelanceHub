@@ -144,3 +144,68 @@
         },
       ],
     };
+
+        /*  RENDER CARDS  */
+    function renderProposals(key) {
+      const list = document.getElementById('proposalList');
+      const items = proposals[key] || [];
+      if (items.length === 0) {
+        list.innerHTML = `<div class="text-center py-16 text-slate-400 text-[14px]">No proposals yet for this job.</div>`;
+        return;
+      }
+      list.innerHTML = items.map(p => `
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 sm:p-6 hover:border-green-200 transition-colors">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+
+            <!-- Avatar -->
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white font-bold text-[15px] shrink-0">
+              ${p.initials}
+            </div>
+
+            <!-- Middle info -->
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="font-jakarta text-[15px] font-bold text-slate-900">${p.name}</span>
+                ${p.badge ? `<span class="bg-pink-50 text-pink-600 border border-pink-100 text-[10px] font-bold px-2 py-0.5 rounded-full">${p.badge}</span>` : ''}
+              </div>
+              <div class="flex flex-wrap items-center gap-2.5 mb-2.5">
+                <!-- Stars -->
+                <span class="flex items-center gap-1 text-[12px] text-amber-500 font-semibold">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  ${p.rating}
+                </span>
+                <span class="text-[12px] text-slate-400">(${p.reviews} reviews)</span>
+                <span class="inline-flex items-center gap-1 bg-green-50 text-green-700 border border-green-100 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                  <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  ${p.success} Job Success
+                </span>
+              </div>
+              <p class="text-[13px] text-slate-500 leading-relaxed mb-4">${p.preview}</p>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openMessageModal(${p.id})"
+                  class="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white text-[12px] font-bold px-4 py-2 rounded-lg transition-colors border-none cursor-pointer">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  MESSAGE
+                </button>
+                <button onclick="openProfileModal(${p.id})"
+                  class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-800 text-[12px] font-semibold px-4 py-2 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors cursor-pointer">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  VIEW PROFILE
+                </button>
+              </div>
+            </div>
+
+            <!-- Bid -->
+            <div class="sm:text-right shrink-0">
+              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Proposed Bid</div>
+              <div class="font-jakarta text-[22px] font-extrabold text-slate-900">${p.bid}</div>
+            </div>
+
+          </div>
+        </div>
+      `).join('');
+    }
