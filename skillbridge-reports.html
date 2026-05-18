@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkillBridge – Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #f6faf6; }
+    .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 99px; }
+    #mobile-overlay { display: none; }
+    @media (max-width: 1023px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #mobile-overlay.show { display: block; }
+    }
+    /* Smooth chart path */
+    #chart-line { transition: d 0.55s cubic-bezier(.4,0,.2,1); }
+    #chart-area { transition: d 0.55s cubic-bezier(.4,0,.2,1); }
+    /* Toast */
+    #toast { transition: opacity .3s, transform .3s; }
+    #toast.show { opacity:1; transform:translateY(0); pointer-events:all; }
+    #toast.hide { opacity:0; transform:translateY(14px); pointer-events:none; }
+    /* Table hover */
+    tbody tr { transition: background .12s; }
+    tbody tr:hover { background: #f0fdf4; }
+    /* Card fade-in */
+    .fade-in { animation: fadeIn .4s ease both; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    /* Chart dot pulse */
+    @keyframes pulse-dot { 0%,100% { r:4; opacity:1; } 50% { r:6; opacity:.7; } }
+    .chart-dot-pulse { animation: pulse-dot 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="min-h-screen flex overflow-x-hidden">
+
+<!-- Mobile Overlay -->
+<div id="mobile-overlay" class="fixed inset-0 bg-black/30 z-20 lg:hidden" onclick="closeSidebar()"></div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside id="sidebar" class="fixed top-0 left-0 h-full w-60 bg-green-100 border-r border-gray-100 flex flex-col z-30 transition-transform duration-300 ease-in-out shrink-0 lg:translate-x-0">
+  <div class="flex items-center gap-2 px-5 py-5 border-b border-slate-100">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="11" fill="#15803d"/>
+      <path d="M6 11.5l3.5 3.5 6.5-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="text-[20px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
+  </div>
+  <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto scrollbar-thin">
+    <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-3 mb-2 mt-1">Main Menu</p>
+    <a href="./skillbridge-dashboard.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span class="text-sm font-medium">Dashboard</span>
+    </a>
+    <a href="./skillbridge-post.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+      <div class="flex items-center gap-3">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        <span class="text-sm font-medium">My Jobs</span>
+      </div>
+      <span class="bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">4</span>
+    </a>
+    <a href="./skillbridge-profile.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="text-sm font-medium">My Profile</span>
+    </a>
+    <a href="./skillbridge-proposals.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+      <div class="flex items-center gap-3">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="text-sm font-medium">Proposals</span>
+      </div>
+      <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
+    </a>
+    <a href="./skillbridge-messages.html" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+      <div class="flex items-center gap-3">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="text-sm font-medium">Messages</span>
+      </div>
+      <span class="bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">3</span>
+    </a>
+    <!-- ACTIVE: Reports -->
+    <a href="skillbridge-reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-green-50 text-green-700 shadow-sm border-l-4 border-solid border-green-800">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span class="text-sm font-semibold">Reports</span>
+    </a>
+    <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</div>
+    <a href="./skillbridge-settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span class="text-sm font-medium">Settings</span>
+    </a>
+  </nav>
+  <div class="px-3 pb-4 border-t border-gray-100 pt-3 space-y-0.5">
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="text-sm font-medium">Help Center</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors hover:border-l-4 border-solid border-red-400">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <span class="text-sm font-medium">Log Out</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="flex-1 flex flex-col lg:ml-60 min-h-screen overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-gray-100 flex items-center gap-4 px-4 lg:px-8 py-3.5 shrink-0">
+    <button onclick="openSidebar()" class="lg:hidden p-1.5 rounded-lg hover:bg-green-50 text-gray-500">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    <div class="relative flex-1 max-w-md">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search for freelancers or services..." class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition"/>
+    </div>
+    <!-- User -->
+    <div class="hidden sm:flex items-center gap-2.5 shrink-0">
+      <div class="text-right">
+        <p class="text-sm font-semibold text-gray-800 leading-tight">Sarah Jenkins</p>
+        <p class="text-[11px] text-gray-400">Project Manager</p>
+      </div>
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah" class="w-9 h-9 rounded-full object-cover ring-2 ring-green-100"/>
+    </div>
+  </header>
+
+  <!-- Page Body -->
+  <main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+
+    <!-- Page Title -->
+    <div class="mb-7 fade-in">
+      <h1 class="text-2xl font-extrabold text-gray-900">Reports</h1>
+      <p class="text-sm text-gray-500 mt-1">Detailed overview of your freelance activity and financial health.</p>
+    </div>
+
+    <!-- ── Summary Cards ── -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+
+      <!-- Card 1: Total Spent -->
+      <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5" style="animation-delay:.05s">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <span class="text-[11px] font-bold bg-green-100 text-green-700 px-2.5 py-1 rounded-full flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6" transform="rotate(180 12 12)"/></svg>
+            +12.5%
+          </span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Total Spent This Month</p>
+        <p class="text-3xl font-extrabold text-gray-900">$1,400</p>
+      </div>
+
+      <!-- Card 2: Active Contracts -->
+      <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5" style="animation-delay:.1s">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span class="text-[11px] font-bold bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full">Stable</span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Active Contracts</p>
+        <p class="text-3xl font-extrabold text-gray-900">2</p>
+      </div>
+
+      <!-- Card 3: Pending Payments -->
+      <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5" style="animation-delay:.15s">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="text-[11px] font-bold bg-pink-100 text-pink-600 px-2.5 py-1 rounded-full flex items-center gap-1">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3"/></svg>
+            Due in 3d
+          </span>
+        </div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Pending Payments</p>
+        <p class="text-3xl font-extrabold text-gray-900">$320</p>
+      </div>
+    </div>
+
+    <!-- ── Spending Chart ── -->
+    <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-7 mb-6" style="animation-delay:.2s">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+        <div>
+          <h2 class="font-bold text-gray-900 text-base">Spending Over Time</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Your investment in talent across the first half of the year.</p>
+        </div>
+        <!-- Toggle -->
+        <div class="flex items-center bg-gray-100 rounded-xl p-1 self-start shrink-0">
+          <button id="btn-6m" onclick="setChartMode('6m')" class="text-xs font-bold px-3 py-1.5 rounded-lg transition-all bg-green-700 text-white shadow-sm">6 Months</button>
+          <button id="btn-yr" onclick="setChartMode('yr')" class="text-xs font-bold px-3 py-1.5 rounded-lg transition-all text-gray-500 hover:text-gray-700">Yearly</button>
+        </div>
+      </div>
+
+      <!-- SVG Chart -->
+      <div class="relative w-full overflow-hidden" style="height:220px;">
+        <svg id="spending-chart" width="100%" height="100%" viewBox="0 0 700 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#16a34a" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#16a34a" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- Horizontal grid lines -->
+          <line x1="0" y1="20"  x2="700" y2="20"  stroke="#f0f0f0" stroke-width="1"/>
+          <line x1="0" y1="60"  x2="700" y2="60"  stroke="#f0f0f0" stroke-width="1"/>
+          <line x1="0" y1="100" x2="700" y2="100" stroke="#f0f0f0" stroke-width="1"/>
+          <line x1="0" y1="140" x2="700" y2="140" stroke="#f0f0f0" stroke-width="1"/>
+          <line x1="0" y1="175" x2="700" y2="175" stroke="#e5e7eb" stroke-width="1"/>
+          <!-- Area fill -->
+          <path id="chart-area" fill="url(#chart-grad)"/>
+          <!-- Line -->
+          <path id="chart-line" fill="none" stroke="#16a34a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Dots -->
+          <g id="chart-dots"></g>
+        </svg>
+        <!-- X-axis labels -->
+        <div id="chart-labels" class="absolute bottom-0 left-0 right-0 flex justify-between px-2 pointer-events-none">
+        </div>
+        <!-- Y-axis labels -->
+        <div class="absolute top-0 left-0 bottom-0 flex flex-col justify-between pointer-events-none pb-5 pt-1">
+          <span id="y-max" class="text-[10px] text-gray-300 font-medium leading-none"></span>
+          <span id="y-mid" class="text-[10px] text-gray-300 font-medium leading-none"></span>
+          <span class="text-[10px] text-gray-300 font-medium leading-none">$0</span>
+        </div>
+        <!-- Tooltip -->
+        <div id="chart-tooltip" class="absolute hidden bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg pointer-events-none shadow-lg whitespace-nowrap" style="transform:translate(-50%,-130%)"></div>
+      </div>
+    </div>
+
+    <!-- ── Transaction History ── -->
+    <div class="fade-in bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-7" style="animation-delay:.25s">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="font-bold text-gray-900 text-base">Transaction History</h2>
+        <button onclick="downloadCSV()" class="flex items-center gap-1.5 text-sm font-semibold text-gray-600 border border-gray-200 px-3.5 py-2 rounded-xl hover:bg-gray-50 hover:border-gray-300 active:scale-95 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download CSV
+        </button>
+      </div>
+
+      <!-- Scrollable table wrapper -->
+      <div class="overflow-x-auto -mx-5 sm:-mx-7 px-5 sm:px-7">
+        <table class="w-full min-w-[600px]">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Date</th>
+              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Freelancer Name</th>
+              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Job Title</th>
+              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Amount</th>
+              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3 pr-4">Payment Type</th>
+              <th class="text-left text-[11px] font-bold uppercase tracking-widest text-gray-400 pb-3">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tx-body" class="divide-y divide-gray-50"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hide fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-gray-900 text-white text-sm font-medium px-5 py-3.5 rounded-2xl shadow-2xl">
+  <svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toast-text">CSV downloaded!</span>
+</div>
+</body>
+</html>
