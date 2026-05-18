@@ -208,4 +208,81 @@
           </div>
         </div>
       `).join('');
+      
     }
+
+     /*  DROPDOWN  */
+    document.getElementById('jobSelect').addEventListener('change', function () {
+      renderProposals(this.value);
+    });
+
+    /*  PROFILE MODAL  */
+    function findProposal(id) {
+      return Object.values(proposals).flat().find(p => p.id === id);
+    }
+
+    function openProfileModal(id) {
+      const p = findProposal(id);
+      if (!p) return;
+      document.getElementById('profileModalContent').innerHTML = `
+        <div class="flex items-center gap-4 mb-5">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white font-bold text-[18px] shrink-0">${p.initials}</div>
+          <div>
+            <div class="font-jakarta text-[17px] font-extrabold text-slate-900 mb-0.5">${p.name}</div>
+            <div class="flex items-center gap-2 text-[12px] text-slate-400">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${p.location}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 mb-4 p-3 bg-slate-50 rounded-xl">
+          <div class="text-center flex-1">
+            <div class="font-jakarta text-[16px] font-extrabold text-slate-900">${p.rating}</div>
+            <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wide">Rating</div>
+          </div>
+          <div class="w-px h-8 bg-slate-200"></div>
+          <div class="text-center flex-1">
+            <div class="font-jakarta text-[16px] font-extrabold text-slate-900">${p.completed}</div>
+            <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wide">Jobs Done</div>
+          </div>
+          <div class="w-px h-8 bg-slate-200"></div>
+          <div class="text-center flex-1">
+            <div class="font-jakarta text-[16px] font-extrabold text-green-600">${p.hourly}</div>
+            <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wide">Rate</div>
+          </div>
+        </div>
+        <p class="text-[13px] text-slate-500 leading-relaxed mb-4">${p.bio}</p>
+        <div class="mb-5">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Skills</div>
+          <div class="flex flex-wrap gap-1.5">
+            ${p.skills.map(s => `<span class="bg-green-50 text-green-700 border border-green-100 text-[11px] font-semibold px-2.5 py-1 rounded-full">${s}</span>`).join('')}
+          </div>
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button onclick="closeProfileModal(); openMessageModal(${p.id})"
+            class="flex-1 bg-green-600 hover:bg-green-700 text-white text-[12px] font-bold py-2.5 rounded-xl border-none cursor-pointer transition-colors">
+            Message
+          </button>
+          <button onclick="closeProfileModal()"
+            class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 text-[12px] font-semibold py-2.5 rounded-xl border-none cursor-pointer transition-colors">
+            Close
+          </button>
+        </div>
+      `;
+      const modal = document.getElementById('profileModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+}
+//Sidebar toggle
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('sidebarOverlay').classList.add('hidden');
+    }
+
+    document.getElementById('menuToggle').addEventListener('click', function () {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      document.getElementById('sidebarOverlay').classList.toggle('hidden');
+    });
+
+renderProposals('ux');
