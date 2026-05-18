@@ -7,3 +7,4 @@ function closeSidebar(){
   document.getElementById("sidebar").classList.remove("open"); 
   document.getElementById("mobile-overlay").classList.remove("show"); 
 }
+
