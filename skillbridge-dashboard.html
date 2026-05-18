@@ -424,11 +424,8 @@
     </main>
   </div><!-- end main wrapper -->
 
-  <!-- ═══════════════════════════════════════════════
-       JAVASCRIPT
-  ════════════════════════════════════════════════ -->
-  <script>
-    // ── Mobile sidebar toggle ──────────────────────
+    <script>
+    // ── Mobile sidebar toggle 
     function closeSidebar() {
       document.getElementById('sidebar').classList.add('-translate-x-full');
       document.getElementById('sidebarOverlay').classList.add('hidden');
@@ -438,23 +435,6 @@
       document.getElementById('sidebar').classList.toggle('-translate-x-full');
       document.getElementById('sidebarOverlay').classList.toggle('hidden');
     });
-
-    // ── Switch to Freelancing toggle ───────────────
-    let isFreelancing = false;
-    function toggleMode() {
-      isFreelancing = !isFreelancing;
-      const btn = document.getElementById('switchToggle');
-      const label = document.getElementById('switchLabel');
-      if (isFreelancing) {
-        label.textContent = 'SWITCH TO HIRING';
-        btn.classList.remove('bg-green-200', 'hover:bg-green-300', 'text-green-800');
-        btn.classList.add('bg-green-600', 'hover:bg-green-700', 'text-white');
-      } else {
-        label.textContent = 'SWITCH TO FREELANCING';
-        btn.classList.remove('bg-green-600', 'hover:bg-green-700', 'text-white');
-        btn.classList.add('bg-green-200', 'hover:bg-green-300', 'text-green-800');
-      }
-    }
   </script>
 
 </body>
