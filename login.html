@@ -153,16 +153,37 @@
 <p class="font-['Inter'] text-sm text-[#404944] opacity-80">© 2024 SkillBridge Global. All rights reserved.</p>
 </div>
 </footer>
+<script src="/scripts/api.js"></script>
 <script>
-    function handleLogin(event) {
-        event.preventDefault();
-        const role = localStorage.getItem("selectedRole") || "client";
-        if (role === "freelancer") {
-            window.location.href = "freelancer frontend/dashboard.html";
-        } else {
-            window.location.href = "skillbridge-dashboard.html";
-        }
+  // Redirect if already logged in
+  requireGuest();
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    const btn = event.submitter || document.querySelector('button[type="submit"]');
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      showToast('Please enter your email and password.', 'error');
+      return;
     }
+
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Logging in...';
+
+    try {
+      const { user, token } = await Auth.login({ email, password });
+      saveSession(user, token);
+      showToast('Welcome back, ' + user.name + '!');
+      setTimeout(() => redirectToDashboard(user.role), 800);
+    } catch (err) {
+      showToast(err.message || 'Login failed. Check your credentials.', 'error');
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
 </script>
 </body>
 </html>

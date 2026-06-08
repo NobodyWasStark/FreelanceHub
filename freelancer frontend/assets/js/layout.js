@@ -1,3 +1,10 @@
+// Ensure api.js is loaded for logout functionality
+if (!document.querySelector('script[src*="api.js"]')) {
+  const script = document.createElement('script');
+  script.src = '../scripts/api.js';
+  document.head.appendChild(script);
+}
+
 async function loadComponent(targetId, path) {
   const target = document.getElementById(targetId);
   if (!target) return;

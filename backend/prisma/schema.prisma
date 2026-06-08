@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   // CLIENT | FREELANCER
+  bio       String?
+  skills    String[]
+  avatarUrl String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  jobsPosted       Job[]      @relation("ClientJobs")
+  proposals        Proposal[] @relation("FreelancerProposals")
+  messagesSent     Message[]  @relation("SentMessages")
+  messagesReceived Message[]  @relation("ReceivedMessages")
+  reviewsGiven     Review[]   @relation("ReviewsGiven")
+  reviewsReceived  Review[]   @relation("ReviewsReceived")
+}
+
+model Job {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  skills      String[]
+  budget      Float
+  status      String   @default("OPEN") // OPEN | IN_PROGRESS | COMPLETED | CANCELLED
+  clientId    String
+  client      User     @relation("ClientJobs", fields: [clientId], references: [id])
+  createdAt   DateTime @default(now())
+  
+  proposals   Proposal[]
+}
+
+model Proposal {
+  id           String   @id @default(uuid())
+  coverLetter  String
+  amount       Float
+  status       String   @default("PENDING") // PENDING | ACCEPTED | REJECTED
+  jobId        String
+  job          Job      @relation(fields: [jobId], references: [id])
+  freelancerId String
+  freelancer   User     @relation("FreelancerProposals", fields: [freelancerId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  content    String
+  senderId   String
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId String
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int      // 1-5
+  comment    String
+  reviewerId String
+  reviewer   User     @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  revieweeId String
+  reviewee   User     @relation("ReviewsReceived", fields: [revieweeId], references: [id])
+  createdAt  DateTime @default(now())
+}

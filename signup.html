@@ -155,21 +155,44 @@
 <p class="font-['Inter'] text-sm text-[#404944] opacity-80">© 2024 SkillBridge Global. All rights reserved.</p>
 </div>
 </footer>
+<script src="/scripts/api.js"></script>
 <script>
-    function handleSignUp(event) {
-        event.preventDefault();
-        const role = localStorage.getItem('selectedRole');
+  requireGuest();
 
-        // For Google/Normal Login using vanilla JS without backend right now,
-        // you would typically use Firebase Authentication:
-        // firebase.auth().createUserWithEmailAndPassword(email, password)...
+  async function handleSignUp(event) {
+    event.preventDefault();
+    const btn      = event.submitter || document.querySelector('button[type="submit"]');
+    const name     = document.getElementById('name').value.trim();
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const role     = (localStorage.getItem('selectedRole') || 'CLIENT').toUpperCase();
 
-        if (role === 'freelancer') {
-            window.location.href = 'freelancer frontend/dashboard.html';
-        } else {
-            window.location.href = 'skillbridge-dashboard.html';
-        }
+    if (!name || !email || !password) {
+      showToast('Please fill in all fields.', 'error');
+      return;
     }
+    if (password.length < 6) {
+      showToast('Password must be at least 6 characters.', 'error');
+      return;
+    }
+
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Creating account...';
+
+    try {
+      await Auth.register({ name, email, password, role });
+      // Auto-login after registration
+      const { user, token } = await Auth.login({ email, password });
+      saveSession(user, token);
+      showToast('Account created! Welcome to SkillBridge.');
+      setTimeout(() => redirectToDashboard(user.role), 900);
+    } catch (err) {
+      showToast(err.message || 'Registration failed. Try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
 </script>
 </body>
 </html>
