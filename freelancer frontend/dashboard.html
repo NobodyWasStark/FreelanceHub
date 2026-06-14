@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,28 +36,9 @@
             <h2 class="font-jakarta text-[20px] font-extrabold text-slate-900">Recommended for you</h2>
             <a href="find-work.html" class="text-[12px] font-semibold text-green-700 no-underline">View all recommendations</a>
           </div>
-          <article class="sb-card p-6">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-              <div>
-                <h3 class="font-jakarta text-[18px] font-extrabold text-slate-900">Senior UI/UX Designer for Fintech SaaS Redesign</h3>
-                <p class="mt-2 text-sm text-slate-500">Stellar SaaS - Payment Verified - Expert</p>
-              </div>
-              <div class="sm:text-right"><p class="text-xl font-extrabold">$2,500</p><p class="text-[10px] font-bold uppercase text-slate-400">Fixed Price</p></div>
-            </div>
-            <p class="mt-5 text-sm leading-7 text-slate-600">Lead the complete overhaul of a fintech dashboard with complex data visualization and a clean editorial system.</p>
-            <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"><div class="flex flex-wrap gap-2"><span class="sb-chip">Figma</span><span class="sb-chip">Prototyping</span><span class="sb-chip">SaaS Design</span></div><a href="browse.html" class="sb-btn sb-btn-primary">View Job</a></div>
-          </article>
-          <article class="sb-card p-6">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-              <div>
-                <h3 class="font-jakarta text-[18px] font-extrabold text-slate-900">Mobile App Interaction Designer (HealthTech)</h3>
-                <p class="mt-2 text-sm text-slate-500">Nexus Labs - 4.9 rating - Intermediate</p>
-              </div>
-              <div class="sm:text-right"><p class="text-xl font-extrabold">$75/hr</p><p class="text-[10px] font-bold uppercase text-slate-400">Hourly</p></div>
-            </div>
-            <p class="mt-5 text-sm leading-7 text-slate-600">Create delightful accessible interactions for a patient-facing health app with complex data flows.</p>
-            <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"><div class="flex flex-wrap gap-2"><span class="sb-chip">Mobile</span><span class="sb-chip">UX</span><span class="sb-chip">Accessibility</span></div><a href="browse.html" class="sb-btn sb-btn-primary">View Job</a></div>
-          </article>
+          <div id="recommended-jobs-container" class="space-y-5">
+            <!-- Jobs will be loaded here dynamically -->
+          </div>
         </div>
 
         <aside class="space-y-5">
