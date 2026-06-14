@@ -4,19 +4,23 @@ import { verifyToken } from '../utils/jwt';
 export const setupSocket = (io: Server) => {
   io.use((socket, next) => {
     try {
-      // Typically, for WebSockets, you'd pass the token via handshake auth
-      // or parse the cookie from socket.handshake.headers.cookie
-      const cookieHeader = socket.handshake.headers.cookie;
-      if (!cookieHeader) {
-        return next(new Error('Authentication error - No cookies found'));
+      let token = socket.handshake.auth?.token;
+
+      if (!token) {
+        const cookieHeader = socket.handshake.headers.cookie;
+        if (cookieHeader) {
+          const tokenMatch = cookieHeader.match(/jwt=([^;]+)/);
+          if (tokenMatch) {
+            token = tokenMatch[1];
+          }
+        }
       }
 
-      const tokenMatch = cookieHeader.match(/jwt=([^;]+)/);
-      if (!tokenMatch) {
+      if (!token) {
         return next(new Error('Authentication error - No token found'));
       }
 
-      const decoded = verifyToken(tokenMatch[1]);
+      const decoded = verifyToken(token);
       socket.data.user = decoded;
       next();
     } catch (err) {
