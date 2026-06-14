@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "seed:conversations": "ts-node prisma/migrations/seed-conversations.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
