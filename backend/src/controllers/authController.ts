@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../utils/prisma';
 import { generateToken } from '../utils/jwt';
 import { AuthRequest } from '../middleware/auth';
-
+import { config } from '../config/env';
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password, role } = req.body;
@@ -23,6 +23,15 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         password: hashedPassword,
         role,
       },
+    });
+
+    const token = generateToken({ id: user.id, role: user.role, email: user.email });
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: config.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.status(201).json({
@@ -55,14 +64,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: config.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.status(200).json({
       message: 'Logged in successfully',
-      token,  // also send token in body for cross-origin dev setups
       user: { id: user.id, email: user.email, name: user.name, role: user.role },
     });
   } catch (error) {
