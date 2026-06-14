@@ -1,0 +1,89 @@
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function main() {
+  console.log('Starting data migration for Conversations...');
+
+  // 1. Find all unique (senderId, receiverId) pairs
+  const messages = await prisma.message.findMany({
+    select: { id: true, senderId: true, receiverId: true },
+  });
+
+  const uniquePairs = new Map<string, { freelancerId: string, clientId: string }>();
+
+  // To determine which is freelancer and which is client, we'll fetch the roles.
+  // For efficiency, fetch all users first
+  const users = await prisma.user.findMany({ select: { id: true, role: true } });
+  const userRoles = new Map(users.map(u => [u.id, u.role]));
+
+  for (const msg of messages) {
+    const senderRole = userRoles.get(msg.senderId);
+    let freelancerId = '', clientId = '';
+
+    if (senderRole === 'FREELANCER') {
+      freelancerId = msg.senderId;
+      clientId = msg.receiverId;
+    } else {
+      freelancerId = msg.receiverId;
+      clientId = msg.senderId;
+    }
+
+    const pairKey = `${freelancerId}_${clientId}`;
+    if (!uniquePairs.has(pairKey)) {
+      uniquePairs.set(pairKey, { freelancerId, clientId });
+    }
+  }
+
+  // 2. Create a Conversation row for each unique pair (idempotent via upsert or findFirst)
+  console.log(`Found ${uniquePairs.size} unique conversation pairs.`);
+
+  for (const [pairKey, { freelancerId, clientId }] of uniquePairs) {
+    let conversation = await prisma.conversation.findUnique({
+      where: { freelancerId_clientId: { freelancerId, clientId } }
+    });
+
+    if (!conversation) {
+      conversation = await prisma.conversation.create({
+        data: { freelancerId, clientId }
+      });
+      console.log(`Created Conversation for freelancer ${freelancerId} and client ${clientId}`);
+    }
+
+    // 3. Update every Message row with its correct conversationId
+    const updateResult = await prisma.message.updateMany({
+      where: {
+        OR: [
+          { senderId: freelancerId, receiverId: clientId },
+          { senderId: clientId, receiverId: freelancerId }
+        ],
+        conversationId: '' // Only update if it's empty, or wait, it might not be possible if required.
+      },
+      data: { conversationId: conversation.id }
+    });
+    
+    // In Prisma, if the schema was just migrated and conversationId is required but didn't exist,
+    // Prisma migrate dev would have failed. We might need to handle the case where it was set to a default.
+    // Assuming they are updating an existing database, we should just update them all.
+    await prisma.message.updateMany({
+      where: {
+        OR: [
+          { senderId: freelancerId, receiverId: clientId },
+          { senderId: clientId, receiverId: freelancerId }
+        ]
+      },
+      data: { conversationId: conversation.id }
+    });
+  }
+
+  console.log('Data migration complete.');
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
