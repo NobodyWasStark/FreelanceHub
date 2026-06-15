@@ -344,7 +344,7 @@
 
     // Update greeting
     const greetEl = document.querySelector('h1');
-    if (greetEl) greetEl.textContent = \`Welcome back, \${user.name.split(' ')[0]}\`;
+    if (greetEl) greetEl.textContent = `Welcome back, ${user.name.split(' ')[0]}`;
 
     try {
       if (user.role === 'CLIENT') {
@@ -366,29 +366,29 @@
           }
           
           const timeAgo = Math.floor((Date.now() - new Date(job.createdAt)) / (1000 * 60 * 60 * 24));
-          const timeText = timeAgo === 0 ? 'Today' : \`\${timeAgo} days ago\`;
+          const timeText = timeAgo === 0 ? 'Today' : `${timeAgo} days ago`;
 
-          jobsHtml.push(\`
+          jobsHtml.push(`
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 sm:px-6 py-4 transition-colors hover:bg-slate-50/50">
               <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-2 mb-1">
-                  <span class="font-jakarta text-[14px] font-bold text-slate-800">\${job.title}</span>
-                  \${job.status === 'IN_PROGRESS' ? '<span class="bg-green-50 text-green-500 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-100">IN PROGRESS</span>' : ''}
+                  <span class="font-jakarta text-[14px] font-bold text-slate-800">${job.title}</span>
+                  ${job.status === 'IN_PROGRESS' ? '<span class="bg-green-50 text-green-500 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-100">IN PROGRESS</span>' : ''}
                 </div>
                 <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
                   <span class="flex items-center gap-1">
                     <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    Posted \${timeText}
+                    Posted ${timeText}
                   </span>
                   <span class="flex items-center gap-1">
                     <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    $\${job.budget} Fixed Price
+                    $${job.budget} Fixed Price
                   </span>
                 </div>
               </div>
               <div class="flex items-center gap-4 shrink-0">
                 <div class="text-center">
-                  <div class="font-jakarta text-[20px] font-extrabold text-slate-900 leading-none">\${String(propsCount).padStart(2, '0')}</div>
+                  <div class="font-jakarta text-[20px] font-extrabold text-slate-900 leading-none">${String(propsCount).padStart(2, '0')}</div>
                   <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-0.5">Proposals</div>
                 </div>
                 <a href="skillbridge-proposal.html?jobId=${job.id}" class="no-underline px-4 py-2 rounded-xl text-[12px] font-semibold border border-slate-200 text-slate-600 hover:border-green-400 hover:text-green-600 bg-white transition-colors cursor-pointer whitespace-nowrap">
@@ -396,13 +396,13 @@
                 </a>
               </div>
             </div>
-          \`);
+          `);
         }
         
         // Update subtitle
         const subtitleEl = document.querySelector('p.text-\\\\[13px\\\\].text-slate-500');
         if (subtitleEl) {
-          subtitleEl.innerHTML = \`Your project pipeline is looking healthy. You have <span class="font-semibold text-slate-700">\${activeJobs.length} active roles</span> to manage today.\`;
+          subtitleEl.innerHTML = `Your project pipeline is looking healthy. You have <span class="font-semibold text-slate-700">${activeJobs.length} active roles</span> to manage today.`;
         }
         
         // Update Metrics
