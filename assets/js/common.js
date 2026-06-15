@@ -36,9 +36,9 @@ const sidebarHTML = `
         <div class="border-t border-green-100"></div>
         <button class="w-full bg-green-700 text-white py-3 rounded-lg font-extrabold tracking-widest text-xs hover:bg-green-800 transition-colors shadow-lg shadow-green-100">POST A SERVICE</button>
         <div class="flex items-center gap-3 px-2">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" class="w-10 h-10 rounded-full border border-gray-200">
+            <img id="sidebar-nav-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=User" class="w-10 h-10 rounded-full border border-gray-200">
             <div class="flex flex-col">
-                <span class="text-sm font-bold text-gray-900 leading-tight">Noor chowdhury</span>
+                <span id="sidebar-nav-name" class="text-sm font-bold text-gray-900 leading-tight">Loading...</span>
                 <span class="text-xs text-gray-500 font-medium">View Public Profile</span>
             </div>
         </div>
@@ -70,6 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (sidebarContainer) sidebarContainer.innerHTML = sidebarHTML;
     if (navbarContainer) navbarContainer.innerHTML = navbarHTML;
+
+    // Populate dynamic data
+    if (typeof getSession === 'function') {
+      const user = getSession();
+      if (user) {
+        const navName = document.getElementById('sidebar-nav-name');
+        const navAvatar = document.getElementById('sidebar-nav-avatar');
+        if (navName) navName.textContent = user.name;
+        if (navAvatar) navAvatar.src = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
+      }
+    }
 
     const currentPath = window.location.pathname.split('/').pop() || 'dashboard.html';
     const navbarLeft = document.getElementById('navbar-left');
