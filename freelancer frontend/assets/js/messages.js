@@ -111,9 +111,22 @@ async function handleSendMessage() {
   input.value = '';
 
   try {
-    await Messages.send({ receiverId: activeConversationId, content });
-    await loadConversations();
-    await renderMessages(activeConversationId);
+    const { data: message } = await Messages.send({ receiverId: activeConversationId, content });
+    // Optimistically append to thread — no full conversation refetch needed
+    const thread = document.getElementById('messageThread');
+    const time = new Date(message.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const div = document.createElement('div');
+    div.className = 'message-row from-me';
+    div.innerHTML = `<div><div class="message-bubble">${escapeHTML(content)}</div><time>${escapeHTML(time)}</time></div>`;
+    thread.appendChild(div);
+    thread.scrollTop = thread.scrollHeight;
+
+    // Update conversation preview in-memory without a server call
+    const conv = conversations.find(c => c.user.id === activeConversationId);
+    if (conv) {
+      conv.lastMessage = { content, createdAt: new Date().toISOString() };
+      renderConversationList(document.getElementById('conversationSearch').value);
+    }
   } catch (err) {
     console.error('Failed to send message', err);
   }
@@ -190,12 +203,17 @@ function wireMessages() {
   const socket = SocketManager.init();
   if (socket) {
     socket.on('newMessage', (msg) => {
-      // If message is for the active conversation, append it
       if (activeConversationId === msg.senderId || activeConversationId === msg.receiverId) {
-        loadConversations().then(() => renderMessages(activeConversationId));
+        // Append incoming message to active thread without a full conversations refetch
+        renderMessages(activeConversationId);
       } else {
-        // Just update list
-        loadConversations();
+        // Update the preview for the other conversation in-memory
+        const senderId = msg.senderId;
+        const conv = conversations.find(c => c.user.id === senderId);
+        if (conv) {
+          conv.lastMessage = { content: msg.content, createdAt: msg.createdAt };
+          renderConversationList(document.getElementById('conversationSearch').value);
+        }
       }
     });
   }

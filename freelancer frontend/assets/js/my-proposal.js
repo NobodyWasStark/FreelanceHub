@@ -57,7 +57,12 @@ async function loadMyProposals() {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
-  await window.initializeFreelancerLayout({
+  // Ensure user is authenticated before proceeding
+  if (typeof requireAuth === 'function') {
+    requireAuth();
+  }
+
+  const layoutConfig = {
     activeNav: 'my-proposal',
     headerLeft: `
       <div class="relative hidden md:block w-full max-w-sm">
@@ -68,9 +73,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     headerRight: `
       <a href="find-work.html" class="sb-btn sb-btn-primary ml-auto">Find More Work</a>
     `
-  });
+  };
   
-  await loadMyProposals();
+  // Run layout initialization and data fetching in parallel
+  await Promise.all([
+    window.initializeFreelancerLayout(layoutConfig),
+    loadMyProposals()
+  ]);
   
   document.querySelectorAll('.proposal-tab').forEach(button => {
     button.addEventListener('click', () => setProposalTab(button.dataset.status, button));

@@ -41,6 +41,9 @@ async function renderClientProfile() {
       `).join('')
     : `<div class="text-xs text-slate-500 py-2">No jobs posted yet.</div>`;
 
+  const skeleton = document.getElementById('profile-skeleton');
+  if (skeleton) skeleton.remove();
+
   const dateJoined = new Date(currentUser.createdAt || Date.now()).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 
   container.innerHTML = `
@@ -150,6 +153,9 @@ async function renderFreelancerProfile() {
 
   const initials = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : '?';
   const dateJoined = new Date(currentUser.createdAt || Date.now()).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const skeleton = document.getElementById('profile-skeleton');
+  if (skeleton) skeleton.remove();
 
   // A simplified freelancer layout based on the original HTML, but dynamically populated.
   container.innerHTML = `

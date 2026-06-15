@@ -50,9 +50,12 @@ function fillHeader(config) {
 }
 
 window.initializeFreelancerLayout = async function (config) {
-  await loadComponent('navbar-root', 'components/navbar.html');
-  await loadComponent('header-root', 'components/header.html');
-  await loadComponent('footer-root', 'components/footer.html');
+  // Fetch all 3 components in parallel instead of sequentially
+  await Promise.all([
+    loadComponent('navbar-root', 'components/navbar.html'),
+    loadComponent('header-root', 'components/header.html'),
+    loadComponent('footer-root', 'components/footer.html'),
+  ]);
 
   setActiveNav(config.activeNav);
   fillHeader(config);

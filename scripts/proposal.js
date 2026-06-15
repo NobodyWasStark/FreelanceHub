@@ -154,6 +154,7 @@ async function loadProposals() {
 
 // ── Boot
 (async () => {
+  // Auth returns immediately from cache — no blocking wait
   currentUser = await requireAuth();
   if (!currentUser) return;
 
@@ -164,21 +165,24 @@ async function loadProposals() {
     return;
   }
 
-  // CLIENT: populate job dropdown with their jobs
-  const { data: jobs } = await Jobs.list();
-  const myJobs = jobs.filter(j => j.clientId === currentUser.id);
+  // CLIENT: fetch only this client's jobs (server-filtered, not JS-filtered)
+  const { data: jobs } = await Jobs.list({ clientId: currentUser.id });
   const jobSelect = document.getElementById('jobSelect');
-  if (jobSelect && myJobs.length) {
-    jobSelect.innerHTML = myJobs.map(j => `<option value="${j.id}">${j.title}</option>`).join('');
-    
+  if (jobSelect && jobs.length) {
+    jobSelect.innerHTML = jobs.map(j => `<option value="${j.id}">${j.title}</option>`).join('');
+
     // Check if URL specifies a jobId
     const urlParams = new URLSearchParams(window.location.search);
     const preselectJobId = urlParams.get('jobId');
-    if (preselectJobId && myJobs.some(j => j.id === preselectJobId)) {
+    if (preselectJobId && jobs.some(j => j.id === preselectJobId)) {
       jobSelect.value = preselectJobId;
     }
-    
+
     jobSelect.addEventListener('change', loadProposals);
     jobSelect.dispatchEvent(new Event('change'));
+  } else if (jobSelect) {
+    jobSelect.innerHTML = '<option value="">No jobs posted yet</option>';
+    document.getElementById('proposalList').innerHTML =
+      '<div class="text-center py-16 text-slate-400 text-[14px]">Post a job first to receive proposals.</div>';
   }
 })();

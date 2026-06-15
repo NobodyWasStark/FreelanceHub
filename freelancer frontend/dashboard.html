@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkillBridge - Freelancer Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="assets/css/freelancer.css" />
 </head>
 <body class="min-h-screen flex">
@@ -36,7 +38,47 @@
             <a href="find-work.html" class="text-[12px] font-semibold text-green-700 no-underline">View all recommendations</a>
           </div>
           <div id="recommended-jobs-container" class="space-y-5">
-            <!-- Jobs will be loaded here dynamically -->
+            <style>
+              .sk { background: #e2e8f0; border-radius: 8px; animation: shimmer 1.4s infinite; }
+              @keyframes shimmer { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+            </style>
+            <!-- Skeleton 1 -->
+            <article class="sb-card p-6">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div class="flex-1">
+                  <div class="sk h-6 w-3/4 mb-3"></div>
+                  <div class="sk h-4 w-1/2"></div>
+                </div>
+                <div class="sk h-8 w-20"></div>
+              </div>
+              <div class="mt-5 space-y-2">
+                <div class="sk h-4 w-full"></div>
+                <div class="sk h-4 w-5/6"></div>
+              </div>
+              <div class="mt-5 flex gap-2">
+                <div class="sk h-8 w-16"></div>
+                <div class="sk h-8 w-20"></div>
+                <div class="sk h-8 w-14"></div>
+              </div>
+            </article>
+            <!-- Skeleton 2 -->
+            <article class="sb-card p-6">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div class="flex-1">
+                  <div class="sk h-6 w-2/3 mb-3"></div>
+                  <div class="sk h-4 w-1/3"></div>
+                </div>
+                <div class="sk h-8 w-20"></div>
+              </div>
+              <div class="mt-5 space-y-2">
+                <div class="sk h-4 w-11/12"></div>
+                <div class="sk h-4 w-4/5"></div>
+              </div>
+              <div class="mt-5 flex gap-2">
+                <div class="sk h-8 w-24"></div>
+                <div class="sk h-8 w-16"></div>
+              </div>
+            </article>
           </div>
         </div>
 

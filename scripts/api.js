@@ -129,9 +129,25 @@ function clearSession() {
 
 /**
  * Guard: redirect to login if not authenticated.
- * Call at the top of any protected page.
+ * Returns the cached session IMMEDIATELY for instant page renders,
+ * then silently re-validates the token in the background.
  */
 async function requireAuth(redirectTo = '/login.html') {
+  // 1. Return cached user instantly — page renders with no network wait
+  const cached = getSession();
+  if (cached) {
+    // 2. Re-validate in background — don't block rendering
+    Auth.me().then(({ user }) => {
+      saveSession(user);
+    }).catch(() => {
+      // Token expired or invalid — clear session and redirect
+      clearSession();
+      window.location.href = redirectTo;
+    });
+    return cached;
+  }
+
+  // 3. No cache: must do a blocking check (first visit / after logout)
   try {
     const { user } = await Auth.me();
     saveSession(user);
@@ -150,13 +166,12 @@ async function requireAuth(redirectTo = '/login.html') {
 async function requireGuest() {
   const session = getSession();
   if (session) {
-    // Verify cookie is still valid
-    try {
-      await Auth.me();
+    // Verify cookie is still valid in background
+    Auth.me().then(() => {
       redirectToDashboard(session.role);
-    } catch {
+    }).catch(() => {
       clearSession();
-    }
+    });
   }
 }
 

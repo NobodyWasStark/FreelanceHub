@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkillBridge – My Profile</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <script src="https://cdn.tailwindcss.com" defer></script>
   <script>
-    tailwind.config = {
+    // Pre-configure Tailwind before the deferred CDN script initializes
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
       theme: {
         extend: {
           colors: {
@@ -15,7 +19,7 @@
           }
         }
       }
-    }
+    };
   </script>
   <style>
       * { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -124,7 +128,46 @@
 
   <!-- MAIN CONTENT -->
   <main id="profile-main" class="ml-0 md:ml-[220px] flex-1 min-h-screen pt-[52px] md:pt-0 fade-in flex flex-col">
-    <!-- Will be dynamically populated by profile.js -->
+    <!-- Skeleton shown instantly while JS loads -->
+    <div id="profile-skeleton">
+      <style>
+        .sk { background: #e2e8f0; border-radius: 8px; animation: shimmer 1.4s infinite; }
+        @keyframes shimmer {
+          0%,100% { opacity: 1; } 50% { opacity: .45; }
+        }
+      </style>
+      <!-- Banner skeleton -->
+      <div style="background:#1e3a5f;height:120px;display:flex;align-items:flex-end;padding:16px 24px;gap:16px;">
+        <div class="sk" style="width:80px;height:80px;border-radius:50%;border:4px solid white;flex-shrink:0;"></div>
+        <div style="flex:1;padding-bottom:8px;">
+          <div class="sk" style="width:160px;height:18px;margin-bottom:8px;background:#3b6ea8;"></div>
+          <div class="sk" style="width:60px;height:12px;background:#3b6ea8;"></div>
+        </div>
+      </div>
+      <!-- Body skeleton -->
+      <div style="padding:56px 24px 24px;display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:16px;">
+          <div style="background:white;border-radius:16px;padding:20px;">
+            <div class="sk" style="width:120px;height:14px;margin-bottom:12px;"></div>
+            <div class="sk" style="width:100%;height:10px;margin-bottom:8px;"></div>
+            <div class="sk" style="width:85%;height:10px;margin-bottom:8px;"></div>
+            <div class="sk" style="width:70%;height:10px;"></div>
+          </div>
+          <div style="background:white;border-radius:16px;padding:20px;">
+            <div class="sk" style="width:140px;height:14px;margin-bottom:12px;"></div>
+            <div class="sk" style="width:100%;height:10px;margin-bottom:8px;"></div>
+            <div class="sk" style="width:90%;height:10px;"></div>
+          </div>
+        </div>
+        <div style="width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:12px;">
+          <div style="background:white;border-radius:16px;padding:18px;">
+            <div class="sk" style="width:100px;height:14px;margin-bottom:12px;"></div>
+            <div class="sk" style="width:100%;height:10px;margin-bottom:8px;"></div>
+            <div class="sk" style="width:100%;height:10px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <script src="/scripts/api.js"></script>
