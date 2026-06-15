@@ -1,3 +1,10 @@
+// Ensure api.js is loaded for logout functionality
+if (!document.querySelector('script[src*="api.js"]')) {
+  const script = document.createElement('script');
+  script.src = '../scripts/api.js';
+  document.head.appendChild(script);
+}
+
 async function loadComponent(targetId, path) {
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -53,5 +60,18 @@ window.initializeFreelancerLayout = async function (config) {
 
   if (window.lucide) {
     window.lucide.createIcons();
+  }
+
+  // Populate dynamic user info in the sidebar
+  const user = typeof getSession === 'function' ? getSession() : null;
+  if (user) {
+    const nameEl = document.getElementById('sidebar-profile-name');
+    const roleEl = document.getElementById('sidebar-profile-role');
+    const avatarEl = document.getElementById('sidebar-profile-avatar');
+    if (nameEl) nameEl.textContent = user.name;
+    if (roleEl) roleEl.textContent = user.role === 'CLIENT' ? 'Client' : 'Freelancer';
+    if (avatarEl) {
+      avatarEl.src = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
+    }
   }
 };

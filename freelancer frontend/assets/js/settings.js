@@ -18,10 +18,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }).then(function () {
     const form = document.getElementById('settingsForm');
     const nameInput = document.querySelector('input[name="name"]');
+    const emailInput = document.querySelector('input[name="email"]');
     const initials = document.getElementById('avatarInitials');
+    const displayRole = document.getElementById('settings-display-role');
+    const displayName = document.getElementById('settings-display-name');
+
+    const user = typeof getSession === 'function' ? getSession() : null;
+    if (user) {
+      if (nameInput) nameInput.value = user.name;
+      if (emailInput) emailInput.value = user.email;
+      if (displayName) displayName.textContent = user.name;
+      if (displayRole) displayRole.textContent = user.role === 'FREELANCER' ? 'Freelancer' : user.role;
+      if (initials) initials.textContent = user.name.split(/\s+/).slice(0, 2).map(word => word[0] || '').join('').toUpperCase() || 'U';
+    }
 
     nameInput.addEventListener('input', function () {
-      initials.textContent = nameInput.value.trim().split(/\s+/).slice(0, 2).map(word => word[0] || '').join('').toUpperCase() || 'AM';
+      initials.textContent = nameInput.value.trim().split(/\s+/).slice(0, 2).map(word => word[0] || '').join('').toUpperCase() || 'U';
+      if (displayName) displayName.textContent = nameInput.value.trim() || 'User';
     });
 
     document.querySelectorAll('.toggle-input').forEach(input => {

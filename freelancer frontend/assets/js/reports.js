@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     `,
     headerRight: `
       <button type="button" class="p-2 rounded-lg hover:bg-green-50 text-slate-500 inline-flex" aria-label="Notifications"><i data-lucide="bell" class="w-5 h-5"></i></button>
-      <button type="button" class="p-2 rounded-lg hover:bg-green-50 text-slate-500 inline-flex" aria-label="Help"><i data-lucide="circle-help" class="w-5 h-5"></i></button>
-      <a href="settings.html" aria-label="Open profile settings"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Noor Chowdhury" class="w-8 h-8 rounded-full bg-slate-800" /></a>
+      <a href="notification.html" class="relative p-2 rounded-lg hover:bg-slate-100 text-slate-500 inline-flex"><i data-lucide="bell" class="w-5 h-5"></i></a>
+      <a href="settings.html" aria-label="Open profile settings"><img id="header-profile-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=User" alt="User Avatar" class="w-8 h-8 rounded-full bg-slate-800" /></a>
     `
   }).then(function () {
     document.querySelectorAll('.report-range').forEach(button => {

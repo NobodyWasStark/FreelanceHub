@@ -96,7 +96,8 @@
 <div class="w-full bg-surface-container-lowest p-10 md:p-14 shadow-[0_8px_32px_rgba(23,29,26,0.08)] rounded-xl flex flex-col gap-10">
 <div class="flex flex-col items-center gap-6">
 <div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-4xl" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<!-- <span class="material-symbols-outlined text-primary text-4xl" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span> -->
+<img src="/icons/skillbridge.png" alt="" width="40" height="0">
 <span class="font-headline font-extrabold text-3xl tracking-tight text-primary">SkillBridge</span>
 </div>
 <h1 class="font-headline font-bold text-3xl text-[#001e00] text-center">Log in to SkillBridge</h1>
@@ -152,16 +153,37 @@
 <p class="font-['Inter'] text-sm text-[#404944] opacity-80">© 2024 SkillBridge Global. All rights reserved.</p>
 </div>
 </footer>
+<script src="/scripts/api.js"></script>
 <script>
-    function handleLogin(event) {
-        event.preventDefault();
-        const role = localStorage.getItem("selectedRole") || "client";
-        if (role === "freelancer") {
-            window.location.href = "freelancer frontend/dashboard.html";
-        } else {
-            window.location.href = "skillbridge-dashboard.html";
-        }
+  // Redirect if already logged in
+  requireGuest();
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    const btn = event.submitter || document.querySelector('button[type="submit"]');
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      showToast('Please enter your email and password.', 'error');
+      return;
     }
+
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Logging in...';
+
+    try {
+      const { user, token } = await Auth.login({ email, password });
+      saveSession(user, token);
+      showToast('Welcome back, ' + user.name + '!');
+      setTimeout(() => redirectToDashboard(user.role), 800);
+    } catch (err) {
+      showToast(err.message || 'Login failed. Check your credentials.', 'error');
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
 </script>
 </body>
 </html>

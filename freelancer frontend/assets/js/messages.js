@@ -1,125 +1,10 @@
-const conversations = [
-  {
-    id: 'sarah',
-    name: 'Sarah Williams',
-    role: 'Project Lead @ DesignHaus',
-    status: 'Online Now',
-    online: true,
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    preview: 'The project scope looks great...',
-    time: '10:45 AM',
-    unread: true,
-    messages: [
-      {
-        date: 'YESTERDAY',
-        from: 'them',
-        text: "Hi Alexander! I've had a chance to review the strategy deck you sent over. The market segmentation piece is particularly strong.",
-        time: '11:20 AM'
-      },
-      {
-        from: 'me',
-        text: 'Thanks, Sarah! Glad to hear the segmentation resonated. I wanted to make sure we highlighted those untapped niches.',
-        time: '11:45 AM'
-      },
-      {
-        from: 'them',
-        text: 'Exactly. My team was wondering if we could expand on the "Tech-Enabled Artisan" segment. Do you think we could have that ready by the Monday kick-off?',
-        time: '12:02 PM',
-        attachment: {
-          name: 'Updated_Brief.pdf',
-          size: '1.2 MB'
-        }
-      },
-      {
-        date: 'TODAY',
-        from: 'them',
-        text: "The project scope looks great. Let's start Monday?",
-        time: '10:45 AM'
-      }
-    ]
-  },
-  {
-    id: 'james',
-    name: 'James D.',
-    role: 'Marketing Director',
-    status: 'Offline',
-    online: false,
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    preview: "I've attached the final logo files in ...",
-    time: 'Yesterday',
-    unread: false,
-    messages: [
-      {
-        date: 'YESTERDAY',
-        from: 'them',
-        text: "I've attached the final logo files in the shared project folder. Let me know if the export format works.",
-        time: '4:18 PM'
-      }
-    ]
-  },
-  {
-    id: 'lila',
-    name: 'Lila Lowndes',
-    role: 'Founder @ CraftNote',
-    status: 'Online Now',
-    online: true,
-    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-    preview: 'Can we jump on a quick call about...',
-    time: 'Oct 12',
-    unread: false,
-    messages: [
-      {
-        date: 'OCT 12',
-        from: 'them',
-        text: 'Can we jump on a quick call about the homepage wireframe? I have a few notes from the team.',
-        time: '9:05 AM'
-      }
-    ]
-  },
-  {
-    id: 'marcus',
-    name: 'Marcus Chen',
-    role: 'Product Owner',
-    status: 'Offline',
-    online: false,
-    avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
-    preview: 'Payment received. Thank you...',
-    time: 'Oct 11',
-    unread: true,
-    messages: [
-      {
-        date: 'OCT 11',
-        from: 'them',
-        text: 'Payment received. Thank you for the quick turnaround on the final dashboard screens.',
-        time: '2:25 PM'
-      }
-    ]
-  },
-  {
-    id: 'elena',
-    name: 'Elena Burke',
-    role: 'Operations Lead',
-    status: 'Offline',
-    online: false,
-    avatar: 'https://randomuser.me/api/portraits/women/12.jpg',
-    preview: 'Sent the briefing document over e...',
-    time: 'Oct 10',
-    unread: false,
-    messages: [
-      {
-        date: 'OCT 10',
-        from: 'them',
-        text: 'Sent the briefing document over email. The new timeline should be much easier to review.',
-        time: '1:12 PM'
-      }
-    ]
-  }
-];
-
-let activeConversationId = 'sarah';
+let conversations = [];
+let activeConversationId = null;
+let currentUser = null;
 
 function escapeHTML(value) {
-  return value.replace(/[&<>"']/g, character => ({
+  if (!value) return '';
+  return String(value).replace(/[&<>"']/g, character => ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -129,34 +14,38 @@ function escapeHTML(value) {
 }
 
 function getActiveConversation() {
-  return conversations.find(conversation => conversation.id === activeConversationId) || conversations[0];
+  return conversations.find(c => c.user.id === activeConversationId) || conversations[0];
 }
 
 function renderConversationList(filter = '') {
   const list = document.getElementById('conversationList');
   const query = filter.trim().toLowerCase();
-  const filtered = conversations.filter(conversation => [
-    conversation.name,
-    conversation.role,
-    conversation.preview
-  ].join(' ').toLowerCase().includes(query));
+  
+  const filtered = conversations.filter(c => {
+    return c.user.name.toLowerCase().includes(query) || (c.lastMessage?.content || '').toLowerCase().includes(query);
+  });
 
-  list.innerHTML = filtered.map(conversation => `
-    <button type="button" class="message-chat-item ${conversation.id === activeConversationId ? 'active' : ''}" data-conversation-id="${conversation.id}">
-      <span class="message-chat-avatar">
-        <img src="${conversation.avatar}" alt="${escapeHTML(conversation.name)}" />
-        ${conversation.online ? '<span></span>' : ''}
-      </span>
-      <span class="message-chat-copy">
-        <span class="message-chat-row">
-          <strong>${escapeHTML(conversation.name)}</strong>
-          <small>${escapeHTML(conversation.time)}</small>
+  list.innerHTML = filtered.map(c => {
+    const isActive = c.user.id === activeConversationId ? 'active' : '';
+    const avatar = c.user.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.user.name)}&background=random`;
+    const preview = c.lastMessage?.content || 'No messages yet';
+    const time = c.lastMessage ? new Date(c.lastMessage.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+    
+    return `
+      <button type="button" class="message-chat-item ${isActive}" data-conversation-id="${c.user.id}">
+        <span class="message-chat-avatar">
+          <img src="${avatar}" alt="${escapeHTML(c.user.name)}" />
         </span>
-        <span>${escapeHTML(conversation.preview)}</span>
-      </span>
-      ${conversation.unread ? '<span class="message-unread-dot" aria-label="Unread message"></span>' : ''}
-    </button>
-  `).join('');
+        <span class="message-chat-copy">
+          <span class="message-chat-row">
+            <strong>${escapeHTML(c.user.name)}</strong>
+            <small>${escapeHTML(time)}</small>
+          </span>
+          <span>${escapeHTML(preview)}</span>
+        </span>
+      </button>
+    `;
+  }).join('');
 
   if (filtered.length === 0) {
     list.innerHTML = '<p class="messages-empty">No conversations found.</p>';
@@ -164,94 +53,122 @@ function renderConversationList(filter = '') {
 }
 
 function renderHeader(conversation) {
-  document.getElementById('chatHeaderAvatar').src = conversation.avatar;
-  document.getElementById('chatHeaderAvatar').alt = conversation.name;
-  document.getElementById('chatHeaderStatusDot').classList.toggle('offline', !conversation.online);
-  document.getElementById('chatHeaderName').textContent = conversation.name;
+  if (!conversation) return;
+  const avatar = conversation.user.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(conversation.user.name)}&background=random`;
+  document.getElementById('chatHeaderAvatar').src = avatar;
+  document.getElementById('chatHeaderAvatar').alt = conversation.user.name;
+  document.getElementById('chatHeaderName').textContent = conversation.user.name;
   document.getElementById('chatHeaderMeta').innerHTML = `
-    <span class="${conversation.online ? 'online' : ''}">${escapeHTML(conversation.status)}</span>
-    <span>-</span>
-    <span>${escapeHTML(conversation.role)}</span>
+    <span>${escapeHTML(conversation.user.role)}</span>
   `;
 }
 
-function renderMessages(conversation) {
+async function renderMessages(userId) {
   const thread = document.getElementById('messageThread');
-
-  thread.innerHTML = conversation.messages.map(message => {
-    const dateLabel = message.date
-      ? `<div class="messages-date-label"><span>${escapeHTML(message.date)}</span></div>`
-      : '';
-    const isMe = message.from === 'me';
-    const attachment = message.attachment
-      ? `
-        <div class="message-attachment">
-          <span><i data-lucide="file-text" class="w-5 h-5"></i></span>
+  try {
+    const data = await Messages.getConversation(userId);
+    const msgs = data.data || [];
+    
+    thread.innerHTML = msgs.map(message => {
+      const isMe = message.senderId === currentUser.id;
+      const time = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      return `
+        <div class="message-row ${isMe ? 'from-me' : 'from-them'}">
           <div>
-            <strong>${escapeHTML(message.attachment.name)}</strong>
-            <small>${escapeHTML(message.attachment.size)}</small>
+            <div class="message-bubble">${escapeHTML(message.content)}</div>
+            <time>${escapeHTML(time)}</time>
           </div>
-          <button type="button" aria-label="Download attachment"><i data-lucide="download" class="w-4 h-4"></i></button>
         </div>
-      `
-      : '';
-
-    return `
-      ${dateLabel}
-      <div class="message-row ${isMe ? 'from-me' : 'from-them'}">
-        ${isMe ? '' : `<img src="${conversation.avatar}" alt="${escapeHTML(conversation.name)}" />`}
-        <div>
-          <div class="message-bubble">${escapeHTML(message.text)}</div>
-          ${attachment}
-          <time>${escapeHTML(message.time)}</time>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  thread.scrollTop = thread.scrollHeight;
-
-  if (window.lucide) {
-    window.lucide.createIcons();
+      `;
+    }).join('');
+    
+    thread.scrollTop = thread.scrollHeight;
+  } catch (err) {
+    console.error('Failed to load messages', err);
   }
 }
 
-function selectConversation(id, openChat) {
+async function selectConversation(id, openChat) {
   activeConversationId = id;
   const conversation = getActiveConversation();
-  conversation.unread = false;
+  if (!conversation) return;
+  
   renderConversationList(document.getElementById('conversationSearch').value);
   renderHeader(conversation);
-  renderMessages(conversation);
+  await renderMessages(id);
 
   if (openChat) {
     document.querySelector('.messages-app').classList.add('show-chat');
   }
 }
 
-function sendMessage() {
+async function handleSendMessage() {
   const input = document.getElementById('messageInput');
-  const text = input.value.trim();
-  if (!text) return;
+  const content = input.value.trim();
+  if (!content || !activeConversationId) return;
 
-  const conversation = getActiveConversation();
-  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  conversation.messages.push({ from: 'me', text, time });
-  conversation.preview = text.length > 36 ? `${text.slice(0, 36)}...` : text;
-  conversation.time = 'Now';
   input.value = '';
 
-  renderConversationList(document.getElementById('conversationSearch').value);
-  renderMessages(conversation);
+  try {
+    await Messages.send({ receiverId: activeConversationId, content });
+    await loadConversations();
+    await renderMessages(activeConversationId);
+  } catch (err) {
+    console.error('Failed to send message', err);
+  }
+}
+
+async function loadConversations(initialLoad = false) {
+  try {
+    const data = await Messages.getConversationsList();
+    conversations = data.data || [];
+    
+    if (initialLoad) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const chatWith = urlParams.get('userId');
+      const chatName = urlParams.get('name');
+
+      if (chatWith && chatName) {
+        if (!conversations.find(c => c.user.id === chatWith)) {
+          conversations.unshift({ 
+            user: { id: chatWith, name: decodeURIComponent(chatName), role: 'CLIENT' },
+            lastMessage: null
+          });
+        }
+        activeConversationId = chatWith;
+      }
+    }
+
+    if (conversations.length > 0 && !activeConversationId) {
+      activeConversationId = conversations[0].user.id;
+    }
+    
+    renderConversationList();
+    
+    if (activeConversationId && initialLoad) {
+      const conv = getActiveConversation();
+      renderHeader(conv);
+      await renderMessages(activeConversationId);
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('userId') && window.innerWidth < 1024) {
+        document.querySelector('.messages-app').classList.add('show-chat');
+      }
+    } else if (activeConversationId) {
+      // Just re-render header and list but don't force messages fetch unless needed
+      const conv = getActiveConversation();
+      renderHeader(conv);
+    }
+  } catch (err) {
+    console.error('Failed to load conversations', err);
+  }
 }
 
 function wireMessages() {
   const search = document.getElementById('conversationSearch');
   const composer = document.getElementById('messageComposer');
   const app = document.querySelector('.messages-app');
-
-  renderConversationList();
-  selectConversation(activeConversationId, false);
 
   search.addEventListener('input', event => renderConversationList(event.target.value));
 
@@ -267,18 +184,35 @@ function wireMessages() {
 
   composer.addEventListener('submit', event => {
     event.preventDefault();
-    sendMessage();
+    handleSendMessage();
   });
+
+  const socket = SocketManager.init();
+  if (socket) {
+    socket.on('newMessage', (msg) => {
+      // If message is for the active conversation, append it
+      if (activeConversationId === msg.senderId || activeConversationId === msg.receiverId) {
+        loadConversations().then(() => renderMessages(activeConversationId));
+      } else {
+        // Just update list
+        loadConversations();
+      }
+    });
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  window.initializeFreelancerLayout({
+document.addEventListener('DOMContentLoaded', async function () {
+  currentUser = await requireAuth();
+  if (!currentUser) return;
+  
+  await window.initializeFreelancerLayout({
     activeNav: 'messages'
-  }).then(function () {
-    wireMessages();
-
-    if (window.lucide) {
-      window.lucide.createIcons();
-    }
   });
+
+  wireMessages();
+  await loadConversations(true);
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 });

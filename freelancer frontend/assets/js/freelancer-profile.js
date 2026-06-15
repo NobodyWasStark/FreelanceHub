@@ -12,6 +12,19 @@ document.addEventListener('DOMContentLoaded', function () {
       <a href="find-work.html" class="sb-btn sb-btn-primary">Find Work <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
     `
   }).then(function () {
+    const user = typeof getSession === 'function' ? getSession() : null;
+    if (user) {
+      const nameEl = document.getElementById('profile-name');
+      const roleEl = document.getElementById('profile-role');
+      const initialsEl = document.getElementById('profile-initials');
+      const bioEl = document.getElementById('profile-bio');
+      
+      if (nameEl) nameEl.textContent = user.name;
+      if (roleEl) roleEl.textContent = user.role === 'FREELANCER' ? 'Freelancer Profile' : 'Client Profile';
+      if (initialsEl) initialsEl.textContent = user.name.split(/\s+/).slice(0, 2).map(word => word[0] || '').join('').toUpperCase() || 'U';
+      if (bioEl) bioEl.textContent = user.bio || 'Freelancer specializing in delivering great work on time.';
+    }
+
     if (window.lucide) window.lucide.createIcons();
   });
 });
