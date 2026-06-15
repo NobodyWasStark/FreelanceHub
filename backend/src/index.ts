@@ -21,11 +21,20 @@ const server = http.createServer(app);
 
 // Allow any localhost / 127.0.0.1 port (covers Vite, Live Server, etc.)
 const devOriginRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+// Allow any Vercel deployment URL (preview + production)
+const vercelOriginRegex = /^https:\/\/[a-z0-9-]+(\.vercel\.app)$/;
+
+const isAllowedOrigin = (origin: string | undefined): boolean => {
+  if (!origin) return true; // curl, Postman, file://
+  if (devOriginRegex.test(origin)) return true; // localhost
+  if (vercelOriginRegex.test(origin)) return true; // any *.vercel.app
+  if (origin === config.FRONTEND_URL) return true; // explicit custom domain
+  return false;
+};
 
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (file://, curl, Postman), FRONTEND_URL, or any local dev origin
-    if (!origin || devOriginRegex.test(origin) || origin === config.FRONTEND_URL) {
+    if (isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
       callback(new Error(`CORS blocked: ${origin}`));
@@ -39,7 +48,7 @@ const corsOptions: cors.CorsOptions = {
 export const io = new Server(server, {
   cors: {
     origin: (origin, callback) => {
-      if (!origin || devOriginRegex.test(origin) || origin === config.FRONTEND_URL) callback(null, true);
+      if (isAllowedOrigin(origin)) callback(null, true);
       else callback(new Error('CORS blocked'));
     },
     credentials: true,
