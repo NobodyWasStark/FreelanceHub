@@ -62,7 +62,7 @@ async function selectChat(userId, name) {
 // ── Load messages from backend
 async function loadMessages(userId) {
   try {
-    const { messages } = await Messages.getConversation(userId);
+    const { data: messages } = await Messages.getConversation(userId);
     renderMessages(messages);
   } catch (err) {
     console.error('Failed to load messages:', err);
@@ -154,13 +154,60 @@ document.getElementById('msg-input')?.addEventListener('keydown', e => {
 });
 document.getElementById('chat-search')?.addEventListener('input', e => renderChatList(e.target.value));
 
+// ── Socket initialization
+const socket = SocketManager.init();
+if (socket) {
+  socket.on('newMessage', async (msg) => {
+    // If the message is from our active chat user, append it without reload
+    if (msg.senderId === activeChatUserId || msg.receiverId === activeChatUserId) {
+      const isMe = msg.senderId === currentUser?.id;
+      // If it's me, we already appended in sendMessage(), so skip to avoid duplicates.
+      if (!isMe) {
+        const container = document.getElementById('chat-messages');
+        const wrap = document.createElement('div');
+        wrap.className = 'flex justify-start bubble-in';
+        const time = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        wrap.innerHTML = `
+          <div class="max-w-[75%] sm:max-w-[62%]">
+            <div class="bg-white text-gray-800 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 px-4 py-2.5 text-sm leading-relaxed">${escapeHTML(msg.content)}</div>
+            <p class="text-[10px] text-gray-400 mt-1 px-1 text-left">${time}</p>
+          </div>`;
+        container?.appendChild(wrap);
+        container && (container.scrollTop = container.scrollHeight);
+      }
+    }
+    
+    // Refresh the list to update last message preview and order
+    try {
+      const { data: fetchedConversations } = await Messages.getConversationsList();
+      conversations = fetchedConversations.map(c => ({
+        userId: c.user.id,
+        name: c.user.name,
+        lastMessage: c.lastMessage?.content || ''
+      }));
+      renderChatList(document.getElementById('chat-search')?.value || '');
+    } catch (err) {}
+  });
+}
+
+function escapeHTML(value) {
+  if (!value) return '';
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[character]));
+}
+
 // ── Boot: load real conversation partners
 (async () => {
   currentUser = await requireAuth();
   if (!currentUser) return;
 
   try {
-    const { conversations: fetchedConversations } = await Messages.getConversationsList();
+    const { data: fetchedConversations } = await Messages.getConversationsList();
     conversations = fetchedConversations.map(c => ({
       userId: c.user.id,
       name: c.user.name,
