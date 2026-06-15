@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import { config } from './config/env';
 import { setupSocket } from './socket';
+import { errorHandler } from './middleware/errorHandler';
 
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
@@ -23,8 +24,8 @@ const devOriginRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (file://, curl, Postman) or any local dev origin
-    if (!origin || devOriginRegex.test(origin)) {
+    // Allow requests with no origin (file://, curl, Postman), FRONTEND_URL, or any local dev origin
+    if (!origin || devOriginRegex.test(origin) || origin === config.FRONTEND_URL) {
       callback(null, true);
     } else {
       callback(new Error(`CORS blocked: ${origin}`));
@@ -38,7 +39,7 @@ const corsOptions: cors.CorsOptions = {
 export const io = new Server(server, {
   cors: {
     origin: (origin, callback) => {
-      if (!origin || devOriginRegex.test(origin)) callback(null, true);
+      if (!origin || devOriginRegex.test(origin) || origin === config.FRONTEND_URL) callback(null, true);
       else callback(new Error('CORS blocked'));
     },
     credentials: true,
@@ -63,12 +64,8 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/reviews', reviewRoutes);
 
 // Global error handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
+app.use(errorHandler);
 
 server.listen(config.PORT, () => {
   console.log(`🚀 Server running on port ${config.PORT}`);
 });
-
