@@ -117,10 +117,10 @@
   </nav>
   <div class="px-3 pb-4 border-t border-green-200/60 pt-3">
     <div class="flex items-center gap-3 px-3 py-2">
-      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Noor Chowdhury" class="w-9 h-9 rounded-full bg-slate-800" />
+      <img src="https://api.dicebear.com/7.x/initials/svg?seed=User" alt="User Avatar" class="w-9 h-9 rounded-full bg-slate-800" id="sidebar-profile-avatar" />
       <div>
-        <p class="text-sm font-bold text-slate-900 leading-tight">Noor Chowdhury</p>
-        <p class="text-xs text-slate-500">Senior UI/UX Designer</p>
+        <p class="text-sm font-bold text-slate-900 leading-tight" id="sidebar-profile-name">Loading...</p>
+        <p class="text-xs text-slate-500" id="sidebar-profile-role">Freelancer</p>
       </div>
     </div>
     <a href="#" class="sb-nav-link">
@@ -144,7 +144,7 @@
   <button class="hover:bg-slate-100 p-2 rounded-lg transition-colors"><i data-lucide="bell" class="w-5 h-5"></i></button>
   <button class="hover:bg-slate-100 p-2 rounded-lg transition-colors"><i data-lucide="circle-help" class="w-5 h-5"></i></button>
   <div class="w-8 h-8 rounded-full overflow-hidden border border-slate-200 cursor-pointer">
-    <img alt="User profile" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex"/>
+    <img id="header-profile-avatar" alt="User profile" src="https://api.dicebear.com/7.x/initials/svg?seed=User"/>
   </div>
 </div>
 </header>
@@ -317,7 +317,23 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    
+    if (typeof getSession === 'function') {
+      const user = getSession();
+      if (user) {
+        const nameEl = document.getElementById('sidebar-profile-name');
+        const roleEl = document.getElementById('sidebar-profile-role');
+        const avatarEl = document.getElementById('sidebar-profile-avatar');
+        const headerAvatarEl = document.getElementById('header-profile-avatar');
+        
+        if (nameEl) nameEl.textContent = user.name;
+        if (roleEl) roleEl.textContent = user.role === 'FREELANCER' ? 'Freelancer' : user.role;
+        const avatarUrl = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
+        if (avatarEl) avatarEl.src = avatarUrl;
+        if (headerAvatarEl) headerAvatarEl.src = avatarUrl;
+      }
+    }
   });
 </script>
 <script src="scripts/api.js"></script>

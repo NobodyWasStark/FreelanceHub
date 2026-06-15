@@ -19,7 +19,7 @@ async function init() {
 async function loadReports() {
   try {
     const res = await Jobs.list({ clientId: currentUser.id });
-    const jobs = res.jobs || [];
+    const jobs = res.data || [];
 
     // Calculate metrics
     let totalSpent = 0;
@@ -148,32 +148,32 @@ function renderGraph(jobs) {
   });
 
   // 4. Generate SVG Paths
-  let dArea = \`M \${getPoints[0].x},\${getPoints[0].y} \`;
-  let dLine = \`M \${getPoints[0].x},\${getPoints[0].y} \`;
+  let dArea = `M \${getPoints[0].x},\${getPoints[0].y} `;
+  let dLine = `M \${getPoints[0].x},\${getPoints[0].y} `;
 
   for (let i = 1; i < getPoints.length; i++) {
     const prev = getPoints[i - 1];
     const curr = getPoints[i];
     const cx = (prev.x + curr.x) / 2;
-    const curve = \`C \${cx},\${prev.y} \${cx},\${curr.y} \${curr.x},\${curr.y} \`;
+    const curve = `C \${cx},\${prev.y} \${cx},\${curr.y} \${curr.x},\${curr.y} `;
     dArea += curve;
     dLine += curve;
   }
   
-  dArea += \`L \${getPoints[getPoints.length - 1].x},\${yMin} L \${getPoints[0].x},\${yMin} Z\`;
+  dArea += `L \${getPoints[getPoints.length - 1].x},\${yMin} L \${getPoints[0].x},\${yMin} Z`;
 
   // 5. Build inner HTML for chart dynamic content
-  let svgContent = \`
+  let svgContent = `
     <!-- Area -->
     <path d="\${dArea}" fill="url(#areaGrad)" clip-path="url(#chartClip)" />
     <!-- Line -->
     <path d="\${dLine}" fill="none" stroke="#16a34a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-  \`;
+  `;
 
   // Data Points and X Labels
   getPoints.forEach((p, i) => {
-    svgContent += \`<circle cx="\${p.x}" cy="\${p.y}" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>\`;
-    svgContent += \`<text x="\${p.x}" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">\${monthsData[i].label}</text>\`;
+    svgContent += `<circle cx="\${p.x}" cy="\${p.y}" r="7" fill="white" stroke="#16a34a" stroke-width="2.5"/>`;
+    svgContent += `<text x="\${p.x}" y="222" text-anchor="middle" font-size="13" font-weight="600" fill="#9ca3af" font-family="Plus Jakarta Sans, sans-serif">\${monthsData[i].label}</text>`;
   });
 
   const chartContainer = document.getElementById('chart-dynamic-content');

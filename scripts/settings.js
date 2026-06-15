@@ -23,7 +23,7 @@ function previewPhoto(e) {
 }
 //  PAYMENT METHODS 
 let payments = [
-  { id: 1, type: "visa", last4: "4242", expiry: "12/26", primary: true, name: "Sarah Jenkins" }
+  { id: 1, type: "visa", last4: "4242", expiry: "12/26", primary: true, name: "Cardholder" }
 ];
 let pendingRemoveId = null;
 
@@ -153,4 +153,21 @@ function showToast(msg, success = true) {
 }
 
 //  INIT 
-renderPayments();
+document.addEventListener('DOMContentLoaded', async () => {
+  renderPayments();
+  
+  if (typeof requireAuth === 'function') {
+    const user = await requireAuth();
+    if (user) {
+      const nameInput = document.getElementById('settings-name-input');
+      const emailInput = document.getElementById('settings-email-input');
+      const profilePhoto = document.getElementById('profile-photo');
+      
+      if (nameInput) nameInput.value = user.name;
+      if (emailInput) emailInput.value = user.email;
+      if (profilePhoto) {
+        profilePhoto.src = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
+      }
+    }
+  }
+});

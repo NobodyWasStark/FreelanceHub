@@ -144,7 +144,7 @@ async function loadProposals() {
   const jobId = jobSelect?.value;
   if (!jobId) return;
   try {
-    const { proposals } = await Proposals.forJob(jobId);
+    const { data: proposals } = await Proposals.forJob(jobId);
     allProposals = proposals;
     renderProposals(proposals);
   } catch (err) {
@@ -159,13 +159,13 @@ async function loadProposals() {
 
   if (currentUser.role === 'FREELANCER') {
     // Freelancers see their own proposals
-    const { proposals } = await Proposals.myList();
+    const { data: proposals } = await Proposals.myList();
     renderProposals(proposals.map(p => ({ ...p, freelancer: currentUser })));
     return;
   }
 
   // CLIENT: populate job dropdown with their jobs
-  const { jobs } = await Jobs.list();
+  const { data: jobs } = await Jobs.list();
   const myJobs = jobs.filter(j => j.clientId === currentUser.id);
   const jobSelect = document.getElementById('jobSelect');
   if (jobSelect && myJobs.length) {
@@ -182,4 +182,3 @@ async function loadProposals() {
     jobSelect.dispatchEvent(new Event('change'));
   }
 })();
-
