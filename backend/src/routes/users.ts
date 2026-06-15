@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { getUserProfile, updateMe } from '../controllers/userController';
+import { getUserProfile, updateMe, getMyStats, getMyActivity } from '../controllers/userController';
 import { validate } from '../middleware/validate';
 import { authenticate } from '../middleware/auth';
 
@@ -14,7 +14,10 @@ const updateMeSchema = z.object({
   }),
 });
 
-router.get('/:id', getUserProfile);
-router.put('/me', authenticate, validate(updateMeSchema), updateMe);
+// Specific /me/* routes must come before the /:id wildcard
+router.get('/me/stats',    authenticate, getMyStats);
+router.get('/me/activity', authenticate, getMyActivity);
+router.put('/me',          authenticate, validate(updateMeSchema), updateMe);
+router.get('/:id',         getUserProfile);
 
 export default router;

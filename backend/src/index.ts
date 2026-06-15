@@ -41,6 +41,11 @@ const corsOptions: cors.CorsOptions = {
     }
   },
   credentials: true,
+  // Required for cross-origin Bearer token requests (frontend sends Authorization header).
+  // Without this, the browser's CORS preflight (OPTIONS) is rejected and every
+  // API call from the Vercel frontend to the Render backend fails before it even
+  // reaches the route handler.
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 

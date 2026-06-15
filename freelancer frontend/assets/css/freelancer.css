@@ -519,6 +519,10 @@ body {
   color: #d97706;
 }
 
+.report-pill.rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 
 @media (max-width: 640px) {

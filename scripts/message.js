@@ -203,7 +203,18 @@ function escapeHTML(value) {
 
 // ── Boot: load real conversation partners
 (async () => {
-  currentUser = await requireAuth();
+  // Always do a live server check — never trust stale localStorage cache for
+  // user identity. A new login may have overwritten the cookie but the old
+  // account's name/id may still be sitting in localStorage.
+  try {
+    const { user } = await Auth.me();
+    saveSession(user);
+    currentUser = user;
+  } catch {
+    clearSession();
+    window.location.href = '/login.html';
+    return;
+  }
   if (!currentUser) return;
 
   try {

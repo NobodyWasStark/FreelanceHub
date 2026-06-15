@@ -92,6 +92,14 @@
     </style>
 </head>
 <body class="font-body text-on-surface min-h-screen flex flex-col items-center justify-center p-4">
+<div id="session-banner" style="display:none" class="w-full max-w-lg mb-4 px-5 py-4 rounded-xl bg-secondary-container border border-outline-variant flex items-center justify-between gap-4">
+  <span id="session-banner-text" class="text-sm font-semibold text-on-surface"></span>
+  <div class="flex items-center gap-3 flex-shrink-0">
+    <button onclick="goToDashboardFromBanner()" class="text-sm font-bold text-primary hover:underline">Go to Dashboard</button>
+    <span class="text-outline-variant">|</span>
+    <button onclick="signOutFromBanner()" class="text-sm font-bold text-error hover:underline">Sign out</button>
+  </div>
+</div>
 <main class="w-full max-w-lg flex flex-col items-center desktop-container">
 <div class="w-full bg-surface-container-lowest p-10 md:p-14 shadow-[0_8px_32px_rgba(23,29,26,0.08)] rounded-xl flex flex-col gap-10">
 <div class="flex flex-col items-center gap-6">
@@ -157,7 +165,27 @@
 </footer>
 <script src="/scripts/api.js"></script>
 <script>
-  requireGuest();
+  // Show banner if already logged in — never auto-redirect
+  (async function checkSession() {
+    const user = await requireGuest();
+    if (!user) return;
+    const banner = document.getElementById('session-banner');
+    const bannerText = document.getElementById('session-banner-text');
+    bannerText.textContent = `You're logged in as ${user.name} (${user.email})`;
+    banner.style.display = 'flex';
+  })();
+
+  function goToDashboardFromBanner() {
+    const session = getSession();
+    if (session) redirectToDashboard(session.role);
+  }
+
+  async function signOutFromBanner() {
+    try { await Auth.logout(); } catch {}
+    clearSession();
+    document.getElementById('session-banner').style.display = 'none';
+    showToast('Signed out. You can sign up with a new account now.', 'info');
+  }
 
   async function handleSignUp(event) {
     event.preventDefault();
@@ -182,11 +210,9 @@
 
     try {
       await Auth.register({ name, email, password, role });
-      // Auto-login after registration
-      const { user, token } = await Auth.login({ email, password });
-      saveSession(user, token);
-      showToast('Account created! Welcome to SkillBridge.');
-      setTimeout(() => redirectToDashboard(user.role), 900);
+      localStorage.removeItem('selectedRole');
+      showToast('Account created! Please log in to continue.');
+      setTimeout(() => { window.location.href = '/login.html'; }, 1200);
     } catch (err) {
       showToast(err.message || 'Registration failed. Try again.', 'error');
       btn.disabled = false;

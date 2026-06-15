@@ -1,6 +1,18 @@
 /**
  * FreelanceHub - Shared API Utility
  * Central helper for all backend communication
+ *
+ * SESSION ISOLATION ARCHITECTURE
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Problem: HttpOnly cookies and localStorage are BOTH shared across all tabs
+ * on the same browser origin. Two tabs logged in as different users would
+ * constantly overwrite each other's session state.
+ *
+ * Solution: Store the JWT and all session data in sessionStorage, which is
+ * 100% tab-isolated (each tab gets its own empty namespace on creation, and
+ * it is destroyed when the tab closes). Send the token via Authorization header
+ * instead of relying on the shared cookie. The backend already reads the Bearer
+ * token first before falling back to the cookie.
  */
 
 if (window.location.protocol === 'file:') {
@@ -14,55 +26,58 @@ const IS_LOCAL = hostname === 'localhost' || hostname === '127.0.0.1';
 let API_BASE = IS_LOCAL ? `http://${hostname}:5000/api` : PROD_API;
 
 // ─── Backend warm-up ping ─────────────────────────────────────────────────────
-// Fires immediately on script load to wake the Render.com backend from cold-start
-// before any user interaction triggers a real request.
 (function warmUp() {
   fetch(`${API_BASE}/jobs?limit=1`, { method: 'GET', credentials: 'omit' }).catch(() => {});
 }());
 
-// ─── Response cache (stale-while-revalidate) ──────────────────────────────────
-const ApiCache = {
-  _prefix: 'fh_cache_',
-  _defaultTtl: 5 * 60 * 1000, // 5 minutes
+// ─── Tab-isolated session storage ─────────────────────────────────────────────
+// All session data lives in sessionStorage. It is scoped per-tab — opening a
+// new tab starts a fresh session regardless of what other tabs are doing.
+const SESSION_KEY  = 'fh_user';
+const TOKEN_KEY    = 'fh_token';
+const CACHE_PREFIX = 'fh_cache_';
 
+function _ssGet(key)         { try { return JSON.parse(sessionStorage.getItem(key) || 'null'); } catch { return null; } }
+function _ssSet(key, value)  { try { sessionStorage.setItem(key, JSON.stringify(value)); } catch {} }
+function _ssRemove(key)      { try { sessionStorage.removeItem(key); } catch {} }
+function _ssToken()          { try { return sessionStorage.getItem(TOKEN_KEY) || null; } catch { return null; } }
+
+// ─── Response cache (stale-while-revalidate) ──────────────────────────────────
+// Cache lives in sessionStorage — tab-isolated, cleared on tab close.
+const ApiCache = {
   get(key) {
-    try {
-      const raw = localStorage.getItem(this._prefix + key);
-      if (!raw) return null;
-      const entry = JSON.parse(raw);
-      return entry; // { data, ts } — caller decides freshness
-    } catch {
-      return null;
-    }
+    return _ssGet(CACHE_PREFIX + key); // { data, ts } — caller decides freshness
   },
 
   set(key, data) {
-    try {
-      localStorage.setItem(this._prefix + key, JSON.stringify({ data, ts: Date.now() }));
-    } catch {
-      // localStorage full — skip silently
-    }
+    _ssSet(CACHE_PREFIX + key, { data, ts: Date.now() });
   },
 
-  isFresh(entry, ttl = this._defaultTtl) {
+  isFresh(entry, ttl = 5 * 60 * 1000) {
     return entry && (Date.now() - entry.ts) < ttl;
   },
 
   clear(key) {
-    localStorage.removeItem(this._prefix + key);
+    _ssRemove(CACHE_PREFIX + key);
   },
 };
 
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 async function apiFetch(endpoint, options = {}) {
+  // Inject the per-tab Bearer token if available.
+  // The backend checks Authorization: Bearer first, then falls back to cookie.
+  // This ensures Tab 1 always uses Token_A and Tab 2 always uses Token_B,
+  // even if the shared cookie has been overwritten by the other tab.
+  const tabToken = _ssToken();
   const headers = {
     'Content-Type': 'application/json',
+    ...(tabToken ? { Authorization: `Bearer ${tabToken}` } : {}),
     ...options.headers,
   };
 
   async function doFetch(base) {
     const res = await fetch(`${base}${endpoint}`, {
-      credentials: 'include',
+      credentials: 'include', // still send cookie as fallback for older sessions
       headers,
       ...options,
     });
@@ -74,44 +89,25 @@ async function apiFetch(endpoint, options = {}) {
     return data;
   }
 
-  try {
-    return await doFetch(API_BASE);
-  } catch (err) {
-    // If local backend is unreachable (not a 4xx/5xx — a connection error),
-    // transparently fall back to production Render.com API.
-    if (IS_LOCAL && API_BASE !== PROD_API && err instanceof TypeError) {
-      console.warn('[api] Local backend unreachable, falling back to production.');
-      return await doFetch(PROD_API);
-    }
-    throw err;
-  }
+  return doFetch(API_BASE);
 }
 
 /**
- * Stale-while-revalidate fetch:
- * - Returns cached data INSTANTLY if available (even if stale)
- * - Fetches fresh data in background and updates cache
- * - If no cache exists, awaits the network normally
- * @param {string} cacheKey  - unique key for this request
- * @param {Function} fetcher - async function that returns the data
- * @param {Object} opts      - { ttl: ms, onUpdate: fn(freshData) }
+ * Stale-while-revalidate fetch.
+ * Returns cached data instantly if available, refreshes in background.
  */
 async function cachedFetch(cacheKey, fetcher, { ttl, onUpdate } = {}) {
   const cached = ApiCache.get(cacheKey);
 
   if (cached) {
-    // Return cached data immediately — don't await network
-    const refresh = fetcher().then(fresh => {
+    fetcher().then(fresh => {
       ApiCache.set(cacheKey, fresh);
       if (typeof onUpdate === 'function') onUpdate(fresh);
-      return fresh;
     }).catch(() => {});
 
-    // If cache is stale, still return it now and let background refresh run
     return cached.data;
   }
 
-  // No cache — must await network
   const fresh = await fetcher();
   ApiCache.set(cacheKey, fresh);
   return fresh;
@@ -119,26 +115,37 @@ async function cachedFetch(cacheKey, fetcher, { ttl, onUpdate } = {}) {
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 const Auth = {
-  register: (payload) => apiFetch('/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
-  login:    (payload) => apiFetch('/auth/login',    { method: 'POST', body: JSON.stringify(payload) }),
-  logout:   ()        => apiFetch('/auth/logout',   { method: 'POST' }),
-  me:       ()        => apiFetch('/auth/me'),
+  register: async (payload) => {
+    const data = await apiFetch('/auth/register', { method: 'POST', body: JSON.stringify(payload) });
+    // Store the tab-isolated token immediately so all subsequent requests
+    // in this tab use it — even before the cookie might be overwritten by another tab.
+    if (data.token) sessionStorage.setItem(TOKEN_KEY, data.token);
+    return data;
+  },
+  login: async (payload) => {
+    const data = await apiFetch('/auth/login', { method: 'POST', body: JSON.stringify(payload) });
+    if (data.token) sessionStorage.setItem(TOKEN_KEY, data.token);
+    return data;
+  },
+  logout: () => apiFetch('/auth/logout', { method: 'POST' }),
+  me:     () => apiFetch('/auth/me'),
 };
 
 // ─── Users ────────────────────────────────────────────────────────────────────
 const Users = {
-  getProfile: (id)     => apiFetch(`/users/${id}`),
-  updateMe:   (payload) => apiFetch('/users/me', { method: 'PUT', body: JSON.stringify(payload) }),
+  getProfile:    (id)     => apiFetch(`/users/${id}`),
+  updateMe:      (payload) => apiFetch('/users/me', { method: 'PUT', body: JSON.stringify(payload) }),
+  getMyStats:    ()        => apiFetch('/users/me/stats'),
+  getMyActivity: ()        => apiFetch('/users/me/activity'),
 };
 
 // ─── Jobs ─────────────────────────────────────────────────────────────────────
 const Jobs = {
-  list:   (params = {}) => {
+  list: (params = {}) => {
     const query = new URLSearchParams(params).toString();
     const url = query ? `/jobs?${query}` : '/jobs';
     return apiFetch(url);
   },
-  // Cached variant — returns instantly from localStorage, refreshes in background
   listCached: (params = {}, { onUpdate } = {}) => {
     const query = new URLSearchParams(params).toString();
     const url = query ? `/jobs?${query}` : '/jobs';
@@ -146,31 +153,31 @@ const Jobs = {
     return cachedFetch(cacheKey, () => apiFetch(url), { onUpdate });
   },
   get:    (id)          => apiFetch(`/jobs/${id}`),
-  create: (payload)     => apiFetch('/jobs',     { method: 'POST',   body: JSON.stringify(payload) }),
-  update: (id, payload) => apiFetch(`/jobs/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
+  create: (payload)     => apiFetch('/jobs',       { method: 'POST',   body: JSON.stringify(payload) }),
+  update: (id, payload) => apiFetch(`/jobs/${id}`, { method: 'PUT',    body: JSON.stringify(payload) }),
   delete: (id)          => apiFetch(`/jobs/${id}`, { method: 'DELETE' }),
 };
 
 // ─── Proposals ────────────────────────────────────────────────────────────────
 const Proposals = {
-  submit:  (payload) => apiFetch('/proposals',                   { method: 'POST', body: JSON.stringify(payload) }),
-  myList:  ()        => apiFetch('/proposals/my'),
-  forJob:  (jobId)   => apiFetch(`/proposals/job/${jobId}`),
-  accept:  (id)      => apiFetch(`/proposals/${id}/accept`,      { method: 'PUT' }),
-  reject:  (id)      => apiFetch(`/proposals/${id}/reject`,      { method: 'PUT' }),
+  submit: (payload) => apiFetch('/proposals',                  { method: 'POST', body: JSON.stringify(payload) }),
+  myList: ()        => apiFetch('/proposals/my'),
+  forJob: (jobId)   => apiFetch(`/proposals/job/${jobId}`),
+  accept: (id)      => apiFetch(`/proposals/${id}/accept`,     { method: 'PUT' }),
+  reject: (id)      => apiFetch(`/proposals/${id}/reject`,     { method: 'PUT' }),
 };
 
 // ─── Messages ─────────────────────────────────────────────────────────────────
 const Messages = {
-  send:           (payload) => apiFetch('/messages',           { method: 'POST', body: JSON.stringify(payload) }),
-  getConversationsList: ()  => apiFetch('/messages'),
-  getConversation:(userId)  => apiFetch(`/messages/${userId}`),
+  send:                 (payload) => apiFetch('/messages',          { method: 'POST', body: JSON.stringify(payload) }),
+  getConversationsList: ()        => apiFetch('/messages'),
+  getConversation:      (userId)  => apiFetch(`/messages/${userId}`),
 };
 
 // ─── Reviews ──────────────────────────────────────────────────────────────────
 const Reviews = {
-  create:   (payload) => apiFetch('/reviews',          { method: 'POST', body: JSON.stringify(payload) }),
-  forUser:  (userId)  => apiFetch(`/reviews/${userId}`),
+  create:  (payload) => apiFetch('/reviews',          { method: 'POST', body: JSON.stringify(payload) }),
+  forUser: (userId)  => apiFetch(`/reviews/${userId}`),
 };
 
 // ─── Socket helpers ──────────────────────────────────────────────────────────
@@ -186,30 +193,32 @@ const SocketManager = {
     }
     return null;
   },
-  get: () => socketInstance
+  get: () => socketInstance,
 };
 
 // ─── Session helpers ──────────────────────────────────────────────────────────
+// All session data is stored in sessionStorage (tab-isolated).
+// Each tab maintains its own independent session — logging in/out in Tab 2
+// has zero effect on Tab 1's session data or API credentials.
 
-/**
- * Reads the cached user from localStorage.
- * The server sets the JWT in an HttpOnly cookie; we store public info in localStorage.
- */
 function getSession() {
-  try {
-    return JSON.parse(localStorage.getItem('fh_user') || 'null');
-  } catch {
-    return null;
-  }
+  return _ssGet(SESSION_KEY);
 }
 
 function saveSession(user) {
-  localStorage.setItem('fh_user', JSON.stringify(user));
+  _ssSet(SESSION_KEY, user);
 }
 
 function clearSession() {
-  localStorage.removeItem('fh_user');
-  localStorage.removeItem('fh_token'); // Cleanup old tokens
+  _ssRemove(SESSION_KEY);
+  _ssRemove(TOKEN_KEY);
+  // Purge all per-tab API cache entries
+  const keysToRemove = [];
+  for (let i = 0; i < sessionStorage.length; i++) {
+    const key = sessionStorage.key(i);
+    if (key && key.startsWith(CACHE_PREFIX)) keysToRemove.push(key);
+  }
+  keysToRemove.forEach(key => sessionStorage.removeItem(key));
 }
 
 /**
@@ -218,21 +227,19 @@ function clearSession() {
  * then silently re-validates the token in the background.
  */
 async function requireAuth(redirectTo = '/login.html') {
-  // 1. Return cached user instantly — page renders with no network wait
   const cached = getSession();
   if (cached) {
-    // 2. Re-validate in background — don't block rendering
+    // Re-validate in background — don't block rendering
     Auth.me().then(({ user }) => {
       saveSession(user);
     }).catch(() => {
-      // Token expired or invalid — clear session and redirect
       clearSession();
       window.location.href = redirectTo;
     });
     return cached;
   }
 
-  // 3. No cache: must do a blocking check (first visit / after logout)
+  // No cache: blocking check (first visit / after logout)
   try {
     const { user } = await Auth.me();
     saveSession(user);
@@ -245,18 +252,20 @@ async function requireAuth(redirectTo = '/login.html') {
 }
 
 /**
- * Guard: redirect to dashboard if already logged in.
- * Call on login/signup pages.
+ * Guard for guest-only pages (login / signup).
+ * Returns the active session object if a valid session exists, or null.
  */
 async function requireGuest() {
   const session = getSession();
-  if (session) {
-    // Verify cookie is still valid in background
-    Auth.me().then(() => {
-      redirectToDashboard(session.role);
-    }).catch(() => {
-      clearSession();
-    });
+  if (!session) return null;
+
+  try {
+    const { user } = await Auth.me();
+    saveSession(user);
+    return user;
+  } catch {
+    clearSession();
+    return null;
   }
 }
 

@@ -4,6 +4,17 @@ import { prisma } from '../utils/prisma';
 import { generateToken } from '../utils/jwt';
 import { AuthRequest } from '../middleware/auth';
 import { config } from '../config/env';
+
+// Browsers refuse to store `secure` cookies over plain HTTP (localhost).
+// In dev we must drop `secure` and use `sameSite: 'lax'` so the cookie
+// is actually saved and sent on every subsequent request.
+const IS_PROD = config.NODE_ENV === 'production';
+const cookieOptions = {
+  httpOnly: true,
+  secure: IS_PROD,
+  sameSite: (IS_PROD ? 'none' : 'lax') as 'none' | 'lax',
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password, role } = req.body;
@@ -27,15 +38,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     const token = generateToken({ id: user.id, role: user.role, email: user.email });
 
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none', // Required for cross-domain: Vercel frontend -> Render backend
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    res.cookie('jwt', token, cookieOptions);
 
     res.status(201).json({
       message: 'User registered successfully',
+      token,
       user: { id: user.id, email: user.email, name: user.name, role: user.role },
     });
   } catch (error) {
@@ -62,15 +69,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     const token = generateToken({ id: user.id, role: user.role, email: user.email });
 
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none', // Required for cross-domain: Vercel frontend -> Render backend
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    res.cookie('jwt', token, cookieOptions);
 
     res.status(200).json({
       message: 'Logged in successfully',
+      token,
       user: { id: user.id, email: user.email, name: user.name, role: user.role },
     });
   } catch (error) {
@@ -83,9 +86,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 export const logout = async (req: Request, res: Response): Promise<void> => {
   try {
     res.clearCookie('jwt', {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none', // Required for cross-domain
+      httpOnly: cookieOptions.httpOnly,
+      secure: cookieOptions.secure,
+      sameSite: cookieOptions.sameSite,
     });
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {

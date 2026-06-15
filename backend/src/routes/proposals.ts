@@ -16,9 +16,11 @@ const submitProposalSchema = z.object({
 
 router.post('/', authenticate, requireRole('FREELANCER'), validate(submitProposalSchema), submitProposal);
 router.get('/my', authenticate, requireRole('FREELANCER'), getMyProposals);
-router.get('/job/:jobId', authenticate, requireRole('CLIENT'), getJobProposals);
+// No role guard here — ownership is enforced in the controller (job.clientId === req.user.id).
+// A user whose DB role is FREELANCER may still have posted jobs as a client.
+router.get('/job/:jobId', authenticate, getJobProposals);
 
-router.put('/:id/accept', authenticate, requireRole('CLIENT'), acceptProposal);
-router.put('/:id/reject', authenticate, requireRole('CLIENT'), rejectProposal);
+router.put('/:id/accept', authenticate, acceptProposal);
+router.put('/:id/reject', authenticate, rejectProposal);
 
 export default router;

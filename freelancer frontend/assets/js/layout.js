@@ -190,4 +190,23 @@ window.initializeFreelancerLayout = async function (config) {
 
   // Hide the loader once the layout shell is fully rendered
   hidePageLoader();
+
+  // Populate the My Proposals sidebar badge with live data
+  if (typeof Proposals !== 'undefined' && typeof Proposals.myList === 'function') {
+    Proposals.myList()
+      .then(function (res) {
+        const count = (res.data || []).length;
+        const badge = document.getElementById('nav-proposals-badge');
+        if (!badge) return;
+        if (count > 0) {
+          badge.textContent = count > 99 ? '99+' : String(count);
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      })
+      .catch(function () {
+        // Silently fail — badge stays hidden
+      });
+  }
 };

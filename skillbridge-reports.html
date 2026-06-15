@@ -57,7 +57,7 @@
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
           <span class="text-sm font-semibold">My Jobs</span>
         </div>
-        <span class="ml-auto bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">4</span>
+        <span id="nav-jobs-badge" class="ml-auto bg-cyan-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px hidden">0</span>
       </a>
         <a href="./skillbridge-profile.html" id="my-profile" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-gray-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -70,14 +70,14 @@
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           <span class="text-sm font-semibold">Proposals</span>
         </div>
-        <span class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold">18</span>
+        <span id="nav-proposals-badge" class="text-xs bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-semibold hidden">0</span>
       </a>
       <a href="./skillbridge-message.html" class="flex items-center gap-2.5 px-3 py-2 rounded-[9px] text-[13px] text-slate-500 hover:bg-green-50 hover:text-green-700 transition-colors no-underline hover:border-l-4 border-solid border-green-900">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
             <span class="text-sm font-semibold">Messages</span>
-        <span class="ml-auto bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px">3</span>
+        <span id="nav-messages-badge" class="ml-auto bg-green-600 text-white text-[10px] font-bold rounded-full px-1.5 py-px hidden">0</span>
       </a>
       <a href="./skillbridge-reports.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-green-700 bg-green-50 shadow-sm hover:bg-gray-50 hover:text-green-700 transition-colors hover:border-l-4 border-solid border-green-900">
         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -275,6 +275,7 @@
   </main>
 </div>
 <script src="/scripts/api.js"></script>
+<script src="/scripts/nav-badges.js"></script>
 <script src="/scripts/report.js"></script>
 </body>
 

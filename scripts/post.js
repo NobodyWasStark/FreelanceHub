@@ -49,18 +49,25 @@ async function loadJobs() {
 
 function updateStats() {
   const stats = {
-    total: allJobs.length,
-    open: allJobs.filter(j => j.status === 'OPEN').length,
+    total:      allJobs.length,
+    open:       allJobs.filter(j => j.status === 'OPEN').length,
     inprogress: allJobs.filter(j => j.status === 'IN_PROGRESS').length,
-    completed: allJobs.filter(j => j.status === 'COMPLETED').length
+    completed:  allJobs.filter(j => j.status === 'COMPLETED').length,
   };
-  
-  const statContainers = document.querySelectorAll('.grid.grid-cols-2.sm\\:grid-cols-4.gap-3 > div p.text-2xl');
-  if (statContainers.length >= 4) {
-    statContainers[0].innerText = stats.total;
-    statContainers[1].innerText = stats.open;
-    statContainers[2].innerText = stats.inprogress;
-    statContainers[3].innerText = stats.completed;
+
+  const el = (id) => document.getElementById(id);
+
+  // Update stat grid (IDs added to HTML)
+  if (el('stat-total'))      el('stat-total').textContent      = stats.total;
+  if (el('stat-open'))       el('stat-open').textContent       = stats.open;
+  if (el('stat-inprogress')) el('stat-inprogress').textContent = stats.inprogress;
+  if (el('stat-completed'))  el('stat-completed').textContent  = stats.completed;
+
+  // Update sidebar nav badge — only show if > 0
+  const jobsBadge = el('nav-jobs-badge');
+  if (jobsBadge) {
+    jobsBadge.textContent = stats.total;
+    jobsBadge.classList.toggle('hidden', stats.total === 0);
   }
 
   updateRightPanel();
@@ -69,7 +76,6 @@ function updateStats() {
 function updateRightPanel() {
   const totalSpentEl = document.getElementById('total-spent');
   if (totalSpentEl) {
-    // Sum the budget of all COMPLETED jobs
     const total = allJobs
       .filter(j => j.status === 'COMPLETED')
       .reduce((sum, j) => sum + (j.budget || 0), 0);

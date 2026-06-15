@@ -11,84 +11,27 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    "colors": {
-                        "on-secondary": "#ffffff",
-                        "surface-bright": "#f6fbf6",
-                        "surface-container-high": "#e4e9e5",
-                        "background": "#f6fbf6",
-                        "outline": "#6e7b67",
-                        "primary-container": "#14a800",
-                        "tertiary-fixed-dim": "#ffb0cb",
-                        "inverse-on-surface": "#edf2ed",
-                        "error-container": "#ffdad6",
-                        "inverse-primary": "#5ce145",
-                        "surface-container": "#eaefea",
-                        "on-error-container": "#93000a",
-                        "tertiary-container": "#fc4b9c",
-                        "surface-variant": "#dfe4df",
-                        "tertiary-fixed": "#ffd9e3",
-                        "on-primary-container": "#023200",
-                        "primary-fixed": "#79ff5f",
-                        "on-tertiary-fixed-variant": "#8d004f",
-                        "on-tertiary": "#ffffff",
-                        "outline-variant": "#bdcbb3",
-                        "on-tertiary-container": "#58002f",
-                        "on-error": "#ffffff",
-                        "on-primary-fixed-variant": "#065300",
-                        "on-background": "#171d1a",
-                        "on-secondary-fixed-variant": "#3d4b35",
-                        "inverse-surface": "#2c322f",
-                        "surface": "#f6fbf6",
-                        "surface-dim": "#d6dbd7",
-                        "surface-container-low": "#f0f5f0",
-                        "primary": "#0a6e00",
-                        "on-secondary-fixed": "#121f0d",
-                        "primary-fixed-dim": "#5ce145",
-                        "on-surface-variant": "#3e4a38",
-                        "secondary-fixed": "#d7e8ca",
-                        "error": "#ba1a1a",
-                        "surface-container-highest": "#dfe4df",
-                        "on-primary-fixed": "#012200",
-                        "tertiary": "#b80368",
-                        "on-tertiary-fixed": "#3e001f",
-                        "on-surface": "#171d1a",
-                        "secondary-container": "#d7e8ca",
-                        "on-secondary-container": "#5a6951",
-                        "on-primary": "#ffffff",
-                        "surface-tint": "#0a6e00",
-                        "surface-container-lowest": "#ffffff",
-                        "secondary-fixed-dim": "#bbccaf",
-                        "secondary": "#54634b"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "fontFamily": {
-                        "headline": ["Manrope"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
+                    fontFamily: {
+                        headline: ["Manrope"],
+                        body: ["Inter"],
+                        label: ["Inter"]
                     }
                 },
             },
         }
     </script>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .editorial-shadow {
-            box-shadow: 0 8px 24px rgba(23, 29, 26, 0.06);
-        }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .editorial-shadow { box-shadow: 0 8px 24px rgba(23, 29, 26, 0.06); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
+</style>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="freelancer frontend/assets/css/freelancer.css" />
 </head>
 <body class="bg-slate-50 flex">
+
+<!-- Mobile top bar -->
 <div class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-green-100 border-b border-slate-200 flex items-center gap-3 px-4 py-3">
   <button id="menuToggle" class="p-2 rounded-lg bg-green-50 text-green-700 border-none cursor-pointer shrink-0" aria-label="Open sidebar">
     <i data-lucide="menu" class="w-5 h-5"></i>
@@ -98,7 +41,10 @@
     <span class="font-jakarta text-[16px] font-extrabold text-green-900 tracking-tight">SkillBridge</span>
   </div>
 </div>
+
 <div id="mobile-overlay" class="hidden fixed inset-0 bg-black/40 z-30 lg:hidden"></div>
+
+<!-- Sidebar -->
 <aside id="sidebar" class="sb-sidebar fixed top-0 left-0 h-full w-60 flex flex-col z-40 -translate-x-full lg:translate-x-0 transition-transform duration-300">
   <div class="flex items-center gap-2 px-5 py-5 border-b border-green-200/50">
     <img src="freelancer frontend/icons/skillbridge.png" alt="" class="w-8 h-8 object-contain" />
@@ -108,7 +54,7 @@
     <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-3 mb-2 mt-1">Main Menu</p>
     <a href="freelancer frontend/dashboard.html" class="sb-nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="text-sm">Dashboard</span></a>
     <a href="freelancer frontend/find-work.html" class="sb-nav-link"><i data-lucide="briefcase" class="w-4 h-4"></i><span class="text-sm">Find Work</span></a>
-    <a href="freelancer frontend/my-proposal.html" class="sb-nav-link"><i data-lucide="file-text" class="w-4 h-4"></i><span class="text-sm">My Proposals</span><span class="ml-auto bg-pink-100 text-pink-600 text-[10px] font-bold rounded-full px-2 py-0.5">3</span></a>
+    <a href="freelancer frontend/my-proposal.html" class="sb-nav-link"><i data-lucide="file-text" class="w-4 h-4"></i><span class="text-sm">My Proposals</span><span id="nav-proposals-badge" class="ml-auto bg-pink-100 text-pink-600 text-[10px] font-bold rounded-full px-2 py-0.5 hidden">0</span></a>
     <a href="freelancer frontend/messages.html" class="sb-nav-link"><i data-lucide="mail" class="w-4 h-4"></i><span class="text-sm">Messages</span></a>
     <a href="freelancer frontend/reports.html" class="sb-nav-link"><i data-lucide="bar-chart-3" class="w-4 h-4"></i><span class="text-sm">Reports</span></a>
     <a href="payments.html" class="sb-nav-link active"><i data-lucide="credit-card" class="w-4 h-4"></i><span class="text-sm">Payments</span></a>
@@ -123,219 +69,153 @@
         <p class="text-xs text-slate-500" id="sidebar-profile-role">Freelancer</p>
       </div>
     </div>
-    <a href="#" class="sb-nav-link">
-      <i data-lucide="life-buoy" class="w-4 h-4"></i>
-      <span class="text-sm">Help Center</span>
-    </a>
+    <a href="#" class="sb-nav-link"><i data-lucide="life-buoy" class="w-4 h-4"></i><span class="text-sm">Help Center</span></a>
     <a href="#" onclick="handleLogout(event); return false;" class="sb-nav-link sb-nav-link-logout mt-2">
-      <i data-lucide="log-out" class="w-4 h-4"></i>
-      <span class="text-sm">Log Out</span>
+      <i data-lucide="log-out" class="w-4 h-4"></i><span class="text-sm">Log Out</span>
     </a>
-    <a href="skillbridge-post-job.html" class="sb-btn sb-btn-primary sb-client-cta w-full mt-2">Post a Project</a>
   </div>
 </aside>
+
 <main class="flex-1 min-h-screen lg:ml-60 pt-[56px] lg:pt-0 bg-slate-50">
-<header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md flex justify-between items-center w-full px-4 sm:px-8 py-3 border-b border-slate-200">
-<div class="relative hidden sm:block w-96">
-  <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-  <input class="w-full bg-slate-100 border-none focus:ring-2 focus:ring-green-600 rounded-lg pl-9 pr-4 py-2 text-sm font-medium text-slate-900 outline-none" placeholder="Search transactions..." type="text"/>
-</div>
-<div class="flex items-center gap-4 text-slate-500">
-  <button class="hover:bg-slate-100 p-2 rounded-lg transition-colors"><i data-lucide="bell" class="w-5 h-5"></i></button>
-  <button class="hover:bg-slate-100 p-2 rounded-lg transition-colors"><i data-lucide="circle-help" class="w-5 h-5"></i></button>
-  <div class="w-8 h-8 rounded-full overflow-hidden border border-slate-200 cursor-pointer">
-    <img id="header-profile-avatar" alt="User profile" src="https://api.dicebear.com/7.x/initials/svg?seed=User"/>
-  </div>
-</div>
-</header>
-<div class="px-4 sm:px-8 py-6 sm:py-8 max-w-[1200px] mx-auto">
-  <section class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
-    <div>
-      <h1 class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mb-1">Payments & Withdrawals</h1>
-      <p class="text-[14px] text-slate-500 leading-relaxed">Manage your earnings, methods, and view full transaction history.</p>
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md flex justify-between items-center w-full px-4 sm:px-8 py-3 border-b border-slate-200">
+    <div class="relative hidden sm:block w-96">
+      <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+      <input class="w-full bg-slate-100 border-none focus:ring-2 focus:ring-green-600 rounded-lg pl-9 pr-4 py-2 text-sm font-medium text-slate-900 outline-none" placeholder="Search transactions..." type="text" id="search-input"/>
     </div>
-    <button class="sb-btn sb-btn-primary h-11 px-6 flex items-center gap-2">
-      <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-      Withdraw Funds
-    </button>
-  </section>
-
-  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-    <article class="sb-card p-6 border-t-4 border-t-green-700">
-      <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Available Balance</p>
-      <p class="font-jakarta text-[32px] font-extrabold text-slate-900">$2,840.00</p>
-    </article>
-    <article class="sb-card p-6 border-t-4 border-t-amber-500">
-      <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Pending Clearance</p>
-      <p class="font-jakarta text-[32px] font-extrabold text-slate-900">$320.00</p>
-    </article>
-    <article class="sb-card p-6 border-t-4 border-t-blue-500">
-      <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Total Withdrawn</p>
-      <p class="font-jakarta text-[32px] font-extrabold text-slate-900">$4,200.00</p>
-    </article>
-    <article class="sb-card p-6 border-t-4 border-t-teal-500">
-      <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">This Month Earned</p>
-      <p class="font-jakarta text-[32px] font-extrabold text-slate-900">$1,240.00</p>
-    </article>
-  </section>
-
-  <section class="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 mb-8">
-    <article class="sb-card p-6 sm:p-8">
-      <h2 class="font-jakarta text-xl font-extrabold text-slate-900 mb-6">Withdraw Funds</h2>
-      <div class="space-y-6">
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Amount to withdraw</label>
-          <div class="relative flex items-center">
-            <span class="absolute left-4 text-xl font-bold text-slate-400">$</span>
-            <input class="sb-input w-full pl-10 pr-32 py-4 text-xl font-bold text-slate-900 bg-slate-50 border-slate-200 focus:border-green-600 focus:ring-1 focus:ring-green-600" type="number" value="500" />
-            <span class="absolute right-4 text-sm font-bold text-green-700">Available: $2,840</span>
-          </div>
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Choose Payment Method</label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="border-2 border-green-600 bg-green-50/50 p-4 rounded-xl cursor-pointer relative group">
-              <div class="absolute top-3 right-3 text-green-600">
-                <i data-lucide="check-circle-2" class="w-5 h-5 fill-current"></i>
-              </div>
-              <div class="flex items-center gap-3 mb-2">
-                <div class="w-10 h-10 bg-[#635BFF] rounded-lg flex items-center justify-center text-white">
-                  <i data-lucide="zap" class="w-5 h-5"></i>
-                </div>
-                <span class="font-bold text-slate-900">Stripe Connect</span>
-              </div>
-              <p class="text-xs font-medium text-slate-500">Instant · 1.5% fee</p>
-            </div>
-            <div class="border border-slate-200 p-4 rounded-xl cursor-pointer hover:border-slate-300 transition-colors bg-white">
-              <div class="flex items-center gap-3 mb-2">
-                <div class="w-10 h-10 bg-[#003087] rounded-lg flex items-center justify-center text-white">
-                  <i data-lucide="wallet" class="w-5 h-5"></i>
-                </div>
-                <span class="font-bold text-slate-900">PayPal</span>
-              </div>
-              <p class="text-xs font-medium text-slate-500">1-3 Days · No fee</p>
-            </div>
-          </div>
-        </div>
-        <button class="w-full sb-btn sb-btn-primary py-4 text-base font-bold tracking-wide mt-4">
-          Confirm Withdrawal
-        </button>
+    <div class="flex items-center gap-4 text-slate-500">
+      <button class="hover:bg-slate-100 p-2 rounded-lg transition-colors"><i data-lucide="bell" class="w-5 h-5"></i></button>
+      <button class="hover:bg-slate-100 p-2 rounded-lg transition-colors"><i data-lucide="circle-help" class="w-5 h-5"></i></button>
+      <div class="w-8 h-8 rounded-full overflow-hidden border border-slate-200 cursor-pointer">
+        <img id="header-profile-avatar" alt="User profile" src="https://api.dicebear.com/7.x/initials/svg?seed=User"/>
       </div>
-    </article>
+    </div>
+  </header>
 
-    <aside class="space-y-6">
+  <div class="px-4 sm:px-8 py-6 sm:py-8 max-w-[1200px] mx-auto">
+    <!-- Page title -->
+    <section class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
+      <div>
+        <h1 class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mb-1">Payments &amp; Withdrawals</h1>
+        <p class="text-[14px] text-slate-500 leading-relaxed">Manage your earnings, methods, and view full transaction history.</p>
+      </div>
+      <button id="withdraw-btn" class="sb-btn sb-btn-primary h-11 px-6 flex items-center gap-2">
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        Withdraw Funds
+      </button>
+    </section>
+
+    <!-- Stat cards -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+      <article class="sb-card p-6 border-t-4 border-t-green-700">
+        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Available Balance</p>
+        <p id="stat-available" class="font-jakarta text-[32px] font-extrabold text-slate-900">$0.00</p>
+      </article>
+      <article class="sb-card p-6 border-t-4 border-t-amber-500">
+        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Pending Clearance</p>
+        <p id="stat-pending" class="font-jakarta text-[32px] font-extrabold text-slate-900">$0.00</p>
+      </article>
+      <article class="sb-card p-6 border-t-4 border-t-blue-500">
+        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Total Withdrawn</p>
+        <p id="stat-withdrawn" class="font-jakarta text-[32px] font-extrabold text-slate-900">$0.00</p>
+      </article>
+      <article class="sb-card p-6 border-t-4 border-t-teal-500">
+        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">This Month Earned</p>
+        <p id="stat-this-month" class="font-jakarta text-[32px] font-extrabold text-slate-900">$0.00</p>
+      </article>
+    </section>
+
+    <!-- Withdraw form + Connected accounts -->
+    <section class="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 mb-8">
       <article class="sb-card p-6 sm:p-8">
-        <h2 class="font-jakarta text-xl font-extrabold text-slate-900 mb-6">Connected Accounts</h2>
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-[#635BFF] rounded-lg flex items-center justify-center text-white">
-                <i data-lucide="zap" class="w-5 h-5"></i>
+        <h2 class="font-jakarta text-xl font-extrabold text-slate-900 mb-6">Withdraw Funds</h2>
+        <div class="space-y-6">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Amount to withdraw</label>
+            <div class="relative flex items-center">
+              <span class="absolute left-4 text-xl font-bold text-slate-400">$</span>
+              <input id="withdraw-amount" class="sb-input w-full pl-10 pr-40 py-4 text-xl font-bold text-slate-900 bg-slate-50 border-slate-200 focus:border-green-600 focus:ring-1 focus:ring-green-600" type="number" min="0" step="0.01" placeholder="0.00" />
+              <span id="withdraw-available-label" class="absolute right-4 text-sm font-bold text-green-700">Available: $0.00</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Choose Payment Method</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="border-2 border-green-600 bg-green-50/50 p-4 rounded-xl cursor-pointer relative">
+                <div class="absolute top-3 right-3 text-green-600"><i data-lucide="check-circle-2" class="w-5 h-5 fill-current"></i></div>
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="w-10 h-10 bg-[#635BFF] rounded-lg flex items-center justify-center text-white"><i data-lucide="zap" class="w-5 h-5"></i></div>
+                  <span class="font-bold text-slate-900">Stripe Connect</span>
+                </div>
+                <p class="text-xs font-medium text-slate-500">Instant · 1.5% fee</p>
               </div>
-              <div>
-                <p class="font-bold text-slate-900 text-sm">Stripe Connect</p>
-                <p class="text-xs font-medium text-slate-500 mt-0.5">Ending in **82</p>
+              <div class="border border-slate-200 p-4 rounded-xl cursor-pointer hover:border-slate-300 transition-colors bg-white">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="w-10 h-10 bg-[#003087] rounded-lg flex items-center justify-center text-white"><i data-lucide="wallet" class="w-5 h-5"></i></div>
+                  <span class="font-bold text-slate-900">PayPal</span>
+                </div>
+                <p class="text-xs font-medium text-slate-500">1-3 Days · No fee</p>
               </div>
             </div>
-            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Primary</span>
           </div>
-          <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-[#003087] rounded-lg flex items-center justify-center text-white">
-                <i data-lucide="wallet" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <p class="font-bold text-slate-900 text-sm">PayPal</p>
-                <p class="text-xs font-medium text-slate-500 mt-0.5">alex.d@gmail.com</p>
-              </div>
-            </div>
-            <span class="text-slate-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Connected</span>
-          </div>
-          <button class="w-full mt-4 py-5 border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-500 hover:bg-slate-50 hover:border-slate-300 hover:text-slate-700 transition-colors group">
-            <i data-lucide="plus-circle" class="w-6 h-6 mb-2 text-slate-400 group-hover:text-green-600 transition-colors"></i>
-            <span class="font-bold text-sm">Connect New Account</span>
+          <button id="confirm-withdraw-btn" class="w-full sb-btn sb-btn-primary py-4 text-base font-bold tracking-wide mt-4">
+            Confirm Withdrawal
           </button>
         </div>
       </article>
-    </aside>
-  </section>
 
-  <section class="sb-card overflow-hidden">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 sm:p-8 border-b border-slate-100">
-      <h2 class="font-jakarta text-xl font-extrabold text-slate-900">Payment History</h2>
-      <button class="sb-btn sb-btn-outline h-9 px-4 text-xs flex items-center gap-2">
-        <i data-lucide="download" class="w-4 h-4"></i>
-        Export CSV
-      </button>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-left">
-        <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] font-bold tracking-widest border-b border-slate-100">
-          <tr>
-            <th class="px-6 py-4">Date</th>
-            <th class="px-6 py-4">Description</th>
-            <th class="px-6 py-4">Type</th>
-            <th class="px-6 py-4">Method</th>
-            <th class="px-6 py-4 text-right">Amount</th>
-            <th class="px-6 py-4 text-right">Status</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="px-6 py-5 text-sm font-medium text-slate-500">Oct 24, 2023</td>
-            <td class="px-6 py-5 font-bold text-sm text-slate-900">Web Dashboard Design - Milestone 2</td>
-            <td class="px-6 py-5"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Payment Received</span></td>
-            <td class="px-6 py-5 flex items-center gap-2 font-medium text-sm text-slate-700"><i data-lucide="wallet" class="w-4 h-4 text-slate-400"></i> Balance</td>
-            <td class="px-6 py-5 text-right font-bold text-green-700 text-sm">+$1,200.00</td>
-            <td class="px-6 py-5 text-right"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Completed</span></td>
-          </tr>
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="px-6 py-5 text-sm font-medium text-slate-500">Oct 22, 2023</td>
-            <td class="px-6 py-5 font-bold text-sm text-slate-900">Withdrawal to Stripe</td>
-            <td class="px-6 py-5"><span class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Withdrawal</span></td>
-            <td class="px-6 py-5 flex items-center gap-2 font-medium text-sm text-slate-700"><i data-lucide="zap" class="w-4 h-4 text-[#635BFF]"></i> Stripe</td>
-            <td class="px-6 py-5 text-right font-bold text-slate-900 text-sm">-$800.00</td>
-            <td class="px-6 py-5 text-right"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Processing</span></td>
-          </tr>
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="px-6 py-5 text-sm font-medium text-slate-500">Oct 18, 2023</td>
-            <td class="px-6 py-5 font-bold text-sm text-slate-900">UX Audit for Mobile App</td>
-            <td class="px-6 py-5"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Payment Received</span></td>
-            <td class="px-6 py-5 flex items-center gap-2 font-medium text-sm text-slate-700"><i data-lucide="wallet" class="w-4 h-4 text-slate-400"></i> Balance</td>
-            <td class="px-6 py-5 text-right font-bold text-green-700 text-sm">+$320.00</td>
-            <td class="px-6 py-5 text-right"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Completed</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 text-center">
-      <a href="#" class="text-sm font-bold text-green-700 hover:text-green-800">View All Transactions</a>
-    </div>
-  </section>
-</div>
+      <aside class="space-y-6">
+        <article class="sb-card p-6 sm:p-8">
+          <h2 class="font-jakarta text-xl font-extrabold text-slate-900 mb-6">Connected Accounts</h2>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#635BFF] rounded-lg flex items-center justify-center text-white"><i data-lucide="zap" class="w-5 h-5"></i></div>
+                <div>
+                  <p class="font-bold text-slate-900 text-sm">Stripe Connect</p>
+                  <p class="text-xs font-medium text-slate-500 mt-0.5">Instant payouts enabled</p>
+                </div>
+              </div>
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Primary</span>
+            </div>
+            <button class="w-full mt-4 py-5 border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center text-slate-500 hover:bg-slate-50 hover:border-slate-300 hover:text-slate-700 transition-colors group">
+              <i data-lucide="plus-circle" class="w-6 h-6 mb-2 text-slate-400 group-hover:text-green-600 transition-colors"></i>
+              <span class="font-bold text-sm">Connect New Account</span>
+            </button>
+          </div>
+        </article>
+      </aside>
+    </section>
+
+    <!-- Payment History table -->
+    <section class="sb-card overflow-hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 sm:p-8 border-b border-slate-100">
+        <h2 class="font-jakarta text-xl font-extrabold text-slate-900">Payment History</h2>
+        <button id="export-csv-btn" class="sb-btn sb-btn-outline h-9 px-4 text-xs flex items-center gap-2">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          Export CSV
+        </button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] font-bold tracking-widest border-b border-slate-100">
+            <tr>
+              <th class="px-6 py-4">Date</th>
+              <th class="px-6 py-4">Project</th>
+              <th class="px-6 py-4">Client</th>
+              <th class="px-6 py-4 text-right">Amount</th>
+              <th class="px-6 py-4 text-right">Status</th>
+            </tr>
+          </thead>
+          <tbody id="payment-history-tbody" class="divide-y divide-slate-100">
+            <!-- Populated by payments.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 </main>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    
-    if (typeof getSession === 'function') {
-      const user = getSession();
-      if (user) {
-        const nameEl = document.getElementById('sidebar-profile-name');
-        const roleEl = document.getElementById('sidebar-profile-role');
-        const avatarEl = document.getElementById('sidebar-profile-avatar');
-        const headerAvatarEl = document.getElementById('header-profile-avatar');
-        
-        if (nameEl) nameEl.textContent = user.name;
-        if (roleEl) roleEl.textContent = user.role === 'FREELANCER' ? 'Freelancer' : user.role;
-        const avatarUrl = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
-        if (avatarEl) avatarEl.src = avatarUrl;
-        if (headerAvatarEl) headerAvatarEl.src = avatarUrl;
-      }
-    }
-  });
-</script>
 <script src="scripts/api.js"></script>
+<script src="scripts/payments.js"></script>
 </body>
 </html>
