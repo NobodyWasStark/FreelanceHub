@@ -9,7 +9,7 @@ export const submitProposal = async (req: Request, res: Response): Promise<void>
     const freelancerId = (req as any).user.id;
 
     // Check if job exists
-    const job = await prisma.jobs.findUnique({ where: { id: jobId } });
+    const job = await prisma.job.findUnique({ where: { id: jobId } });
     if (!job) {
       res.status(404).json({ error: 'Job not found' });
       return;
@@ -18,7 +18,7 @@ export const submitProposal = async (req: Request, res: Response): Promise<void>
     const proposal = await prisma.proposal.create({
       data: {
         coverLetter,
-        bidAmount: parseFloat(bidAmount),
+        amount: parseFloat(bidAmount),
         jobId,
         freelancerId
       }
@@ -35,7 +35,7 @@ export const getProposalsForJob = async (req: Request, res: Response): Promise<v
     const jobId = req.params.jobId as string;
     const clientId = (req as any).user.id; // Make sure the client asking is the owner
 
-    const job = await prisma.jobs.findUnique({ where: { id: jobId } });
+    const job = await prisma.job.findUnique({ where: { id: jobId } });
     if (!job || job.clientId !== clientId) {
       res.status(403).json({ error: 'Forbidden' });
       return;

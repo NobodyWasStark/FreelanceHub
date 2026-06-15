@@ -8,7 +8,7 @@ export const createJob = async (req: Request, res: Response): Promise<void> => {
     const { title, description, budget, skills } = req.body;
     const clientId = (req as any).user.id; // From authMiddleware
 
-    const job = await prisma.jobs.create({
+    const job = await prisma.job.create({
       data: {
         title,
         description,
@@ -26,7 +26,7 @@ export const createJob = async (req: Request, res: Response): Promise<void> => {
 
 export const getJobs = async (req: Request, res: Response): Promise<void> => {
   try {
-    const jobs = await prisma.jobs.findMany({
+    const jobs = await prisma.job.findMany({
       include: { client: { select: { name: true } } },
       orderBy: { createdAt: 'desc' }
     });
