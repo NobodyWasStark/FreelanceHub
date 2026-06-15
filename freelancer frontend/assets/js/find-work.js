@@ -2,12 +2,15 @@ let jobs = [];
 
 async function loadJobs() {
   try {
-    const data = await Jobs.list();
-    jobs = data.data || [];
+    jobs = await Jobs.listCached({}, {
+      onUpdate: (fresh) => {
+        jobs = fresh.data || [];
+        renderJobs();
+      },
+    }).then(data => (data && data.data) ? data.data : (data || []));
     renderJobs();
   } catch (err) {
     console.error('Failed to load jobs:', err);
-    showToast('Failed to load jobs', 'error');
   }
 }
 

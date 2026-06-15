@@ -9,11 +9,49 @@ if (window.location.protocol === 'file:') {
 }
 
 const hostname = window.location.hostname || 'localhost';
-let API_BASE = `http://${hostname}:5000/api`;
+const PROD_API = 'https://freelancehub-wjf2.onrender.com/api';
+const IS_LOCAL = hostname === 'localhost' || hostname === '127.0.0.1';
+let API_BASE = IS_LOCAL ? `http://${hostname}:5000/api` : PROD_API;
 
-if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-  API_BASE = 'https://freelancehub-wjf2.onrender.com/api'; 
-}
+// ─── Backend warm-up ping ─────────────────────────────────────────────────────
+// Fires immediately on script load to wake the Render.com backend from cold-start
+// before any user interaction triggers a real request.
+(function warmUp() {
+  fetch(`${API_BASE}/jobs?limit=1`, { method: 'GET', credentials: 'omit' }).catch(() => {});
+}());
+
+// ─── Response cache (stale-while-revalidate) ──────────────────────────────────
+const ApiCache = {
+  _prefix: 'fh_cache_',
+  _defaultTtl: 5 * 60 * 1000, // 5 minutes
+
+  get(key) {
+    try {
+      const raw = localStorage.getItem(this._prefix + key);
+      if (!raw) return null;
+      const entry = JSON.parse(raw);
+      return entry; // { data, ts } — caller decides freshness
+    } catch {
+      return null;
+    }
+  },
+
+  set(key, data) {
+    try {
+      localStorage.setItem(this._prefix + key, JSON.stringify({ data, ts: Date.now() }));
+    } catch {
+      // localStorage full — skip silently
+    }
+  },
+
+  isFresh(entry, ttl = this._defaultTtl) {
+    return entry && (Date.now() - entry.ts) < ttl;
+  },
+
+  clear(key) {
+    localStorage.removeItem(this._prefix + key);
+  },
+};
 
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 async function apiFetch(endpoint, options = {}) {
@@ -22,21 +60,61 @@ async function apiFetch(endpoint, options = {}) {
     ...options.headers,
   };
 
-  const res = await fetch(`${API_BASE}${endpoint}`, {
-    credentials: 'include',
-    headers,
-    ...options,
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    // Surface the first Zod validation detail if available
-    const message = data.details?.[0]?.message || data.error || `Request failed: ${res.status}`;
-    throw new Error(message);
+  async function doFetch(base) {
+    const res = await fetch(`${base}${endpoint}`, {
+      credentials: 'include',
+      headers,
+      ...options,
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      const message = data.details?.[0]?.message || data.error || `Request failed: ${res.status}`;
+      throw new Error(message);
+    }
+    return data;
   }
 
-  return data;
+  try {
+    return await doFetch(API_BASE);
+  } catch (err) {
+    // If local backend is unreachable (not a 4xx/5xx — a connection error),
+    // transparently fall back to production Render.com API.
+    if (IS_LOCAL && API_BASE !== PROD_API && err instanceof TypeError) {
+      console.warn('[api] Local backend unreachable, falling back to production.');
+      return await doFetch(PROD_API);
+    }
+    throw err;
+  }
+}
+
+/**
+ * Stale-while-revalidate fetch:
+ * - Returns cached data INSTANTLY if available (even if stale)
+ * - Fetches fresh data in background and updates cache
+ * - If no cache exists, awaits the network normally
+ * @param {string} cacheKey  - unique key for this request
+ * @param {Function} fetcher - async function that returns the data
+ * @param {Object} opts      - { ttl: ms, onUpdate: fn(freshData) }
+ */
+async function cachedFetch(cacheKey, fetcher, { ttl, onUpdate } = {}) {
+  const cached = ApiCache.get(cacheKey);
+
+  if (cached) {
+    // Return cached data immediately — don't await network
+    const refresh = fetcher().then(fresh => {
+      ApiCache.set(cacheKey, fresh);
+      if (typeof onUpdate === 'function') onUpdate(fresh);
+      return fresh;
+    }).catch(() => {});
+
+    // If cache is stale, still return it now and let background refresh run
+    return cached.data;
+  }
+
+  // No cache — must await network
+  const fresh = await fetcher();
+  ApiCache.set(cacheKey, fresh);
+  return fresh;
 }
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
@@ -59,6 +137,13 @@ const Jobs = {
     const query = new URLSearchParams(params).toString();
     const url = query ? `/jobs?${query}` : '/jobs';
     return apiFetch(url);
+  },
+  // Cached variant — returns instantly from localStorage, refreshes in background
+  listCached: (params = {}, { onUpdate } = {}) => {
+    const query = new URLSearchParams(params).toString();
+    const url = query ? `/jobs?${query}` : '/jobs';
+    const cacheKey = 'jobs_' + (query || 'all');
+    return cachedFetch(cacheKey, () => apiFetch(url), { onUpdate });
   },
   get:    (id)          => apiFetch(`/jobs/${id}`),
   create: (payload)     => apiFetch('/jobs',     { method: 'POST',   body: JSON.stringify(payload) }),

@@ -15,41 +15,44 @@ document.addEventListener('DOMContentLoaded', async function () {
     `
   };
 
-  // Run layout init and jobs fetch in parallel — no need to wait for layout before requesting data
-  const [, jobsData] = await Promise.all([
-    window.initializeFreelancerLayout(layoutConfig),
-    Jobs.list({ limit: 3 }).catch(() => ({ data: [] })),
+  // Run all three in parallel: layout, auth check, and job data
+  // Layout MUST NOT wait on auth — it renders the shell unconditionally
+  const [, user, jobsData] = await Promise.all([
+    window.initializeFreelancerLayout(layoutConfig).catch(() => {}),
+    requireAuth('../login.html').catch(() => null),
+    // listCached: returns localStorage instantly, refreshes in background
+    Jobs.listCached({ limit: 3 }, {
+      onUpdate: (fresh) => renderRecommendedJobs(fresh.data || []),
+    }).catch(() => ({ data: [] })),
   ]);
 
-  // Set dynamic user data
-  const user = typeof getSession === 'function' ? getSession() : null;
+  // If auth failed or no session, requireAuth already redirected — stop here
+  if (!user) return;
+
+  // Populate welcome header
   const welcomeMsg = document.getElementById('dashboard-welcome-msg');
   const subtitleMsg = document.getElementById('dashboard-subtitle');
 
   if (welcomeMsg) {
-    welcomeMsg.textContent = \`Welcome back, \${user?.name || 'Freelancer'}\`;
+    welcomeMsg.textContent = `Welcome back, ${user.name || 'Freelancer'}`;
   }
 
   if (subtitleMsg) {
     const today = new Date();
-    const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    const dateString = today.toLocaleDateString('en-US', options);
-    
-    // For a new account, default to 0 messages and interviews
-    const newMessages = user?.stats?.newMessages || 0;
-    const activeInterviews = user?.stats?.activeInterviews || 0;
-    
-    subtitleMsg.textContent = \`\${dateString} - You have \${newMessages} new messages and \${activeInterviews} active interviews.\`;
+    const dateString = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const newMessages = user.stats?.newMessages || 0;
+    const activeInterviews = user.stats?.activeInterviews || 0;
+    subtitleMsg.textContent = `${dateString} — You have ${newMessages} new messages and ${activeInterviews} active interviews.`;
   }
 
-  // Update stats if they exist in user profile
+  // Populate stats
   const statProposals = document.getElementById('stat-proposals');
   const statContracts = document.getElementById('stat-contracts');
   const statEarned = document.getElementById('stat-earned');
 
-  if (statProposals) statProposals.textContent = (user?.stats?.proposalsSent || 0).toString().padStart(2, '0');
-  if (statContracts) statContracts.textContent = (user?.stats?.activeContracts || 0).toString().padStart(2, '0');
-  if (statEarned) statEarned.textContent = \`$\${(user?.stats?.totalEarned || 0).toLocaleString()}\`;
+  if (statProposals) statProposals.textContent = (user.stats?.proposalsSent || 0).toString().padStart(2, '0');
+  if (statContracts) statContracts.textContent = (user.stats?.activeContracts || 0).toString().padStart(2, '0');
+  if (statEarned) statEarned.textContent = `$${(user.stats?.totalEarned || 0).toLocaleString()}`;
 
   renderRecommendedJobs(jobsData.data || []);
 });
