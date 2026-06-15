@@ -38,7 +38,7 @@ function setTab(btn, tab) {
 
 async function loadJobs() {
   try {
-    const { jobs } = await Jobs.list({ clientId: currentUser.id });
+    const { data: jobs } = await Jobs.list({ clientId: currentUser.id });
     allJobs = jobs;
     renderJobs();
     updateStats();
