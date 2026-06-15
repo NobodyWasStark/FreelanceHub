@@ -1,6 +1,7 @@
 services:
   - type: web
     name: freelancehub-backend
+    plan: free
     env: node
     rootDir: backend
     buildCommand: npm install && npx prisma generate && npm run build
