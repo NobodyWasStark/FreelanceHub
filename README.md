@@ -1,114 +1,165 @@
-# FreelanceHub (SkillBridge) Frontend
+# FreelanceHub (SkillBridge)
 
-Welcome to the FreelanceHub front-end repository! As a team, we are building a professional, scalable, and highly performant web application. This document outlines our development standards, folder structure, and workflows.
+Welcome to the **FreelanceHub (SkillBridge)** repository! This project is a professional, scalable, and highly performant web application designed to connect freelancers with clients. This document outlines our project overview, development standards, folder structure, and contribution workflows.
+
+---
+
+## 🎯 Project Overview
+
+FreelanceHub is a modern platform that streamlines the process of finding, hiring, and managing freelance talent. The platform features robust user authentication, interactive dashboards for both freelancers and clients, real-time messaging, and secure payment handling.
+
+### Key Features
+- **Role-Based Onboarding:** Seamless sign-up flows tailored for clients and freelancers.
+- **Dynamic Dashboards:** Dedicated analytics and project management interfaces.
+- **Job Proposals & Bidding:** An intuitive system for posting jobs and reviewing freelancer proposals.
+- **Real-Time Communication:** Integrated messaging system for project coordination.
+- **Secure Payments:** Comprehensive payment tracking and history interface.
+
+---
 
 ## 🛠 Tech Stack
-- **HTML5:** Semantic and accessible plain HTML.
-- **Tailwind CSS:** Utility-first CSS framework.
-- **Vite:** High-performance frontend build tool and local dev server.
-- **Prettier:** Code formatter for maintaining consistent style across all team members.
+
+Our front-end architecture is built for speed, maintainability, and developer experience:
+
+- **HTML5:** Semantic and accessible standard HTML.
+- **Tailwind CSS:** Utility-first CSS framework for rapid, consistent UI development.
+- **Vite:** Next-generation frontend tooling for instantaneous hot module replacement (HMR) and optimized builds.
+- **JavaScript (ES6+):** Modern JavaScript for DOM manipulation and client-side logic.
+- **Prettier:** Opinionated code formatter to maintain a unified code style across the team.
 
 ---
 
 ## 🚀 Getting Started
 
-1. **Prerequisites:** Ensure you have Node.js installed (v18+ recommended).
-2. **Install Dependencies:**
+Follow these steps to set up the project locally.
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18.0.0 or higher recommended)
+- Git
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd FreelanceHub
+   ```
+
+2. **Install dependencies:**
    ```bash
    npm install
    ```
-3. **Start the Development Server:**
+
+3. **Start the development server:**
    ```bash
    npm run dev
    ```
-   This will start a local server with Hot Module Replacement (HMR). When you save a file, the browser will update instantly.
+   *The server will start locally (usually on `http://localhost:5173`). Vite provides Hot Module Replacement (HMR), so any saved changes will instantly reflect in your browser.*
+
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
 ---
 
-## 📁 Folder Structure
+## 📁 Architecture & Folder Structure
 
-We use a strict separation of concerns to avoid merge conflicts and keep our codebase clean:
+We enforce a strict separation of concerns to prevent merge conflicts and ensure maintainability:
 
-```
+```text
 FreelanceHub/
-├── src/                      # Source code for assets
-│   ├── assets/               # Static assets
-│   │   ├── css/              # Custom stylesheets (e.g., globals.css)
-│   │   ├── js/               # Main JavaScript files and utilities
-│   │   └── images/           # Images, SVGs, and icons
-├── components/               # Reusable HTML snippets
-├── docs/                     # Team documentation
-├── index.html                # Landing page
-├── login.html                # Login view
-├── payments.html             # Payments dashboard view
-├── role-selection.html       # Onboarding role selector
-├── .editorconfig             # IDE configuration for consistent spacing/tabs
+├── .vscode/                  # Workspace settings and snippets
+├── assets/                   # Public static assets
+├── backend/                  # Backend infrastructure and API code
+├── components/               # Reusable HTML UI components
+├── docs/                     # Comprehensive team documentation
+├── icons/                    # SVG icons and web fonts
+├── scripts/                  # Build and deployment scripts
+├── src/                      # Core source files
+│   ├── css/                  # Global styles and Tailwind directives
+│   ├── js/                   # Shared JavaScript utilities and API clients
+│   └── images/               # Application imagery
+├── *.html                    # Application views (e.g., index.html, login.html)
+├── .editorconfig             # Editor configuration for consistent formatting
 ├── .prettierrc               # Prettier configuration rules
-├── tailwind.config.js        # Global Tailwind CSS theme and design system tokens
-├── package.json              # Project metadata, scripts, and dependencies
-└── README.md                 # You are here!
+├── tailwind.config.js        # Tailwind CSS theme and design system tokens
+├── package.json              # Project dependencies and NPM scripts
+└── README.md                 # Project documentation
 ```
 
 ---
 
 ## 🤝 Team Workflow & Git Guidelines
 
-To ensure smooth collaboration among the 4 developers and prevent merge conflicts, we follow a strict Git flow. **Never push directly to the `main` branch.**
+To ensure smooth collaboration among developers and prevent merge conflicts, we strictly adhere to a feature-branch workflow. **Direct pushes to the `main` branch are strictly prohibited.**
 
-### Step-by-Step Daily Workflow
+### Daily Development Lifecycle
 
-#### 1. Always start by pulling the latest code
-Before starting any new work, make sure your local `main` branch is completely up to date with the team:
+#### 1. Sync with the remote
+Always start your work by ensuring your local `main` branch is up to date:
 ```bash
 git checkout main
-git pull origin main   eyta oneik important
+git pull origin main
 ```
 
-#### 2. Create your working branch
-Create a new branch branching off of the updated `main`:
+#### 2. Create a working branch
+Create a new branch off of `main` for your specific task:
 ```bash
-git checkout -b feature/your-feature-name
+git checkout -b <type>/<short-description>
 ```
-*Naming conventions:*
-- Features: `feature/short-description` (e.g., `feature/login-validation`)
-- Bug Fixes: `bugfix/issue-description` (e.g., `bugfix/nav-alignment`)
+**Naming Conventions:**
+- Features: `feature/login-validation`
+- Bug Fixes: `bugfix/nav-alignment`
+- Hotfixes: `hotfix/production-crash`
+- Chores: `chore/update-dependencies`
 
 #### 3. Commit your changes
-We use **Conventional Commits**. Group your work into logical commits:
+We use [Conventional Commits](https://www.conventionalcommits.org/) to auto-generate changelogs and maintain a readable history:
 ```bash
 git add .
 git commit -m "feat: add payment history table"
 ```
-*(Use `feat:`, `fix:`, `chore:`, `style:`, etc.)*
+*(Common prefixes: `feat:`, `fix:`, `chore:`, `style:`, `refactor:`, `docs:`)*
 
-#### 4. Keep your branch updated (Optional but recommended)
-If someone else merges code into `main` while you are working, pull their changes into your branch to avoid conflicts later:
+#### 4. Resolve conflicts early
+If `main` is updated while you are working, rebase or merge the latest changes into your branch:
 ```bash
-git checkout main
-git pull origin main
-git checkout feature/your-feature-name
-git merge main
+git fetch origin
+git rebase origin/main
 ```
 
-#### 5. Push your branch
-Once your work is ready, push your specific branch to GitHub/GitLab:
+#### 5. Push and open a Pull Request (PR)
+Push your branch to the remote repository:
 ```bash
-git push origin feature/your-feature-name
+git push origin <your-branch-name>
 ```
-
-#### 6. Open a Pull Request (PR)
-1. Go to the repository online and open a Pull Request comparing your branch to `main`.
-2. **Code Review:** Tag at least **1 other team member** to review your PR.
-3. Once approved, merge it (preferably using **Squash and Merge**) to keep the commit history clean.
+1. Open a Pull Request targeting the `main` branch.
+2. Provide a clear PR description outlining your changes and testing steps.
+3. Tag at least **one peer reviewer**.
+4. Once approved and CI checks pass, use **Squash and Merge** to integrate your code.
 
 ---
 
 ## 🎨 Coding Standards
 
+To ensure a high-quality codebase, all contributors must follow these standards:
+
 ### HTML & CSS
-1. **Formatting:** We use Prettier. Run `npm run format` before creating a pull request.
-2. **Tailwind:** Avoid creating custom CSS classes. Rely on Tailwind utility classes.
-3. **Responsive Design:** Develop mobile-first. Use `md:`, `lg:`, `xl:` prefixes appropriately.
+1. **Formatting:** We use Prettier. Ensure your editor is configured to format on save, or run `npm run format` prior to committing.
+2. **Styling:** Rely exclusively on Tailwind CSS utility classes. Avoid writing custom CSS in `.css` files unless absolutely necessary for complex animations or third-party overrides.
+3. **Responsiveness:** Adopt a **mobile-first** approach. Use standard Tailwind breakpoints (`sm:`, `md:`, `lg:`, `xl:`, `2xl:`) to build responsive layouts.
+4. **Semantics:** Use semantic HTML5 tags (`<main>`, `<section>`, `<nav>`, `<article>`, `<header>`, `<footer>`) to improve accessibility and SEO.
 
 ### File Naming
-- Use lowercase with hyphens (kebab-case) for all HTML and asset files (e.g., `role-selection.html`).
+- Use lowercase with hyphens (`kebab-case`) for all HTML files, CSS files, JavaScript files, and assets (e.g., `role-selection.html`, `user-profile.js`).
+
+---
+
+## 🛡️ Security & Environment Variables
+- **Never commit secrets:** Do not commit `.env` files, API keys, or database credentials.
+- **Environment config:** Use `.env.example` to document required environment variables without exposing sensitive values.
+
+---
+
+**Built with ❤️ by the FreelanceHub Team.**
