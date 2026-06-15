@@ -3,14 +3,18 @@
  * Central helper for all backend communication
  */
 
-const API_BASE = 'http://localhost:5000/api';
+if (window.location.protocol === 'file:') {
+  console.error("CRITICAL: You are running this app via the file:/// protocol. HttpOnly cookies will NOT work, and you will be caught in a login redirect loop. Please serve the frontend using a local web server (e.g. Live Server, npx serve).");
+  setTimeout(() => alert("Please open this app through a local web server (like VS Code Live Server) instead of double-clicking the HTML file. Security cookies do not work on file:/// paths."), 1000);
+}
+
+const hostname = window.location.hostname || 'localhost';
+const API_BASE = `http://${hostname}:5000/api`;
 
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 async function apiFetch(endpoint, options = {}) {
-  const token = localStorage.getItem('fh_token');
   const headers = {
     'Content-Type': 'application/json',
-    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
     ...options.headers,
   };
 
@@ -80,6 +84,22 @@ const Reviews = {
   forUser:  (userId)  => apiFetch(`/reviews/${userId}`),
 };
 
+// ─── Socket helpers ──────────────────────────────────────────────────────────
+let socketInstance = null;
+const SocketManager = {
+  init: () => {
+    if (socketInstance) return socketInstance;
+    if (typeof io !== 'undefined') {
+      socketInstance = io(API_BASE.replace('/api', ''), {
+        withCredentials: true,
+      });
+      return socketInstance;
+    }
+    return null;
+  },
+  get: () => socketInstance
+};
+
 // ─── Session helpers ──────────────────────────────────────────────────────────
 
 /**
@@ -94,14 +114,13 @@ function getSession() {
   }
 }
 
-function saveSession(user, token) {
+function saveSession(user) {
   localStorage.setItem('fh_user', JSON.stringify(user));
-  if (token) localStorage.setItem('fh_token', token);
 }
 
 function clearSession() {
   localStorage.removeItem('fh_user');
-  localStorage.removeItem('fh_token');
+  localStorage.removeItem('fh_token'); // Cleanup old tokens
 }
 
 /**
