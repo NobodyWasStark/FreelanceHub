@@ -29,8 +29,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: config.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none', // Required for cross-domain: Vercel frontend -> Render backend
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -64,8 +64,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: config.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none', // Required for cross-domain: Vercel frontend -> Render backend
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -84,8 +84,8 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
   try {
     res.clearCookie('jwt', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none', // Required for cross-domain
     });
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
