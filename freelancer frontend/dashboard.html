@@ -20,15 +20,15 @@
     <main class="flex-1 px-4 sm:px-8 py-6 sm:py-8">
       <section class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-7">
         <div>
-          <h1 class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mb-1">Welcome back, Noor</h1>
-          <p class="text-[14px] text-slate-500 leading-relaxed">Monday, June 12th - You have 3 new messages and 2 active interviews.</p>
+          <h1 id="dashboard-welcome-msg" class="font-jakarta text-[30px] sm:text-[36px] font-extrabold text-slate-900 leading-tight mb-1">Welcome back, ...</h1>
+          <p id="dashboard-subtitle" class="text-[14px] text-slate-500 leading-relaxed">Loading data...</p>
         </div>
       </section>
 
       <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Proposals Sent</p><span class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700"><i data-lucide="file-check-2" class="w-5 h-5"></i></span></div><p class="font-jakarta text-[32px] font-extrabold mt-3">05</p></article>
-        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Active Contracts</p><span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600"><i data-lucide="clipboard-list" class="w-5 h-5"></i></span></div><p class="font-jakarta text-[32px] font-extrabold mt-3">02</p></article>
-        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Total Earned</p><span class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700"><i data-lucide="wallet" class="w-5 h-5"></i></span></div><p class="font-jakarta text-[32px] font-extrabold mt-3">$1,240</p></article>
+        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Proposals Sent</p><span class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700"><i data-lucide="file-check-2" class="w-5 h-5"></i></span></div><p id="stat-proposals" class="font-jakarta text-[32px] font-extrabold mt-3">0</p></article>
+        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Active Contracts</p><span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600"><i data-lucide="clipboard-list" class="w-5 h-5"></i></span></div><p id="stat-contracts" class="font-jakarta text-[32px] font-extrabold mt-3">0</p></article>
+        <article class="sb-card p-5"><div class="flex items-center justify-between"><p class="text-[12px] text-slate-400 font-medium">Total Earned</p><span class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700"><i data-lucide="wallet" class="w-5 h-5"></i></span></div><p id="stat-earned" class="font-jakarta text-[32px] font-extrabold mt-3">$0</p></article>
       </section>
 
       <section class="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6">
