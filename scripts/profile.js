@@ -19,7 +19,7 @@ async function renderClientProfile() {
   let jobs = [];
   try {
     const res = await Jobs.list({ clientId: currentUser.id });
-    jobs = res.jobs || [];
+    jobs = res.data || [];
   } catch (err) {
     console.error('Failed to load jobs', err);
   }
