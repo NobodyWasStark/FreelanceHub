@@ -9,7 +9,11 @@ if (window.location.protocol === 'file:') {
 }
 
 const hostname = window.location.hostname || 'localhost';
-const API_BASE = `http://${hostname}:5000/api`;
+let API_BASE = `http://${hostname}:5000/api`;
+
+if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+  API_BASE = 'https://freelancehub-wjf2.onrender.com/api'; 
+}
 
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 async function apiFetch(endpoint, options = {}) {
