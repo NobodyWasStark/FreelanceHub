@@ -3,7 +3,7 @@ let jobs = [];
 async function loadJobs() {
   try {
     const data = await Jobs.list();
-    jobs = data.jobs || [];
+    jobs = data.data || [];
     renderJobs();
   } catch (err) {
     console.error('Failed to load jobs:', err);

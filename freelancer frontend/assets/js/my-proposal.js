@@ -9,7 +9,7 @@ function setProposalTab(status, button) {
 async function loadMyProposals() {
   const container = document.getElementById('proposalsContainer');
   try {
-    const { proposals } = await Proposals.myList();
+    const { data: proposals } = await Proposals.myList();
     
     // Update tab counts
     const activeCount = proposals.filter(p => p.status === 'ACCEPTED').length;
