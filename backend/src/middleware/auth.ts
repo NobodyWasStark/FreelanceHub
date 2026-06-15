@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt';
-import { prisma } from '../utils/prisma';
 
 export interface AuthRequest extends Request {
   user?: {
@@ -10,7 +9,7 @@ export interface AuthRequest extends Request {
   };
 }
 
-export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): void => {
   try {
     // Check Authorization: Bearer <token> header first (for cross-origin dev),
     // then fall back to HttpOnly cookie (for production)
@@ -26,16 +25,10 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
       return;
     }
 
+    // JWT signature verification is the security gate — no DB roundtrip needed.
+    // The payload (id, role, email) was signed at login and cannot be tampered with.
     const decoded = verifyToken(token);
-
-    // Verify user still exists
-    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
-    if (!user) {
-      res.status(401).json({ error: 'Unauthorized - User no longer exists' });
-      return;
-    }
-
-    req.user = decoded;
+    req.user = { id: decoded.id, role: decoded.role, email: decoded.email };
     next();
   } catch (error) {
     res.status(401).json({ error: 'Unauthorized - Invalid token' });

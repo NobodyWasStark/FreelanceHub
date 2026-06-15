@@ -14,7 +14,12 @@ export const submitProposal = asyncHandler(async (req: AuthRequest, res: Respons
   const { coverLetter, amount, jobId } = req.body;
   const freelancerId = req.user!.id; // FREELANCER only
 
-  const job = await prisma.job.findUnique({ where: { id: jobId } });
+  // Run both checks in parallel — they're independent queries
+  const [job, existingProposal] = await Promise.all([
+    prisma.job.findUnique({ where: { id: jobId } }),
+    prisma.proposal.findFirst({ where: { jobId, freelancerId } }),
+  ]);
+
   if (!job) {
     res.status(404).json({ error: 'Job not found' });
     return;
@@ -24,10 +29,6 @@ export const submitProposal = asyncHandler(async (req: AuthRequest, res: Respons
     res.status(400).json({ error: 'Cannot submit proposal to a closed job' });
     return;
   }
-
-  const existingProposal = await prisma.proposal.findFirst({
-    where: { jobId, freelancerId }
-  });
 
   if (existingProposal) {
     res.status(400).json({ error: 'You have already submitted a proposal for this job' });

@@ -13,24 +13,22 @@ const paginationSchema = z.object({
 export const sendMessage = asyncHandler(async (req: AuthRequest, res: Response) => {
   const { receiverId, content } = req.body;
   const senderId = req.user!.id;
+  const senderRole = req.user!.role; // Already decoded from JWT — no DB call needed
 
   if (senderId === receiverId) {
     res.status(400).json({ error: 'Cannot send message to yourself' });
     return;
   }
 
-  const [sender, receiver] = await Promise.all([
-    prisma.user.findUnique({ where: { id: senderId } }),
-    prisma.user.findUnique({ where: { id: receiverId } })
-  ]);
+  const receiver = await prisma.user.findUnique({ where: { id: receiverId }, select: { id: true } });
 
   if (!receiver) {
     res.status(404).json({ error: 'Receiver not found' });
     return;
   }
 
-  let freelancerId, clientId;
-  if (sender!.role === 'FREELANCER') {
+  let freelancerId: string, clientId: string;
+  if (senderRole === 'FREELANCER') {
     freelancerId = senderId;
     clientId = receiverId;
   } else {

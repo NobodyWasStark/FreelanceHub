@@ -61,6 +61,9 @@ model Job {
   createdAt   DateTime  @default(now())
 
   proposals Proposal[]
+
+  @@index([clientId])
+  @@index([status, createdAt])
 }
 
 model Proposal {
@@ -73,6 +76,9 @@ model Proposal {
   freelancerId String
   freelancer   User           @relation("FreelancerProposals", fields: [freelancerId], references: [id], onDelete: Cascade)
   createdAt    DateTime       @default(now())
+
+  @@index([jobId])
+  @@index([freelancerId])
 }
 
 model Conversation {
