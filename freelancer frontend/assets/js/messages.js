@@ -67,7 +67,7 @@ async function renderMessages(userId) {
   const thread = document.getElementById('messageThread');
   try {
     const data = await Messages.getConversation(userId);
-    const msgs = data.messages || [];
+    const msgs = data.data || [];
     
     thread.innerHTML = msgs.map(message => {
       const isMe = message.senderId === currentUser.id;
@@ -119,23 +119,25 @@ async function handleSendMessage() {
   }
 }
 
-async function loadConversations() {
+async function loadConversations(initialLoad = false) {
   try {
     const data = await Messages.getConversationsList();
-    conversations = data.conversations || [];
+    conversations = data.data || [];
     
-    const urlParams = new URLSearchParams(window.location.search);
-    const chatWith = urlParams.get('userId');
-    const chatName = urlParams.get('name');
+    if (initialLoad) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const chatWith = urlParams.get('userId');
+      const chatName = urlParams.get('name');
 
-    if (chatWith && chatName) {
-      if (!conversations.find(c => c.user.id === chatWith)) {
-        conversations.unshift({ 
-          user: { id: chatWith, name: decodeURIComponent(chatName), role: 'CLIENT' },
-          lastMessage: null
-        });
+      if (chatWith && chatName) {
+        if (!conversations.find(c => c.user.id === chatWith)) {
+          conversations.unshift({ 
+            user: { id: chatWith, name: decodeURIComponent(chatName), role: 'CLIENT' },
+            lastMessage: null
+          });
+        }
+        activeConversationId = chatWith;
       }
-      activeConversationId = chatWith;
     }
 
     if (conversations.length > 0 && !activeConversationId) {
@@ -144,14 +146,19 @@ async function loadConversations() {
     
     renderConversationList();
     
-    if (activeConversationId) {
+    if (activeConversationId && initialLoad) {
       const conv = getActiveConversation();
       renderHeader(conv);
       await renderMessages(activeConversationId);
       
-      if (chatWith && window.innerWidth < 1024) {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('userId') && window.innerWidth < 1024) {
         document.querySelector('.messages-app').classList.add('show-chat');
       }
+    } else if (activeConversationId) {
+      // Just re-render header and list but don't force messages fetch unless needed
+      const conv = getActiveConversation();
+      renderHeader(conv);
     }
   } catch (err) {
     console.error('Failed to load conversations', err);
@@ -179,6 +186,19 @@ function wireMessages() {
     event.preventDefault();
     handleSendMessage();
   });
+
+  const socket = SocketManager.init();
+  if (socket) {
+    socket.on('newMessage', (msg) => {
+      // If message is for the active conversation, append it
+      if (activeConversationId === msg.senderId || activeConversationId === msg.receiverId) {
+        loadConversations().then(() => renderMessages(activeConversationId));
+      } else {
+        // Just update list
+        loadConversations();
+      }
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -190,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 
   wireMessages();
-  await loadConversations();
+  await loadConversations(true);
 
   if (window.lucide) {
     window.lucide.createIcons();
