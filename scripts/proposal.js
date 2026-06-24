@@ -243,62 +243,66 @@ async function loadProposals() {
 
 // ── Boot
 (async () => {
-  // Always do a real server-side auth check — never trust localStorage role.
-  let freshUser;
   try {
-    const { user } = await Auth.me();
-    freshUser = user;
-    saveSession(user);
-  } catch {
-    clearSession();
-    window.location.href = '/login.html';
-    return;
-  }
-  currentUser = freshUser;
-
-  // CRITICAL FIX: Always try the client path first, regardless of role field.
-  // A user's DB role may say FREELANCER but they may have also posted jobs.
-  // Jobs.list() is scoped by the server to req.user.id so this is safe.
-  let clientJobs = [];
-  try {
-    const { data } = await Jobs.list({ clientId: currentUser.id });
-    clientJobs = Array.isArray(data) ? data : [];
-  } catch {
-    clientJobs = [];
-  }
-
-  const jobSelect = document.getElementById('jobSelect');
-
-  if (clientJobs.length > 0) {
-    // CLIENT VIEW: this user has posted jobs — show incoming proposals with Accept/Reject
-    jobSelect.innerHTML = clientJobs
-      .map(j => `<option value="${j.id}">${j.title}</option>`)
-      .join('');
-
-    // Pre-select if navigated from My Jobs page with ?jobId=...
-    const preselectJobId = new URLSearchParams(window.location.search).get('jobId');
-    if (preselectJobId && clientJobs.some(j => j.id === preselectJobId)) {
-      jobSelect.value = preselectJobId;
-    }
-
-    jobSelect.addEventListener('change', loadProposals);
-    jobSelect.dispatchEvent(new Event('change'));
-  } else {
-    // FREELANCER VIEW: no posted jobs — show their own submitted proposals
-    jobSelect.innerHTML = '<option value="">No jobs posted</option>';
+    // Always do a real server-side auth check — never trust localStorage role.
+    let freshUser;
     try {
-      const { data: proposals } = await Proposals.myList();
-      if (!proposals || proposals.length === 0) {
-        document.getElementById('proposalList').innerHTML =
-          '<div class="text-center py-16 text-slate-400 text-[14px]">You have not submitted any proposals yet.</div>';
-      } else {
-        // isClientView stays false here — no Accept/Reject for own submitted proposals
-        renderProposals(proposals.map(p => ({ ...p, freelancer: currentUser })));
-      }
-    } catch (err) {
-      console.error('Failed to load submitted proposals:', err);
-      document.getElementById('proposalList').innerHTML =
-        '<div class="text-center py-16 text-slate-400 text-[14px]">Failed to load proposals.</div>';
+      const { user } = await Auth.me();
+      freshUser = user;
+      saveSession(user);
+    } catch {
+      clearSession();
+      window.location.href = '/login.html';
+      return;
     }
+    currentUser = freshUser;
+
+    // CRITICAL FIX: Always try the client path first, regardless of role field.
+    // A user's DB role may say FREELANCER but they may have also posted jobs.
+    // Jobs.list() is scoped by the server to req.user.id so this is safe.
+    let clientJobs = [];
+    try {
+      const { data } = await Jobs.list({ clientId: currentUser.id });
+      clientJobs = Array.isArray(data) ? data : [];
+    } catch {
+      clientJobs = [];
+    }
+
+    const jobSelect = document.getElementById('jobSelect');
+
+    if (clientJobs.length > 0) {
+      // CLIENT VIEW: this user has posted jobs — show incoming proposals with Accept/Reject
+      jobSelect.innerHTML = clientJobs
+        .map(j => `<option value="${j.id}">${j.title}</option>`)
+        .join('');
+
+      // Pre-select if navigated from My Jobs page with ?jobId=...
+      const preselectJobId = new URLSearchParams(window.location.search).get('jobId');
+      if (preselectJobId && clientJobs.some(j => j.id === preselectJobId)) {
+        jobSelect.value = preselectJobId;
+      }
+
+      jobSelect.addEventListener('change', loadProposals);
+      jobSelect.dispatchEvent(new Event('change'));
+    } else {
+      // FREELANCER VIEW: no posted jobs — show their own submitted proposals
+      jobSelect.innerHTML = '<option value="">No jobs posted</option>';
+      try {
+        const { data: proposals } = await Proposals.myList();
+        if (!proposals || proposals.length === 0) {
+          document.getElementById('proposalList').innerHTML =
+            '<div class="text-center py-16 text-slate-400 text-[14px]">You have not submitted any proposals yet.</div>';
+        } else {
+          // isClientView stays false here — no Accept/Reject for own submitted proposals
+          renderProposals(proposals.map(p => ({ ...p, freelancer: currentUser })));
+        }
+      } catch (err) {
+        console.error('Failed to load submitted proposals:', err);
+        document.getElementById('proposalList').innerHTML =
+          '<div class="text-center py-16 text-slate-400 text-[14px]">Failed to load proposals.</div>';
+      }
+    }
+  } finally {
+    window.hideClientLoader && window.hideClientLoader();
   }
 })();

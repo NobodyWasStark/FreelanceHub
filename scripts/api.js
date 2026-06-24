@@ -76,17 +76,31 @@ async function apiFetch(endpoint, options = {}) {
   };
 
   async function doFetch(base) {
-    const res = await fetch(`${base}${endpoint}`, {
-      credentials: 'include', // still send cookie as fallback for older sessions
-      headers,
-      ...options,
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      const message = data.details?.[0]?.message || data.error || `Request failed: ${res.status}`;
-      throw new Error(message);
+    // 8-second timeout — prevents permanent hangs on cold/slow backends.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    try {
+      const res = await fetch(`${base}${endpoint}`, {
+        credentials: 'include', // still send cookie as fallback for older sessions
+        headers,
+        ...options,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      const data = await res.json();
+      if (!res.ok) {
+        const message = data.details?.[0]?.message || data.error || `Request failed: ${res.status}`;
+        throw new Error(message);
+      }
+      return data;
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (err.name === 'AbortError') {
+        throw new Error('Request timed out. The server may be starting up — please try again.');
+      }
+      throw err;
     }
-    return data;
   }
 
   return doFetch(API_BASE);

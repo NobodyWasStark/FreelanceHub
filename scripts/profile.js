@@ -4,11 +4,15 @@ async function init() {
   currentUser = await requireAuth();
   if (!currentUser) return;
 
-  if (currentUser.role === 'CLIENT') {
-    await renderClientProfile();
-  } else {
-    // Basic freelancer profile implementation for now
-    await renderFreelancerProfile();
+  try {
+    if (currentUser.role === 'CLIENT') {
+      await renderClientProfile();
+    } else {
+      // Basic freelancer profile implementation for now
+      await renderFreelancerProfile();
+    }
+  } finally {
+    window.hideClientLoader && window.hideClientLoader();
   }
 }
 

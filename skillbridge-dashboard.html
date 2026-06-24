@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkillBridge – Dashboard</title>
+  <script src="/scripts/client-loader.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <script>
     tailwind.config = {
       theme: {
@@ -318,7 +321,7 @@
   </div><!-- end main wrapper -->
 
     <script src="/scripts/api.js"></script>
-    <script src="/scripts/nav-badges.js"></script>
+    <script src="/scripts/nav-badges.js" defer></script>
   <script>
   // ── Mobile sidebar toggle
   function closeSidebar() {
@@ -330,49 +333,42 @@
     document.getElementById('sidebarOverlay').classList.toggle('hidden');
   });
 
-  // ── Logout
-  document.querySelector('a[href="./login.html"]').addEventListener('click', async (e) => {
-    e.preventDefault();
-    await Auth.logout();
-    clearSession();
-    window.location.href = '/login.html';
-  });
+
 
   // ── Load real data on page ready
   (async () => {
+    // FAST PATH: requireAuth() returns the cached session instantly (0ms).
+    // Auth.me() revalidates in the background without blocking the UI.
+    // Only on first visit (no cache) does it await the network.
     let user;
     try {
-      const { user: freshUser } = await Auth.me();
-      user = freshUser;
-      saveSession(user);
+      user = await requireAuth();
+      if (!user) return;
     } catch {
       clearSession();
       window.location.href = '/login.html';
       return;
     }
 
-    // Update greeting
+    // Render greeting immediately from cached user — zero network wait
     const greetEl = document.getElementById('dashboard-greeting');
     if (greetEl) greetEl.textContent = `Welcome back, ${user.name.split(' ')[0]}`;
 
     try {
       if (user.role === 'CLIENT') {
-        // Load all jobs for this client
-        const { data: jobs } = await Jobs.list({ clientId: user.id });
+        // Fire the jobs request in parallel — don't wait for any other serial step
+        const { data: jobs } = await Jobs.listCached({ clientId: user.id });
         
-        const activeJobs = jobs.filter(j => j.status === 'OPEN' || j.status === 'IN_PROGRESS');
+        const activeJobs = (jobs || []).filter(j => j.status === 'OPEN' || j.status === 'IN_PROGRESS');
         
         let totalProposals = 0;
         let hiredCount = 0;
-        
         const jobsHtml = [];
         
         for (const job of activeJobs) {
           const propsCount = job._count?.proposals || 0;
           totalProposals += propsCount;
-          if (job.status === 'IN_PROGRESS') {
-            hiredCount += 1;
-          }
+          if (job.status === 'IN_PROGRESS') hiredCount += 1;
           
           const timeAgo = Math.floor((Date.now() - new Date(job.createdAt)) / (1000 * 60 * 60 * 24));
           const timeText = timeAgo === 0 ? 'Today' : `${timeAgo} days ago`;
@@ -408,18 +404,15 @@
           `);
         }
         
-        // Update subtitle
         const subtitleEl = document.getElementById('dashboard-subtitle');
         if (subtitleEl) {
           subtitleEl.innerHTML = `Your project pipeline is looking healthy. You have <span class="font-semibold text-slate-700">${activeJobs.length} active roles</span> to manage today.`;
         }
         
-        // Update Metrics
         document.getElementById('metric-active-jobs').textContent = String(activeJobs.length).padStart(2, '0');
         document.getElementById('metric-total-proposals').textContent = String(totalProposals).padStart(2, '0');
         document.getElementById('metric-hired').textContent = String(hiredCount).padStart(2, '0');
         
-        // Update list
         const container = document.getElementById('dashboard-active-jobs');
         if (activeJobs.length === 0) {
            container.innerHTML = '<div class="py-6 px-6 text-center text-sm text-gray-500">No active jobs found. Post a job to get started!</div>';
@@ -428,12 +421,13 @@
         }
         
       } else {
-        // FREELANCER logic (already separated in a different view or we can just fetch all open jobs)
-        const { data: jobs } = await Jobs.list({ status: 'OPEN' });
-        // Simplified fallback
+        // Freelancer: load open jobs via cache
+        await Jobs.listCached({ status: 'OPEN' });
       }
     } catch (err) {
       console.error('Dashboard load error:', err);
+    } finally {
+      window.hideClientLoader && window.hideClientLoader();
     }
   })();
   </script>

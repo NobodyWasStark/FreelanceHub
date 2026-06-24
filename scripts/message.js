@@ -203,45 +203,49 @@ function escapeHTML(value) {
 
 // ── Boot: load real conversation partners
 (async () => {
-  // Always do a live server check — never trust stale localStorage cache for
-  // user identity. A new login may have overwritten the cookie but the old
-  // account's name/id may still be sitting in localStorage.
   try {
-    const { user } = await Auth.me();
-    saveSession(user);
-    currentUser = user;
-  } catch {
-    clearSession();
-    window.location.href = '/login.html';
-    return;
-  }
-  if (!currentUser) return;
-
-  try {
-    const { data: fetchedConversations } = await Messages.getConversationsList();
-    conversations = fetchedConversations.map(c => ({
-      userId: c.user.id,
-      name: c.user.name,
-      lastMessage: c.lastMessage?.content || ''
-    }));
-  } catch (err) {
-    console.error('Failed to load conversations', err);
-  }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const chatWith = urlParams.get('userId');
-  const chatName = urlParams.get('name');
-
-  if (chatWith && chatName) {
-    if (!conversations.find(c => c.userId === chatWith)) {
-      conversations.unshift({ userId: chatWith, name: decodeURIComponent(chatName), lastMessage: '' });
+    // Always do a live server check — never trust stale localStorage cache for
+    // user identity. A new login may have overwritten the cookie but the old
+    // account's name/id may still be sitting in localStorage.
+    try {
+      const { user } = await Auth.me();
+      saveSession(user);
+      currentUser = user;
+    } catch {
+      clearSession();
+      window.location.href = '/login.html';
+      return;
     }
-    renderChatList();
-    selectChat(chatWith, decodeURIComponent(chatName));
-  } else {
-    renderChatList();
-    if (conversations.length > 0) {
-      selectChat(conversations[0].userId, conversations[0].name);
+    if (!currentUser) return;
+
+    try {
+      const { data: fetchedConversations } = await Messages.getConversationsList();
+      conversations = fetchedConversations.map(c => ({
+        userId: c.user.id,
+        name: c.user.name,
+        lastMessage: c.lastMessage?.content || ''
+      }));
+    } catch (err) {
+      console.error('Failed to load conversations', err);
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const chatWith = urlParams.get('userId');
+    const chatName = urlParams.get('name');
+
+    if (chatWith && chatName) {
+      if (!conversations.find(c => c.userId === chatWith)) {
+        conversations.unshift({ userId: chatWith, name: decodeURIComponent(chatName), lastMessage: '' });
+      }
+      renderChatList();
+      selectChat(chatWith, decodeURIComponent(chatName));
+    } else {
+      renderChatList();
+      if (conversations.length > 0) {
+        selectChat(conversations[0].userId, conversations[0].name);
+      }
+    }
+  } finally {
+    window.hideClientLoader && window.hideClientLoader();
   }
 })();

@@ -67,6 +67,8 @@ requireAuth().then(user => {
     showToast('Only clients can post jobs.', 'error');
     setTimeout(() => window.location.href = '/skillbridge-dashboard.html', 1500);
   }
+}).finally(() => {
+  window.hideClientLoader && window.hideClientLoader();
 });
 
 // ── Submit job to backend

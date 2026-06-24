@@ -13,7 +13,11 @@ let currentUser = null;
 async function init() {
   currentUser = await requireAuth();
   if (!currentUser) return;
-  await loadReports();
+  try {
+    await loadReports();
+  } finally {
+    window.hideClientLoader && window.hideClientLoader();
+  }
 }
 
 async function loadReports() {

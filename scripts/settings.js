@@ -154,20 +154,24 @@ function showToast(msg, success = true) {
 
 //  INIT 
 document.addEventListener('DOMContentLoaded', async () => {
-  renderPayments();
-  
-  if (typeof requireAuth === 'function') {
-    const user = await requireAuth();
-    if (user) {
-      const nameInput = document.getElementById('settings-name-input');
-      const emailInput = document.getElementById('settings-email-input');
-      const profilePhoto = document.getElementById('profile-photo');
-      
-      if (nameInput) nameInput.value = user.name;
-      if (emailInput) emailInput.value = user.email;
-      if (profilePhoto) {
-        profilePhoto.src = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
+  try {
+    renderPayments();
+    
+    if (typeof requireAuth === 'function') {
+      const user = await requireAuth();
+      if (user) {
+        const nameInput = document.getElementById('settings-name-input');
+        const emailInput = document.getElementById('settings-email-input');
+        const profilePhoto = document.getElementById('profile-photo');
+        
+        if (nameInput) nameInput.value = user.name;
+        if (emailInput) emailInput.value = user.email;
+        if (profilePhoto) {
+          profilePhoto.src = user.avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
+        }
       }
     }
+  } finally {
+    window.hideClientLoader && window.hideClientLoader();
   }
 });
